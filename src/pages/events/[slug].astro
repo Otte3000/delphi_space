@@ -1,0 +1,33 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, formatWeekday, locationNames } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const exhibition = d.exhibition ? await getEntry(d.exhibition) : undefined;
+---
+
+<Layout title={d.title}>
+  <article class="section">
+    <p class="meta">{formatWeekday(d.date)}, {formatDate(d.date)}{d.time && ` · ${d.time}`}</p>
+    <h1>{d.title}</h1>
+    <p><span class="tag">{d.type}</span></p>
+    {exhibition && <p>Teil von <a href={`/exhibitions/${exhibition.id}`}>{exhibition.data.title}</a></p>}
+    {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
+    {d.image && <img class="event-image" src={d.image} alt={d.title} />}
+    <div class="prose"><Content /></div>
+  </article>
+</Layout>
+
+<style>
+  h1 { margin: 12px 0 16px; font-size: clamp(32px, 5vw, 64px); }
+  .event-image { margin: 32px 0; max-height: 70vh; }
+  .prose { margin-top: 32px; }
+</style>

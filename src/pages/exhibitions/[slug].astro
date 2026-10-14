@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatRange, formatDate, locationNames } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const exhibitions = await getCollection('exhibitions');
+  return exhibitions.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const events = (await getCollection('events', (e) => e.data.exhibition?.id === entry.id)).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime()
+);
+---
+
+<Layout title={d.title} description={d.subtitle}>
+  <article class="section">
+    <p class="meta">{formatRange(d.startDate, d.endDate)}{d.openingHours && ` · ${d.openingHours}`}</p>
+    <h1>{d.title}</h1>
+    {d.subtitle && <p class="subtitle">{d.subtitle}</p>}
+    {d.artists && <p class="artists">{d.artists}</p>}
+    {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
+
+    {d.heroImage && <img class="hero-image" src={d.heroImage} alt={d.title} />}
+
+    <div class="prose"><Content /></div>
+
+    {d.gallery.length > 0 && (
+      <div class="gallery">
+        {d.gallery.filter((g) => g.image).map((g) => (
+          <figure>
+            <img src={g.image} alt={g.caption ?? ''} loading="lazy" />
+            {g.caption && <figcaption class="meta">{g.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {events.length > 0 && (
+      <section class="section">
+        <div class="section-head"><h2>Events</h2></div>
+        <ul class="list">
+          {events.map((e) => (
+            <li>
+              <a href={`/events/${e.id}`}>
+                <span class="meta">{formatDate(e.data.date)}</span>
+                <h3>{e.data.title}</h3>
+                <span class="tag">{e.data.type}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Layout>
+
+<style>
+  h1 { margin: 12px 0; }
+  .subtitle { font-size: clamp(20px, 2.5vw, 28px); margin: 0 0 8px; }
+  .artists { margin: 0 0 8px; }
+  .hero-image { margin: 32px 0; width: 100%; max-height: 80vh; object-fit: cover; }
+  .prose { margin-top: 32px; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 48px; }
+  figure { margin: 0; }
+  figcaption { margin-top: 6px; text-transform: none; }
+</style>

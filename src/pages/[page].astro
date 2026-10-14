@@ -1,0 +1,20 @@
+---
+// Textseiten aus dem CMS: /about, /impressum, /datenschutz
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((entry) => ({ params: { page: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={entry.data.title}>
+  <article class="section">
+    <div class="section-head"><h1>{entry.data.title}</h1></div>
+    <div class="prose"><Content /></div>
+  </article>
+</Layout>

@@ -1,0 +1,27 @@
+{
+  "name": "delphi_space",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "dev:github": "PUBLIC_KEYSTATIC_GITHUB=true astro dev"
+  },
+  "dependencies": {
+    "@astrojs/markdoc": "^2.0.11",
+    "@astrojs/netlify": "^8.2.9",
+    "@astrojs/react": "^7.0.1",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.3.8",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

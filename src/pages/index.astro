@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { getHomepage, formatRange, formatDate, formatWeekday, isCurrentOrUpcoming } from '../lib/content';
+
+const home = await getHomepage();
+
+const exhibitions = (await getCollection('exhibitions')).sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+const current = exhibitions.filter((e) => isCurrentOrUpcoming(e.data.startDate, e.data.endDate));
+
+const events = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const upcomingEvents = events.filter((e) => isCurrentOrUpcoming(e.data.date)).reverse();
+const shownEvents = (upcomingEvents.length ? upcomingEvents : events).slice(0, 5);
+
+const series = (await getCollection('series')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+---
+
+<Layout>
+  {home.heroImages.length > 0 && (
+    <section class="hero">
+      {home.heroImages.filter(Boolean).map((src) => <img src={src} alt="" />)}
+    </section>
+  )}
+
+  <section class="section intro">
+    <p class="intro-de">{home.introDe}</p>
+    <p class="intro-en">{home.introEn}</p>
+    <a href="/about">Read more →</a>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Current & Upcoming</h2><a href="/exhibitions">All exhibitions</a></div>
+    {current.length === 0 && <p class="meta">Gerade keine Ausstellung – bald mehr.</p>}
+    <div class="grid">
+      {current.map((e) => (
+        <a class="card" href={`/exhibitions/${e.id}`}>
+          <div class="thumb">{e.data.heroImage ? <img src={e.data.heroImage} alt="" /> : 'DELPHI_space'}</div>
+          <span class="meta">{formatRange(e.data.startDate, e.data.endDate)}</span>
+          <h3>{e.data.title}</h3>
+          {e.data.subtitle && <p>{e.data.subtitle}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>{upcomingEvents.length ? 'Upcoming Events' : 'Recent Events'}</h2><a href="/events">All events</a></div>
+    <ul class="list">
+      {shownEvents.map((e) => (
+        <li>
+          <a href={`/events/${e.id}`}>
+            <span class="meta">{formatWeekday(e.data.date)}, {formatDate(e.data.date)}</span>
+            <h3>{e.data.title}</h3>
+            <span class="tag">{e.data.type}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Reihen</h2></div>
+    <div class="grid series">
+      {series.map((s) => (
+        <article>
+          {s.data.image && <img src={s.data.image} alt="" loading="lazy" />}
+          <h3>{s.data.title}</h3>
+          {s.data.schedule && <p class="meta">{s.data.schedule}</p>}
+          {s.data.description && <p>{s.data.description}</p>}
+          {s.data.link && <a href={s.data.link}>{new URL(s.data.link).hostname}</a>}
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 24px var(--gutter) 0;
+  }
+  .hero img { height: min(60vh, 520px); width: auto; scroll-snap-align: start; }
+  .intro { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .intro p { margin: 0; font-size: clamp(19px, 2vw, 24px); line-height: 1.35; }
+  .intro .intro-en { color: var(--muted); }
+  .intro a { grid-column: 1 / -1; }
+  @media (max-width: 760px) { .intro { grid-template-columns: 1fr; } }
+  .series article { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .series p { margin: 0; }
+</style>
