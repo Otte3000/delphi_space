@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getEvents, isCurrentOrUpcoming } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, formatDate, formatWeekday } from '../../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const events = await getEvents();
+const groups = [
+  { title: t(lang, 'upcoming'), items: events.filter((e) => isCurrentOrUpcoming(e.date)).reverse() },
+  { title: t(lang, 'past'), items: events.filter((e) => !isCurrentOrUpcoming(e.date)) },
+].filter((g) => g.items.length > 0);
+---
+
+<Layout lang={lang} title={t(lang, 'events')}>
+  <section class="section">
+    <div class="section-head"><h1>{t(lang, 'events')}</h1></div>
+  </section>
+  {groups.map((g) => (
+    <section class="section">
+      <div class="section-head"><h2>{g.title}</h2></div>
+      <ul class="list">
+        {g.items.map((e) => (
+          <li>
+            <a href={href(lang, `/events/${e.slug}`)}>
+              <span class="meta">{formatWeekday(e.date, lang)}, {formatDate(e.date, lang)}</span>
+              <h3>{pick(e.title, lang)}</h3>
+              <span class="tag">{eventType(e.type, lang)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Layout>

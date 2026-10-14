@@ -1,4 +1,6 @@
 title: CosmoBar
-schedule: Einmal im Monat
-description: Einmal im Monat öffnet die Cosmo Bar in den historischen Ausstellungshallen des DELPHI_space – mit handwerklich hergestellten Weinen kleiner Produzenten aus Deutschland und Frankreich, Schaumweinen, spontan vergorenen Bieren und wechselnden Pop-Up-Restaurants.
+schedule:
+  de: Einmal im Monat
+description:
+  de: Einmal im Monat öffnet die Cosmo Bar in den historischen Ausstellungshallen des DELPHI_space – mit handwerklich hergestellten Weinen kleiner Produzenten aus Deutschland und Frankreich, Schaumweinen, spontan vergorenen Bieren und wechselnden Pop-Up-Restaurants.
 order: 1

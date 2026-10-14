@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming } from '../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, formatRange, formatDate, formatWeekday } from '../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const home = await getHomepage();
+
+const current = (await getExhibitions()).filter((e) => isCurrentOrUpcoming(e.startDate, e.endDate));
+
+const events = await getEvents();
+const upcomingEvents = events.filter((e) => isCurrentOrUpcoming(e.date)).reverse();
+const shownEvents = (upcomingEvents.length ? upcomingEvents : events).slice(0, 5);
+
+const series = await getSeries();
+---
+
+<Layout lang={lang}>
+  {home.heroImages.length > 0 && (
+    <section class="hero">
+      {home.heroImages.filter(Boolean).map((src) => <img src={src} alt="" />)}
+    </section>
+  )}
+
+  <section class="section intro">
+    <p>{pick(home.intro, lang)}</p>
+    <a href={href(lang, '/about')}>{t(lang, 'readMore')}</a>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>{t(lang, 'current')}</h2><a href={href(lang, '/exhibitions')}>{t(lang, 'allExhibitions')}</a></div>
+    {current.length === 0 && <p class="meta">{t(lang, 'noExhibition')}</p>}
+    <div class="grid">
+      {current.map((e) => (
+        <a class="card" href={href(lang, `/exhibitions/${e.slug}`)}>
+          <div class="thumb">{e.heroImage ? <img src={e.heroImage} alt="" /> : 'DELPHI_space'}</div>
+          <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
+          <h3>{pick(e.title, lang)}</h3>
+          {pick(e.subtitle, lang) && <p>{pick(e.subtitle, lang)}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>{t(lang, upcomingEvents.length ? 'upcomingEvents' : 'recentEvents')}</h2>
+      <a href={href(lang, '/events')}>{t(lang, 'allEvents')}</a>
+    </div>
+    <ul class="list">
+      {shownEvents.map((e) => (
+        <li>
+          <a href={href(lang, `/events/${e.slug}`)}>
+            <span class="meta">{formatWeekday(e.date, lang)}, {formatDate(e.date, lang)}</span>
+            <h3>{pick(e.title, lang)}</h3>
+            <span class="tag">{eventType(e.type, lang)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>{t(lang, 'series')}</h2></div>
+    <div class="grid series">
+      {series.map((s) => (
+        <article>
+          {s.image && <img src={s.image} alt="" loading="lazy" />}
+          <h3>{s.title}</h3>
+          {pick(s.schedule, lang) && <p class="meta">{pick(s.schedule, lang)}</p>}
+          {pick(s.description, lang) && <p>{pick(s.description, lang)}</p>}
+          {s.link && <a href={s.link}>{new URL(s.link).hostname}</a>}
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 24px var(--gutter) 0;
+  }
+  .hero img { height: min(60vh, 520px); width: auto; scroll-snap-align: start; }
+  .intro { display: grid; gap: 24px; max-width: 900px; }
+  .intro p { margin: 0; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.35; }
+  .series article { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .series p { margin: 0; }
+</style>

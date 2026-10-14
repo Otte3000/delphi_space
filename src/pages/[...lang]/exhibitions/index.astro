@@ -1,0 +1,26 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getExhibitions } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, formatRange } from '../../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const exhibitions = await getExhibitions();
+---
+
+<Layout lang={lang} title={t(lang, 'exhibitions')}>
+  <section class="section">
+    <div class="section-head"><h1>{t(lang, 'exhibitions')}</h1></div>
+    <div class="grid">
+      {exhibitions.map((e) => (
+        <a class="card" href={href(lang, `/exhibitions/${e.slug}`)}>
+          <div class="thumb">{e.heroImage ? <img src={e.heroImage} alt="" loading="lazy" /> : 'DELPHI_space'}</div>
+          <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
+          <h3>{pick(e.title, lang)}</h3>
+          {e.artists && <p>{e.artists}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

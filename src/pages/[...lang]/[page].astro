@@ -1,0 +1,23 @@
+---
+// Textseiten aus dem CMS: /about, /impressum, /datenschutz (und /en/…, /fr/…)
+import Layout from '../../layouts/Layout.astro';
+import { getTextPage, renderContent, textPages, type TextPage } from '../../lib/content';
+import { langParams, toLang, pick, t } from '../../lib/i18n';
+
+export const getStaticPaths = () => langParams.flatMap((params) => textPages.map((page) => ({ params: { ...params, page } })));
+
+const lang = toLang(Astro.params.lang);
+const entry = await getTextPage(Astro.params.page as TextPage);
+const title = pick(entry.title, lang);
+const content = renderContent(entry, lang);
+---
+
+<Layout lang={lang} title={title}>
+  <article class="section">
+    <div class="section-head"><h1>{title}</h1></div>
+    <div class="prose">
+      {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
+      <Fragment set:html={content.html} />
+    </div>
+  </article>
+</Layout>

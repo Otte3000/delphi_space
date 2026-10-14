@@ -1,0 +1,39 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getEvents, getExhibitions, renderContent, locationNames } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, formatDate, formatWeekday } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const events = await getEvents();
+  return langParams.flatMap((params) => events.map((entry) => ({ params: { ...params, slug: entry.slug }, props: { entry } })));
+}
+
+const { entry: d } = Astro.props;
+const lang = toLang(Astro.params.lang);
+const title = pick(d.title, lang);
+const content = renderContent(d, lang);
+const exhibition = d.exhibition ? (await getExhibitions()).find((e) => e.slug === d.exhibition) : undefined;
+---
+
+<Layout lang={lang} title={title}>
+  <article class="section">
+    <p class="meta">{formatWeekday(d.date, lang)}, {formatDate(d.date, lang)}{d.time && ` · ${d.time}`}</p>
+    <h1>{title}</h1>
+    <p><span class="tag">{eventType(d.type, lang)}</span></p>
+    {exhibition && (
+      <p>{t(lang, 'partOf')} <a href={href(lang, `/exhibitions/${exhibition.slug}`)}>{pick(exhibition.title, lang)}</a></p>
+    )}
+    {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
+    {d.image && <img class="event-image" src={d.image} alt={title} />}
+    <div class="prose">
+      {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
+      <Fragment set:html={content.html} />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  h1 { margin: 12px 0 16px; font-size: clamp(32px, 5vw, 64px); }
+  .event-image { margin: 32px 0; max-height: 70vh; }
+  .prose { margin-top: 32px; }
+</style>

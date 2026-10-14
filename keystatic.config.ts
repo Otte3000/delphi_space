@@ -8,16 +8,49 @@ const orte = [
   { label: 'Anderer Ort', value: 'andere' },
 ] as const;
 
+// ── Mehrsprachigkeit ──────────────────────────────────────────
+// Deutsch ist die Hauptsprache. Leere EN/FR-Felder zeigen auf der Seite den deutschen Text.
+
+/** Kurzer Text in DE, EN und FR, im CMS als eine Gruppe mit drei Feldern. */
+const translatedText = (label: string, opts: { multiline?: boolean; description?: string } = {}) =>
+  fields.object(
+    {
+      de: fields.text({ label: 'Deutsch', multiline: opts.multiline }),
+      en: fields.text({ label: 'English', multiline: opts.multiline }),
+      fr: fields.text({ label: 'Français', multiline: opts.multiline }),
+    },
+    { label, description: opts.description }
+  );
+
+/** Übersetzungen eines Titels, dessen deutsche Fassung das Slug-Feld ist. */
+const titleTranslations = () =>
+  fields.object(
+    {
+      en: fields.text({ label: 'English' }),
+      fr: fields.text({ label: 'Français' }),
+    },
+    { label: 'Titel – Übersetzungen', description: 'Leer lassen, wenn der Titel in allen Sprachen gleich ist.' }
+  );
+
+/** Fließtext in DE, EN und FR – Keystatic legt jede Sprache als eigene .mdoc-Datei ab. */
+const translatedContent = (imageDir?: string) => {
+  const options = imageDir ? { image: { directory: `public/images/${imageDir}`, publicPath: `/images/${imageDir}/` } } : {};
+  return {
+    content: fields.markdoc({ label: 'Text – Deutsch', options }),
+    contentEn: fields.markdoc({ label: 'Text – English', options }),
+    contentFr: fields.markdoc({ label: 'Text – Français', options }),
+  };
+};
+
 // Einfache Textseite unter /<name>, z. B. /about oder /impressum.
 const textPage = (label: string, name: string) =>
   singleton({
     label,
-    path: `src/content/pages/${name}`,
-    format: { contentField: 'content' },
-    entryLayout: 'content',
+    path: `src/content/pages/${name}/`,
+    format: { data: 'yaml' },
     schema: {
-      title: fields.text({ label: 'Titel', defaultValue: label }),
-      content: fields.markdoc({ label: 'Text' }),
+      title: translatedText('Titel'),
+      ...translatedContent(),
     },
   });
 
@@ -42,17 +75,17 @@ export default config({
     exhibitions: collection({
       label: 'Ausstellungen',
       slugField: 'title',
-      path: 'src/content/exhibitions/*',
-      format: { contentField: 'content' },
-      entryLayout: 'content',
+      path: 'src/content/exhibitions/*/',
+      format: { data: 'yaml' },
       columns: ['title', 'startDate'],
       schema: {
-        title: fields.slug({ name: { label: 'Titel' } }),
-        subtitle: fields.text({ label: 'Untertitel' }),
+        title: fields.slug({ name: { label: 'Titel (Deutsch)' } }),
+        titleI18n: titleTranslations(),
+        subtitle: translatedText('Untertitel'),
         artists: fields.text({ label: 'Künstler*innen', description: 'z. B. „Olga Hohmann & Lukas Kesler“' }),
         startDate: fields.date({ label: 'Beginn', validation: { isRequired: true } }),
         endDate: fields.date({ label: 'Ende' }),
-        openingHours: fields.text({ label: 'Öffnungszeiten', description: 'z. B. „Sa 17:00–22:00“' }),
+        openingHours: translatedText('Öffnungszeiten', { description: 'z. B. „Sa 17:00–22:00“' }),
         location: fields.select({ label: 'Ort', options: [...orte], defaultValue: 'bromberghof' }),
         heroImage: fields.image({
           label: 'Titelbild',
@@ -70,37 +103,32 @@ export default config({
           }),
           { label: 'Galerie', itemLabel: (p) => p.fields.caption.value || 'Bild' }
         ),
-        content: fields.markdoc({
-          label: 'Text',
-          options: {
-            image: { directory: 'public/images/exhibitions', publicPath: '/images/exhibitions/' },
-          },
-        }),
+        ...translatedContent('exhibitions'),
       },
     }),
 
     events: collection({
       label: 'Events',
       slugField: 'title',
-      path: 'src/content/events/*',
-      format: { contentField: 'content' },
-      entryLayout: 'content',
+      path: 'src/content/events/*/',
+      format: { data: 'yaml' },
       columns: ['title', 'date'],
       schema: {
-        title: fields.slug({ name: { label: 'Titel' } }),
+        title: fields.slug({ name: { label: 'Titel (Deutsch)' } }),
+        titleI18n: titleTranslations(),
         type: fields.select({
           label: 'Art',
           options: [
-            { label: 'Vernissage', value: 'Vernissage' },
-            { label: 'Artist Talk', value: 'Artist Talk' },
-            { label: 'Workshop', value: 'Workshop' },
-            { label: 'Performance', value: 'Performance' },
-            { label: 'Konzert', value: 'Konzert' },
-            { label: 'Lesung', value: 'Lesung' },
-            { label: 'Auktion', value: 'Auktion' },
-            { label: 'Sonstiges', value: 'Sonstiges' },
+            { label: 'Vernissage', value: 'vernissage' },
+            { label: 'Artist Talk', value: 'talk' },
+            { label: 'Workshop', value: 'workshop' },
+            { label: 'Performance', value: 'performance' },
+            { label: 'Konzert', value: 'concert' },
+            { label: 'Lesung', value: 'reading' },
+            { label: 'Auktion', value: 'auction' },
+            { label: 'Sonstiges', value: 'other' },
           ],
-          defaultValue: 'Vernissage',
+          defaultValue: 'vernissage',
         }),
         date: fields.date({ label: 'Datum', validation: { isRequired: true } }),
         time: fields.text({ label: 'Uhrzeit', description: 'z. B. „19:00–22:00“' }),
@@ -114,12 +142,7 @@ export default config({
           directory: 'public/images/events',
           publicPath: '/images/events/',
         }),
-        content: fields.markdoc({
-          label: 'Text',
-          options: {
-            image: { directory: 'public/images/events', publicPath: '/images/events/' },
-          },
-        }),
+        ...translatedContent('events'),
       },
     }),
 
@@ -128,11 +151,11 @@ export default config({
       slugField: 'title',
       path: 'src/content/series/*',
       format: { data: 'yaml' },
-      columns: ['title', 'schedule'],
+      columns: ['title'],
       schema: {
         title: fields.slug({ name: { label: 'Name' } }),
-        schedule: fields.text({ label: 'Wann', description: 'z. B. „Jeden Mittwoch ab 19 Uhr“' }),
-        description: fields.text({ label: 'Beschreibung', multiline: true }),
+        schedule: translatedText('Wann', { description: 'z. B. „Jeden Mittwoch ab 19 Uhr“' }),
+        description: translatedText('Beschreibung', { multiline: true }),
         link: fields.url({ label: 'Link (optional)' }),
         image: fields.image({
           label: 'Bild',
@@ -150,8 +173,7 @@ export default config({
       path: 'src/content/pages/homepage',
       format: { data: 'yaml' },
       schema: {
-        introDe: fields.text({ label: 'Intro (Deutsch)', multiline: true }),
-        introEn: fields.text({ label: 'Intro (English)', multiline: true }),
+        intro: translatedText('Intro', { multiline: true }),
         heroImages: fields.array(
           fields.image({
             label: 'Bild',

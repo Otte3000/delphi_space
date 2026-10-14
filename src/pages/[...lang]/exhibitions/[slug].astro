@@ -1,0 +1,77 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getExhibitions, getEvents, renderContent, locationNames } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, formatRange, formatDate } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const exhibitions = await getExhibitions();
+  return langParams.flatMap((params) =>
+    exhibitions.map((entry) => ({ params: { ...params, slug: entry.slug }, props: { entry } }))
+  );
+}
+
+const { entry: d } = Astro.props;
+const lang = toLang(Astro.params.lang);
+const title = pick(d.title, lang);
+const subtitle = pick(d.subtitle, lang);
+const openingHours = pick(d.openingHours, lang);
+const content = renderContent(d, lang);
+
+const events = (await getEvents()).filter((e) => e.exhibition === d.slug).reverse();
+---
+
+<Layout lang={lang} title={title} description={subtitle}>
+  <article class="section">
+    <p class="meta">{formatRange(d.startDate, d.endDate, lang)}{openingHours && ` · ${openingHours}`}</p>
+    <h1>{title}</h1>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+    {d.artists && <p class="artists">{d.artists}</p>}
+    {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
+
+    {d.heroImage && <img class="hero-image" src={d.heroImage} alt={title} />}
+
+    <div class="prose">
+      {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
+      <Fragment set:html={content.html} />
+    </div>
+
+    {d.gallery.length > 0 && (
+      <div class="gallery">
+        {d.gallery.filter((g) => g.image).map((g) => (
+          <figure>
+            <img src={g.image} alt={g.caption} loading="lazy" />
+            {g.caption && <figcaption class="meta">{g.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {events.length > 0 && (
+      <section class="section">
+        <div class="section-head"><h2>{t(lang, 'events')}</h2></div>
+        <ul class="list">
+          {events.map((e) => (
+            <li>
+              <a href={href(lang, `/events/${e.slug}`)}>
+                <span class="meta">{formatDate(e.date, lang)}</span>
+                <h3>{pick(e.title, lang)}</h3>
+                <span class="tag">{eventType(e.type, lang)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Layout>
+
+<style>
+  h1 { margin: 12px 0; }
+  .subtitle { font-size: clamp(20px, 2.5vw, 28px); margin: 0 0 8px; }
+  .artists { margin: 0 0 8px; }
+  .hero-image { margin: 32px 0; width: 100%; max-height: 80vh; object-fit: cover; }
+  .prose { margin-top: 32px; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 48px; }
+  figure { margin: 0; }
+  figcaption { margin-top: 6px; text-transform: none; }
+</style>

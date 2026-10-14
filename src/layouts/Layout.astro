@@ -1,38 +1,46 @@
 ---
 import '../styles/global.css';
 import { getSettings } from '../lib/content';
+import { href, locales, languageNames, switchLang, t, type Lang } from '../lib/i18n';
 
 interface Props {
+  lang: Lang;
   title?: string;
   description?: string;
 }
 
-const { title, description = 'DELPHI_space – Kunst-, Kultur- und Informationszentrum in Freiburg.' } = Astro.props;
+const { lang, title, description = 'DELPHI_space – Kunst-, Kultur- und Informationszentrum in Freiburg.' } = Astro.props;
 const settings = await getSettings();
 const nav = [
-  { href: '/exhibitions', label: 'Exhibitions' },
-  { href: '/events', label: 'Events' },
-  { href: '/about', label: 'About' },
+  { href: href(lang, '/exhibitions'), label: t(lang, 'exhibitions') },
+  { href: href(lang, '/events'), label: t(lang, 'events') },
+  { href: href(lang, '/about'), label: t(lang, 'about') },
 ];
 const path = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLang(path, l), Astro.site)} />)}
     <title>{title ? `${title} – DELPHI_space` : 'DELPHI_space'}</title>
   </head>
   <body>
     <header class="site-header">
-      <a href="/" class="logo">DELPHI_space</a>
+      <a href={href(lang)} class="logo">DELPHI_space</a>
       <nav>
         {nav.map((item) => (
           <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
         ))}
+        <span class="lang-switch">
+          {locales.map((l) => (
+            <a href={switchLang(path, l)} hreflang={l} aria-current={l === lang ? 'true' : undefined}>{languageNames[l]}</a>
+          ))}
+        </span>
       </nav>
     </header>
 
@@ -48,8 +56,8 @@ const path = Astro.url.pathname;
       <div class="footer-links">
         {settings.instagram && <a href={settings.instagram}>Instagram</a>}
         {settings.newsletter && <a href={settings.newsletter}>Newsletter</a>}
-        <a href="/impressum">Impressum</a>
-        <a href="/datenschutz">Datenschutz</a>
+        <a href={href(lang, '/impressum')}>{t(lang, 'imprint')}</a>
+        <a href={href(lang, '/datenschutz')}>{t(lang, 'privacy')}</a>
       </div>
       {settings.sponsors.length > 0 && (
         <div class="sponsors">
