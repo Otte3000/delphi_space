@@ -38,7 +38,7 @@ main { padding: 0 var(--gutter) 96px; }
   gap: 16px 32px;
   flex-wrap: wrap;
   padding: 18px var(--gutter) 16px;
-  background: var(--bg);
+  background: transparent;
 }
 .logo { display: flex; text-decoration: none; }
 .logo img { height: 88px; width: auto; }
