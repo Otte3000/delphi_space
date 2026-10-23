@@ -41,6 +41,18 @@ const dict = {
   past: { de: 'Vergangen', en: 'Past', fr: 'Passés' },
   series: { de: 'Reihen', en: 'Series', fr: 'Séries' },
   partOf: { de: 'Teil von', en: 'Part of', fr: 'Fait partie de' },
+  tagline: { de: 'Kunst-, Kultur- und Informationszentrum Freiburg', en: 'Art, culture and information centre Freiburg', fr: 'Centre d’art, de culture et d’information Fribourg' },
+  visit: { de: 'Programm', en: 'Programme', fr: 'Programme' },
+  follow: { de: 'Mehr', en: 'More', fr: 'Plus' },
+  currentExhibition: { de: 'Aktuelle Ausstellung', en: 'Current exhibition', fr: 'Exposition en cours' },
+  upcomingExhibition: { de: 'Demnächst', en: 'Coming up', fr: 'Prochainement' },
+  lastExhibition: { de: 'Zuletzt', en: 'Recently', fr: 'Récemment' },
+  alsoOn: { de: 'Außerdem', en: 'Also on view', fr: 'Également' },
+  nextDates: { de: 'Nächste Termine', en: 'Upcoming dates', fr: 'Prochaines dates' },
+  latestDates: { de: 'Letzte Termine', en: 'Recent dates', fr: 'Dates récentes' },
+  programme: { de: 'Reihen', en: 'Series', fr: 'Séries' },
+  archive: { de: 'Archiv', en: 'Archive', fr: 'Archives' },
+  more: { de: 'Mehr dazu', en: 'More', fr: 'En savoir plus' },
   artists: { de: 'Künstler*innen', en: 'Artists', fr: 'Artistes' },
   team: { de: 'Team', en: 'Team', fr: 'Équipe' },
   partners: { de: 'Kooperationen', en: 'Partners', fr: 'Partenaires' },
@@ -122,5 +134,12 @@ export const formatDate = (d: Date, lang: Lang) =>
   new Intl.DateTimeFormat(intlLocale[lang], { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(d);
 export const formatWeekday = (d: Date, lang: Lang) =>
   new Intl.DateTimeFormat(intlLocale[lang], { weekday: 'short', timeZone: 'UTC' }).format(d);
-export const formatRange = (start: Date, end: Date | null | undefined, lang: Lang) =>
+/** Datum zerlegt für die Agenda: große Tageszahl, darunter Monat und Wochentag. */
+export const dateParts = (d: Date, lang: Lang) => ({
+  day: String(d.getUTCDate()),
+  month: new Intl.DateTimeFormat(intlLocale[lang], { month: 'long', timeZone: 'UTC' }).format(d),
+  weekday: new Intl.DateTimeFormat(intlLocale[lang], { weekday: 'long', timeZone: 'UTC' }).format(d),
+});
+
+export const formatRange =(start: Date, end: Date | null | undefined, lang: Lang) =>
   end && end.getTime() !== start.getTime() ? `${formatDate(start, lang)} – ${formatDate(end, lang)}` : formatDate(start, lang);

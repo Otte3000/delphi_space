@@ -33,7 +33,10 @@ const path = Astro.url.pathname;
   </head>
   <body>
     <header class="site-header">
-      <a href={href(lang)} class="logo">DELPHI_space</a>
+      <a href={href(lang)} class="logo">
+        <strong>DELPHI_space</strong>
+        <small>{t(lang, 'tagline')}</small>
+      </a>
       <nav>
         {nav.map((item) => (
           <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
@@ -50,28 +53,39 @@ const path = Astro.url.pathname;
       <slot />
     </main>
 
-    <footer class="site-footer">
-      <div>
-        {settings.address && <p class="address">{settings.address}</p>}
-        {settings.email && <p><a href={`mailto:${settings.email}`}>{settings.email}</a></p>}
-      </div>
-      <div class="footer-links">
-        {settings.instagram && <a href={settings.instagram}>Instagram</a>}
-        {settings.newsletter && <a href={settings.newsletter}>Newsletter</a>}
-        <a href={href(lang, '/press')}>{t(lang, 'press')}</a>
-        <a href={href(lang, '/membership')}>{t(lang, 'membership')}</a>
-        <a href={href(lang, '/impressum')}>{t(lang, 'imprint')}</a>
-        <a href={href(lang, '/datenschutz')}>{t(lang, 'privacy')}</a>
-      </div>
-      {footerFunders.length > 0 && (
-        <div class="sponsors">
+    {footerFunders.length > 0 && (
+      <section class="funders-band">
+        <p>{t(lang, 'funders')}</p>
+        <div class="logos">
           {footerFunders.map((f) => (
             <a href={f.link || undefined} title={f.name}>
               {f.logo ? <img src={f.logo} alt={f.name} loading="lazy" /> : f.name}
             </a>
           ))}
         </div>
-      )}
+      </section>
+    )}
+
+    <footer class="site-footer">
+      <div>
+        <h4>DELPHI_space</h4>
+        {settings.address && <p class="address">{settings.address}</p>}
+        {settings.email && <p><a href={`mailto:${settings.email}`}>{settings.email}</a></p>}
+      </div>
+      <div class="footer-links">
+        <h4>{t(lang, 'visit')}</h4>
+        <a href={href(lang, '/exhibitions')}>{t(lang, 'exhibitions')}</a>
+        <a href={href(lang, '/events')}>{t(lang, 'events')}</a>
+        <a href={href(lang, '/membership')}>{t(lang, 'membership')}</a>
+        <a href={href(lang, '/press')}>{t(lang, 'press')}</a>
+      </div>
+      <div class="footer-links">
+        <h4>{t(lang, 'follow')}</h4>
+        {settings.instagram && <a href={settings.instagram}>Instagram</a>}
+        {settings.newsletter && <a href={settings.newsletter}>Newsletter</a>}
+        <a href={href(lang, '/impressum')}>{t(lang, 'imprint')}</a>
+        <a href={href(lang, '/datenschutz')}>{t(lang, 'privacy')}</a>
+      </div>
     </footer>
   </body>
 </html>

@@ -1,95 +1,272 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming } from '../../lib/content';
-import { langParams, toLang, href, pick, t, eventType, formatRange, formatDate, formatWeekday } from '../../lib/i18n';
+import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming, locationNames } from '../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, exhibitionKind, formatRange, dateParts } from '../../lib/i18n';
 
 export const getStaticPaths = () => langParams.map((params) => ({ params }));
 
 const lang = toLang(Astro.params.lang);
 const home = await getHomepage();
+const now = Date.now();
 
-const current = (await getExhibitions()).filter((e) => isCurrentOrUpcoming(e.startDate, e.endDate));
+// Auftakt: laufende Ausstellung, sonst die nächste, sonst die letzte
+const exhibitions = await getExhibitions();
+const running = exhibitions.filter((e) => e.startDate.getTime() <= now && isCurrentOrUpcoming(e.startDate, e.endDate));
+const upcoming = exhibitions.filter((e) => e.startDate.getTime() > now).reverse();
+const featured = running[0] ?? upcoming[0] ?? exhibitions[0];
+const featuredLabel = running[0] ? 'currentExhibition' : upcoming[0] ? 'upcomingExhibition' : 'lastExhibition';
+const alsoOn = [...running, ...upcoming].filter((e) => e !== featured).slice(0, 3);
+const archive = exhibitions.filter((e) => e !== featured && !alsoOn.includes(e) && !isCurrentOrUpcoming(e.startDate, e.endDate)).slice(0, 12);
 
+// Agenda: kommende Termine, sonst die letzten
 const events = await getEvents();
-const upcomingEvents = events.filter((e) => isCurrentOrUpcoming(e.date)).reverse();
-const shownEvents = (upcomingEvents.length ? upcomingEvents : events).slice(0, 5);
+const upcomingEvents = events.filter((e) => isCurrentOrUpcoming(e.date, e.endDate)).reverse().slice(0, 6);
+const agenda = upcomingEvents.length ? upcomingEvents : events.slice(0, 4);
 
 const series = (await getSeries()).filter((s) => s.showOnHomepage);
+const cover = featured && (featured.heroImage || featured.poster);
 ---
 
 <Layout lang={lang}>
-  {home.heroImages.length > 0 && (
-    <section class="hero">
-      {home.heroImages.filter(Boolean).map((src) => <img src={src} alt="" />)}
+  {featured && (
+    <section class="feature">
+      <a class="feature-image" href={href(lang, `/exhibitions/${featured.slug}`)}>
+        {cover ? <img src={cover} alt={pick(featured.title, lang)} /> : <span>DELPHI_space</span>}
+      </a>
+      <div class="feature-text">
+        <p class="eyebrow">{t(lang, featuredLabel)}</p>
+        <h1><a href={href(lang, `/exhibitions/${featured.slug}`)}>{pick(featured.title, lang)}</a></h1>
+        {pick(featured.subtitle, lang) && <p class="feature-subtitle">{pick(featured.subtitle, lang)}</p>}
+        {featured.artistsText && <p class="feature-artists">{featured.artistsText}</p>}
+        <p class="feature-dates">{formatRange(featured.startDate, featured.endDate, lang)}</p>
+        {pick(featured.openingHours, lang) && <p class="small">{pick(featured.openingHours, lang)}</p>}
+        {locationNames[featured.location] && <p class="small">{locationNames[featured.location]}</p>}
+        <a class="more" href={href(lang, `/exhibitions/${featured.slug}`)}>{t(lang, 'more')} →</a>
+
+        {alsoOn.length > 0 && (
+          <div class="also">
+            <p class="eyebrow">{t(lang, 'alsoOn')}</p>
+            {alsoOn.map((e) => (
+              <a href={href(lang, `/exhibitions/${e.slug}`)}>
+                <strong>{pick(e.title, lang)}</strong>
+                <span>{formatRange(e.startDate, e.endDate, lang)}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   )}
 
-  <section class="section intro">
-    <p>{pick(home.intro, lang)}</p>
-    <a href={href(lang, '/about')}>{t(lang, 'readMore')}</a>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2>{t(lang, 'current')}</h2><a href={href(lang, '/exhibitions')}>{t(lang, 'allExhibitions')}</a></div>
-    {current.length === 0 && <p class="meta">{t(lang, 'noExhibition')}</p>}
-    <div class="grid">
-      {current.map((e) => (
-        <a class="card" href={href(lang, `/exhibitions/${e.slug}`)}>
-          <div class="thumb">{e.heroImage || e.poster ? <img src={e.heroImage || e.poster} alt="" /> : 'DELPHI_space'}</div>
-          <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
-          <h3>{pick(e.title, lang)}</h3>
-          {pick(e.subtitle, lang) && <p>{pick(e.subtitle, lang)}</p>}
-        </a>
-      ))}
+  <section class="row">
+    <h2 class="row-label"><span>{t(lang, upcomingEvents.length ? 'nextDates' : 'latestDates')}</span></h2>
+    <div class="row-body">
+      <ol class="agenda">
+        {agenda.map((e) => {
+          const d = dateParts(e.date, lang);
+          return (
+            <li>
+              <a href={href(lang, `/events/${e.slug}`)}>
+                <span class="agenda-day">{d.day}</span>
+                <span class="agenda-when">{d.month}<br />{d.weekday}{e.time && <><br />{e.time}</>}</span>
+                <span class="agenda-what">
+                  <span class="agenda-type">{eventType(e.type, lang)}</span>
+                  <span class="agenda-title">{pick(e.title, lang)}</span>
+                  {pick(e.subtitle, lang) && <span class="agenda-sub">{pick(e.subtitle, lang)}</span>}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+      <a class="more" href={href(lang, '/events')}>{t(lang, 'allEvents')} →</a>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <h2>{t(lang, upcomingEvents.length ? 'upcomingEvents' : 'recentEvents')}</h2>
-      <a href={href(lang, '/events')}>{t(lang, 'allEvents')}</a>
-    </div>
-    <ul class="list">
-      {shownEvents.map((e) => (
-        <li>
-          <a href={href(lang, `/events/${e.slug}`)}>
-            <span class="meta">{formatWeekday(e.date, lang)}, {formatDate(e.date, lang)}</span>
-            <h3>{pick(e.title, lang)}</h3>
-            <span class="tag">{eventType(e.type, lang)}</span>
+  {pick(home.intro, lang) && (
+    <section class="statement">
+      <p>{pick(home.intro, lang)}</p>
+      <a class="more" href={href(lang, '/about')}>{t(lang, 'about')} →</a>
+    </section>
+  )}
+
+  {series.length > 0 && (
+    <section class="row">
+      <h2 class="row-label"><span>{t(lang, 'programme')}</span></h2>
+      <div class="row-body series">
+        {series.map((s) => (
+          <article>
+            <div class="series-image">{s.image ? <img src={s.image} alt="" loading="lazy" /> : <span>{s.title}</span>}</div>
+            <h3>{s.title}</h3>
+            {pick(s.schedule, lang) && <p class="small strong">{pick(s.schedule, lang)}</p>}
+            {pick(s.description, lang) && <p class="small">{pick(s.description, lang)}</p>}
+            {s.link && <a class="more" href={s.link}>{new URL(s.link).hostname.replace(/^www\./, '')} →</a>}
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {archive.length > 0 && (
+    <section class="archive">
+      <div class="archive-head">
+        <h2><span>{t(lang, 'archive')}</span></h2>
+        <a class="more" href={href(lang, '/exhibitions')}>{t(lang, 'allExhibitions')} →</a>
+      </div>
+      <div class="archive-strip">
+        {archive.map((e) => (
+          <a class="archive-card" href={href(lang, `/exhibitions/${e.slug}`)}>
+            {(e.heroImage || e.poster) ? <img src={e.heroImage || e.poster} alt="" loading="lazy" /> : <span class="archive-empty" />}
+            <span class="archive-caption">
+              <span class="archive-kind">{exhibitionKind(e.kind, lang)} · {e.startDate.getUTCFullYear()}</span>
+              <strong>{pick(e.title, lang)}</strong>
+            </span>
           </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+        ))}
+      </div>
+    </section>
+  )}
 
-  <section class="section">
-    <div class="section-head"><h2>{t(lang, 'series')}</h2></div>
-    <div class="grid series">
-      {series.map((s) => (
-        <article>
-          {s.image && <img src={s.image} alt="" loading="lazy" />}
-          <h3>{s.title}</h3>
-          {pick(s.schedule, lang) && <p class="meta">{pick(s.schedule, lang)}</p>}
-          {pick(s.description, lang) && <p>{pick(s.description, lang)}</p>}
-          {s.link && <a href={s.link}>{new URL(s.link).hostname}</a>}
-        </article>
-      ))}
+  {home.heroImages.filter(Boolean).length > 0 && (
+    <section class="impressions">
+      {home.heroImages.filter(Boolean).map((src) => <img src={src} alt="" loading="lazy" />)}
+    </section>
+  )}
+
+  <section class="member">
+    <h2>{pick(home.memberTitle, lang) || t(lang, 'membership')}</h2>
+    <div>
+      {pick(home.memberText, lang) && <p>{pick(home.memberText, lang)}</p>}
+      <a class="more" href={href(lang, '/membership')}>{t(lang, 'join')}</a>
     </div>
   </section>
 </Layout>
 
 <style>
-  .hero {
-    display: flex;
-    gap: 8px;
+  /* ── Gemeinsames ───────────────────────────────────── */
+  .eyebrow { margin: 0 0 12px; color: var(--accent); font-weight: 700; font-size: 17px; }
+  .small { margin: 0 0 4px; font-size: 15px; }
+  .strong { font-weight: 700; }
+  .more { display: inline-block; margin-top: 16px; font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .more:hover { color: var(--accent); }
+  h2 span { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+
+  /* ── Auftakt: Bild links, Text rechts ──────────────── */
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 32px;
+    padding-top: 32px;
+    align-items: start;
+  }
+  .feature-image { display: block; background: var(--soft); aspect-ratio: 4 / 3; overflow: hidden; }
+  .feature-image img { width: 100%; height: 100%; object-fit: cover; }
+  .feature-image span { display: grid; place-items: center; height: 100%; font-weight: 700; font-size: 32px; }
+  .feature-text { position: sticky; top: 120px; }
+  .feature h1 { font-size: clamp(34px, 4.2vw, 64px); line-height: 1; letter-spacing: -0.03em; }
+  .feature h1 a { text-decoration: none; }
+  .feature h1 a:hover { color: var(--accent); }
+  .feature-subtitle { margin: 12px 0 0; font-size: 21px; line-height: 1.3; font-weight: 500; }
+  .feature-artists { margin: 12px 0 0; font-size: 15px; white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .feature-dates { margin: 20px 0 4px; font-size: 21px; font-weight: 700; }
+  .also { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--fg); }
+  .also a { display: flex; flex-direction: column; padding: 8px 0; text-decoration: none; border-bottom: 1px solid var(--line); }
+  .also a:hover strong { color: var(--accent); }
+  .also span { font-size: 14px; color: var(--muted); }
+
+  /* ── Zeilen mit Bereichstitel links ────────────────── */
+  .row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr);
+    gap: 32px;
+    margin-top: 96px;
+    padding-top: 20px;
+    border-top: 1px solid var(--fg);
+  }
+  .row-label { font-size: clamp(26px, 2.6vw, 36px); align-self: start; position: sticky; top: 120px; }
+
+  /* Agenda mit großen Tageszahlen */
+  .agenda { list-style: none; margin: 0; padding: 0; }
+  .agenda li { border-bottom: 1px solid var(--line); }
+  .agenda li:first-child a { padding-top: 0; }
+  .agenda a { display: grid; grid-template-columns: 96px 140px minmax(0, 1fr); gap: 16px; padding: 20px 0; text-decoration: none; align-items: start; }
+  .agenda a:hover .agenda-title { color: var(--accent); }
+  .agenda-day { font-size: 64px; font-weight: 700; line-height: 0.85; letter-spacing: -0.04em; }
+  .agenda-when { font-size: 14px; line-height: 1.35; }
+  .agenda-what { display: flex; flex-direction: column; gap: 4px; }
+  .agenda-type { font-size: 14px; }
+  .agenda-title { font-size: clamp(20px, 2vw, 28px); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+  .agenda-sub { font-size: 14px; color: var(--muted); }
+
+  /* Statement mit viel Weißraum */
+  .statement { margin: 120px auto 0; max-width: 1100px; text-align: left; }
+  .statement p { margin: 0; font-size: clamp(24px, 3vw, 42px); line-height: 1.2; letter-spacing: -0.02em; font-weight: 500; }
+
+  /* Reihen */
+  .series { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px 24px; }
+  .series article { display: flex; flex-direction: column; gap: 6px; }
+  .series-image { aspect-ratio: 4 / 3; margin-bottom: 8px; background: var(--soft); overflow: hidden; display: grid; place-items: center; }
+  .series-image img { width: 100%; height: 100%; object-fit: cover; }
+  .series-image span { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .series h3 { font-size: 22px; }
+  .series .more { margin-top: 4px; }
+
+  /* Archiv als Bildleiste */
+  .archive { margin-top: 96px; padding-top: 20px; border-top: 1px solid var(--fg); }
+  .archive-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+  .archive-head h2 { font-size: clamp(26px, 2.6vw, 36px); }
+  .archive-head .more { margin-top: 0; }
+  .archive-strip {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(240px, 22%);
+    gap: 16px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     margin: 0 calc(var(--gutter) * -1);
-    padding: 24px var(--gutter) 0;
+    padding: 0 var(--gutter) 12px;
+    scrollbar-width: thin;
   }
-  .hero img { height: min(60vh, 520px); width: auto; scroll-snap-align: start; }
-  .intro { display: grid; gap: 24px; max-width: 900px; }
-  .intro p { margin: 0; font-size: clamp(20px, 2.4vw, 28px); line-height: 1.35; }
-  .series article { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
-  .series p { margin: 0; }
+  .archive-card { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; color: #fff; text-decoration: none; background: #222; }
+  .archive-card img, .archive-empty { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+  .archive-card:hover img { transform: scale(1.04); }
+  .archive-caption {
+    position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; gap: 4px;
+    padding: 48px 16px 16px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  }
+  .archive-caption strong { font-size: 20px; line-height: 1.1; }
+  .archive-kind { font-size: 13px; }
+
+  .impressions { display: flex; gap: 8px; overflow-x: auto; margin: 96px calc(var(--gutter) * -1) 0; padding: 0 var(--gutter); }
+  .impressions img { height: min(50vh, 420px); width: auto; }
+
+  /* Mitgliedschaft: großer roter Aufruf */
+  .member {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: end;
+    margin-top: 120px;
+    padding: 48px 0;
+    border-top: 1px solid var(--fg);
+    border-bottom: 1px solid var(--fg);
+  }
+  .member h2 { color: var(--accent); font-size: clamp(44px, 7vw, 104px); line-height: 0.95; letter-spacing: -0.04em; }
+  .member p { margin: 0; font-size: 17px; max-width: 46ch; }
+
+  /* ── Mobil ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .feature, .row, .member { grid-template-columns: 1fr; }
+    .feature-text, .row-label { position: static; }
+    .row { gap: 16px; margin-top: 72px; }
+  }
+  @media (max-width: 640px) {
+    .feature { padding-top: 16px; gap: 20px; }
+    .agenda a { grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; }
+    .agenda-day { font-size: 48px; grid-row: span 2; }
+    .agenda-when { font-size: 13px; }
+    .statement { margin-top: 80px; }
+    .archive-strip { grid-auto-columns: 72%; }
+    .member { margin-top: 80px; padding: 32px 0; }
+  }
 </style>

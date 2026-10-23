@@ -333,7 +333,9 @@ export default config({
       format: { data: 'yaml' },
       schema: {
         intro: translatedText('Intro', { multiline: true }),
-        heroImages: fields.array(image('Bild', 'home'), { label: 'Bilder oben (Slider)' }),
+        memberTitle: translatedText('Mitglieds-Block: Überschrift', { description: 'Großer roter Aufruf unten auf der Startseite' }),
+        memberText: translatedText('Mitglieds-Block: Text', { multiline: true }),
+        heroImages: fields.array(image('Bild', 'home'), { label: 'Impressionen (Bildleiste)' }),
       },
     }),
 

@@ -102,7 +102,7 @@ export type TextPage = (typeof textPages)[number];
 
 export const getTextPage = (name: TextPage) => reader.singletons[name].readOrThrow({ resolveLinkedFiles: true });
 
-export const getHomepage = async () => (await reader.singletons.homepage.read()) ?? { intro: {}, heroImages: [] };
+export const getHomepage = async () => (await reader.singletons.homepage.read()) ?? { intro: {}, memberTitle: {}, memberText: {}, heroImages: [] };
 export const getSettings = cached(
   async () => (await reader.singletons.settings.read()) ?? { address: '', email: '', instagram: null, newsletter: null }
 );
