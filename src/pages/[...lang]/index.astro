@@ -43,16 +43,18 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     <div class="hero-stack">
       {featured && (
         <a class="ticker" href={href(lang, `/exhibitions/${featured.slug}`)} aria-label={`${t(lang, featuredLabel)}: ${pick(featured.title, lang)}`}>
-          <span class="ticker-track" aria-hidden="true">
-            {[0, 1].map(() => (
-              <span class="ticker-group">
-                {[0, 1, 2].map(() => (
-                  <span class="ticker-item">
-                    {t(lang, featuredLabel)} <b>—</b> {pick(featured.title, lang)} <b>—</b> {formatRange(featured.startDate, featured.endDate, lang)} <b>—</b>
-                  </span>
-                ))}
-              </span>
-            ))}
+          <span class="ticker-window">
+            <span class="ticker-track" aria-hidden="true">
+              {[0, 1].map(() => (
+                <span class="ticker-group">
+                  {[0, 1, 2].map(() => (
+                    <span class="ticker-item">
+                      {t(lang, featuredLabel)} <b>—</b> {pick(featured.title, lang)} <b>—</b> {formatRange(featured.startDate, featured.endDate, lang)} <b>—</b>
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </span>
           </span>
         </a>
       )}
@@ -292,6 +294,13 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     white-space: nowrap;
   }
   .ticker:hover { color: var(--accent); }
+  /* weiche Kanten links und rechts: die Schrift läuft ein- und aus, die Milchglas-Fläche bleibt voll */
+  .ticker-window {
+    display: block;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
   .ticker-track { display: inline-flex; animation: ticker 28s linear infinite; }
   .ticker:hover .ticker-track { animation-play-state: paused; }
   .ticker-group { display: inline-flex; }
