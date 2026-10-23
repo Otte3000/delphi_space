@@ -62,7 +62,9 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
         <div class="hero-panel" aria-hidden="true"></div>
         <div class="hero-text">
           <p>{pick(home.intro, lang)}</p>
-          <a href={href(lang, '/about')}>{t(lang, 'about')} →</a>
+          <a class="arrow-button" href={href(lang, '/about')} aria-label={t(lang, 'about')} title={t(lang, 'about')}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </a>
         </div>
       </div>
     </div>
@@ -321,7 +323,30 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     color: var(--fg);
   }
   .hero-text p { margin: 0; font-size: clamp(20px, 2.4vw, 36px); line-height: 1.2; letter-spacing: -0.015em; font-weight: 400; }
-  .hero-text a { display: inline-block; margin-top: 20px; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+  /* Quadratischer Pfeil: zeigt schräg nach oben, beim Darüberfahren dreht er nach rechts und wird rot */
+  .arrow-button {
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-top: 24px;
+    border: 1.5px solid currentColor;
+    color: var(--fg);
+    transition: color 0.25s ease;
+  }
+  .arrow-button svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    transform: rotate(-45deg);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .arrow-button:hover,
+  .arrow-button:focus-visible { color: var(--accent); }
+  .arrow-button:hover svg,
+  .arrow-button:focus-visible svg { transform: rotate(0deg); }
 
   /* ── Auftakt: Bild links, Text rechts ──────────────── */
   .feature {
