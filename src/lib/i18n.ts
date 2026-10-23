@@ -41,7 +41,6 @@ const dict = {
   past: { de: 'Vergangen', en: 'Past', fr: 'Passés' },
   series: { de: 'Reihen', en: 'Series', fr: 'Séries' },
   partOf: { de: 'Teil von', en: 'Part of', fr: 'Fait partie de' },
-  tagline: { de: 'Kunst-, Kultur- und Informationszentrum Freiburg', en: 'Art, culture and information centre Freiburg', fr: 'Centre d’art, de culture et d’information Fribourg' },
   visit: { de: 'Programm', en: 'Programme', fr: 'Programme' },
   follow: { de: 'Mehr', en: 'More', fr: 'Plus' },
   currentExhibition: { de: 'Aktuelle Ausstellung', en: 'Current exhibition', fr: 'Exposition en cours' },
