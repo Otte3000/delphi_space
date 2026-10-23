@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { getSettings } from '../lib/content';
+import { getFunders, getSettings } from '../lib/content';
 import { href, locales, languageNames, switchLang, t, type Lang } from '../lib/i18n';
 
 interface Props {
@@ -11,9 +11,11 @@ interface Props {
 
 const { lang, title, description = 'DELPHI_space – Kunst-, Kultur- und Informationszentrum in Freiburg.' } = Astro.props;
 const settings = await getSettings();
+const footerFunders = (await getFunders()).filter((f) => f.showInFooter);
 const nav = [
   { href: href(lang, '/exhibitions'), label: t(lang, 'exhibitions') },
   { href: href(lang, '/events'), label: t(lang, 'events') },
+  { href: href(lang, '/artists'), label: t(lang, 'artists') },
   { href: href(lang, '/about'), label: t(lang, 'about') },
 ];
 const path = Astro.url.pathname;
@@ -56,14 +58,16 @@ const path = Astro.url.pathname;
       <div class="footer-links">
         {settings.instagram && <a href={settings.instagram}>Instagram</a>}
         {settings.newsletter && <a href={settings.newsletter}>Newsletter</a>}
+        <a href={href(lang, '/press')}>{t(lang, 'press')}</a>
+        <a href={href(lang, '/membership')}>{t(lang, 'membership')}</a>
         <a href={href(lang, '/impressum')}>{t(lang, 'imprint')}</a>
         <a href={href(lang, '/datenschutz')}>{t(lang, 'privacy')}</a>
       </div>
-      {settings.sponsors.length > 0 && (
+      {footerFunders.length > 0 && (
         <div class="sponsors">
-          {settings.sponsors.map((s) => (
-            <a href={s.url ?? undefined} title={s.name}>
-              {s.logo ? <img src={s.logo} alt={s.name} loading="lazy" /> : s.name}
+          {footerFunders.map((f) => (
+            <a href={f.link || undefined} title={f.name}>
+              {f.logo ? <img src={f.logo} alt={f.name} loading="lazy" /> : f.name}
             </a>
           ))}
         </div>

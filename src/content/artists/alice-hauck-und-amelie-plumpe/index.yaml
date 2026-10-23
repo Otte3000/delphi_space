@@ -1,0 +1,10 @@
+name: "Alice Hauck und  Amelie Plümpe"
+sortName: "Hauck und Plümpe"
+cities: "Berlin"
+categories: []
+link: "https://hauck-pluempe.de"
+gallery:
+  - image: "/images/artists/alice-hauck-und-amelie-plumpe/gallery-001-hauck-26plu-cc-88mpe1.jpg"
+  - image: "/images/artists/alice-hauck-und-amelie-plumpe/gallery-002-aus-loten-15.jpg"
+  - image: "/images/artists/alice-hauck-und-amelie-plumpe/gallery-003-aus-loten-39.jpg"
+hidden: false

@@ -1,0 +1,11 @@
+name: "Johann Otten"
+sortName: "Otten"
+cities: "Berlin"
+categories: []
+link: "http://www.johannotten.com/"
+gallery:
+  - image: "/images/artists/johann-otten/gallery-001-johann-otten-2.jpg"
+  - image: "/images/artists/johann-otten/gallery-002-johann-otten-3.jpg"
+  - image: "/images/artists/johann-otten/gallery-003-johann-otten-4.jpg"
+  - image: "/images/artists/johann-otten/gallery-004-johann-otten1.jpg"
+hidden: false

@@ -1,0 +1,36 @@
+title: "Oslo-Night"
+titleI18n: {}
+subtitle: {}
+kind: "group-exhibition"
+artistsText: "Group Exhibition curated by DELPHI_space with Elise Alloin, Eva Borner, Anna Byskov, Axel Gouala, Hannah Kindler, Stella Meris, Max Siebenhaar, Nika Timashkova, Apo Yasa"
+artists: []
+startDate: 2020-09-26
+endDate: 2020-09-27
+openingHours: {}
+location: "bromberghof"
+heroImage: "/images/exhibitions/oslo-night/preview-gro-oslo-night.jpg"
+poster: "/images/exhibitions/oslo-night/poster-atelier-20regional-20oslo-night.jpg"
+gallery:
+  - image: "/images/exhibitions/oslo-night/gallery-001-3.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-002-atelier-20mondial-20raum-20idea1.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-003-atelier-20mondial-20raum.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-004-oslo-20night-20atelier-20regional-20nika.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-005-bildschirmfoto-202020-10-01-20um-2015-50-15.png"
+  - image: "/images/exhibitions/oslo-night/gallery-006-ateliermondial-oslo2020-ik-091.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-007-ateliermondial-oslo2020-ik-123.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-008-ateliermondial-oslo2020-ik-154.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-009-bibliothek-oslo2020-ik-17.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-010-bibliothek-oslo2020-ik-30.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-011-hek-oslo2020-ik-192.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-012-khbl-oslo2020-ik-118.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-013-hek-oslo2020-ik-261.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-014-impacthub-oslo2020-ik-15-20-1.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-015-impacthub-oslo2020-ik-20.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-016-hek-oslo2020-ik-488.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-017-radiox-oslo2020-ik-65.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-018-khbl-oslo2020-ik-607.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-019-hgkfhnw-oslo2020-ik-58.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-020-khbl-oslo2020-ik-075.jpg"
+  - image: "/images/exhibitions/oslo-night/gallery-021-94869-s.jpg"
+credits: "Fotos: Ivana Kresic"
+funders: []

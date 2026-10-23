@@ -1,0 +1,11 @@
+name: "Lola Göller"
+sortName: "Göller"
+cities: "Berlin"
+categories: []
+link: "http://www.lolagoeller.de"
+gallery:
+  - image: "/images/artists/lola-goller/gallery-001-lolago-cc-88ller.jpg"
+  - image: "/images/artists/lola-goller/gallery-002-lolago-cc-88ller1.jpg"
+  - image: "/images/artists/lola-goller/gallery-003-lolago-cc-88ller2.jpg"
+  - image: "/images/artists/lola-goller/gallery-004-lolago-cc-88ller3.jpg"
+hidden: false

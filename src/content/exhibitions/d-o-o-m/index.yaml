@@ -1,0 +1,38 @@
+title: "D.O.O.M."
+titleI18n: {}
+subtitle: {}
+kind: "group-exhibition"
+artistsText: "Exhibition with Eunji Song and Julian Arayapong"
+artists: []
+startDate: 2025-03-28
+endDate: 2025-05-11
+openingHours:
+  de: "Fr: 17:00 - 20:00 Uhr\nSa & So: 14:00 - 17:00 Uhr"
+location: "bromberghof"
+heroImage: "/images/exhibitions/d-o-o-m/preview-dscf7190-delphi-website.jpg"
+poster: "/images/exhibitions/d-o-o-m/poster-gro-ds-doom-rz-ansicht-web.jpg"
+gallery:
+  - image: "/images/exhibitions/d-o-o-m/gallery-001-dscf7191-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-002-dscf7192-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-003-dscf7194-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-004-dscf7195-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-005-dscf7196-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-006-dscf7197-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-007-dscf7199-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-008-dscf7200-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-009-dscf7202-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-010-dscf7203-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-011-dscf7204-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-012-dscf7207-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-013-dscf7208-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-014-dscf7211-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-015-dscf7213-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-016-dscf7215-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-017-dscf7217-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-018-dscf7218-delphi-website.jpg"
+  - image: "/images/exhibitions/d-o-o-m/gallery-019-dscf7220-delphi-website.jpg"
+funders:
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "lbbw"
+  - "sparkasse-freiburg"

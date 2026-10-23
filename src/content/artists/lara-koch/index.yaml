@@ -1,0 +1,10 @@
+name: "Lara Koch"
+sortName: "Koch"
+cities: "Munich"
+categories: []
+link: "http://www.laramiro.com"
+gallery:
+  - image: "/images/artists/lara-koch/gallery-001-larakoch.jpg"
+  - image: "/images/artists/lara-koch/gallery-002-larakoch3.jpg"
+  - image: "/images/artists/lara-koch/gallery-003-larakoch-annaherms-jpg.jpg"
+hidden: false

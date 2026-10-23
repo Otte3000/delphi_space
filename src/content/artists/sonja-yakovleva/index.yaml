@@ -1,0 +1,9 @@
+name: "Sonja Yakovleva"
+sortName: "Yakovleva"
+cities: "Potsdam, Frankfurt"
+categories: []
+link: "https://www.instagram.com/sonja_yakovleva/?hl=de"
+gallery:
+  - image: "/images/artists/sonja-yakovleva/gallery-001-sonjayakovleva1.jpg"
+  - image: "/images/artists/sonja-yakovleva/gallery-002-sonjayakovleva2.jpg"
+hidden: false

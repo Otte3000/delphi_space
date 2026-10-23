@@ -14,7 +14,7 @@ const events = await getEvents();
 const upcomingEvents = events.filter((e) => isCurrentOrUpcoming(e.date)).reverse();
 const shownEvents = (upcomingEvents.length ? upcomingEvents : events).slice(0, 5);
 
-const series = await getSeries();
+const series = (await getSeries()).filter((s) => s.showOnHomepage);
 ---
 
 <Layout lang={lang}>
@@ -35,7 +35,7 @@ const series = await getSeries();
     <div class="grid">
       {current.map((e) => (
         <a class="card" href={href(lang, `/exhibitions/${e.slug}`)}>
-          <div class="thumb">{e.heroImage ? <img src={e.heroImage} alt="" /> : 'DELPHI_space'}</div>
+          <div class="thumb">{e.heroImage || e.poster ? <img src={e.heroImage || e.poster} alt="" /> : 'DELPHI_space'}</div>
           <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
           <h3>{pick(e.title, lang)}</h3>
           {pick(e.subtitle, lang) && <p>{pick(e.subtitle, lang)}</p>}

@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { getExhibitions, getEvents, renderContent, locationNames } from '../../../lib/content';
-import { langParams, toLang, href, pick, t, eventType, formatRange, formatDate } from '../../../lib/i18n';
+import Gallery from '../../../components/Gallery.astro';
+import { getExhibitions, getEvents, getArtists, getFunders, renderContent, renderMarkdoc, locationNames } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, exhibitionKind, formatRange, formatDate } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
   const exhibitions = await getExhibitions();
@@ -16,35 +17,54 @@ const title = pick(d.title, lang);
 const subtitle = pick(d.subtitle, lang);
 const openingHours = pick(d.openingHours, lang);
 const content = renderContent(d, lang);
+const openingInfo = renderMarkdoc(d.openingInfo.node);
 
 const events = (await getEvents()).filter((e) => e.exhibition === d.slug).reverse();
+const artists = (await getArtists()).filter((a) => d.artists.includes(a.slug));
+const funders = (await getFunders()).filter((f) => d.funders.includes(f.slug));
+const cover = d.heroImage || d.poster;
 ---
 
 <Layout lang={lang} title={title} description={subtitle}>
   <article class="section">
-    <p class="meta">{formatRange(d.startDate, d.endDate, lang)}{openingHours && ` · ${openingHours}`}</p>
+    <p class="meta">
+      {exhibitionKind(d.kind, lang)} · {formatRange(d.startDate, d.endDate, lang)}{openingHours && ` · ${openingHours}`}
+    </p>
     <h1>{title}</h1>
     {subtitle && <p class="subtitle">{subtitle}</p>}
-    {d.artists && <p class="artists">{d.artists}</p>}
+    {d.artistsText && <p class="artists">{d.artistsText}</p>}
     {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
 
-    {d.heroImage && <img class="hero-image" src={d.heroImage} alt={title} />}
+    {cover && <img class="hero-image" src={cover} alt={title} />}
 
-    <div class="prose">
-      {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
-      <Fragment set:html={content.html} />
+    <div class="columns">
+      <div class="prose">
+        {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
+        <Fragment set:html={content.html} />
+      </div>
+      <aside>
+        {openingInfo && (
+          <section>
+            <h3>{t(lang, 'openingInfo')}</h3>
+            <div class="prose small"><Fragment set:html={openingInfo} /></div>
+          </section>
+        )}
+        {d.poster && d.heroImage && <img src={d.poster} alt="Poster" loading="lazy" />}
+        {d.video && <p><a href={d.video}>{t(lang, 'watchVideo')}</a></p>}
+        {d.link && <p><a href={d.link}>{t(lang, 'website')}</a></p>}
+        {artists.length > 0 && (
+          <section>
+            <h3>{t(lang, 'artists')}</h3>
+            <ul class="plain">
+              {artists.map((a) => <li><a href={href(lang, `/artists/${a.slug}`)}>{a.name}</a></li>)}
+            </ul>
+          </section>
+        )}
+        {d.credits && <p class="meta credits">{d.credits}</p>}
+      </aside>
     </div>
 
-    {d.gallery.length > 0 && (
-      <div class="gallery">
-        {d.gallery.filter((g) => g.image).map((g) => (
-          <figure>
-            <img src={g.image} alt={g.caption} loading="lazy" />
-            {g.caption && <figcaption class="meta">{g.caption}</figcaption>}
-          </figure>
-        ))}
-      </div>
-    )}
+    <Gallery items={d.gallery} />
 
     {events.length > 0 && (
       <section class="section">
@@ -62,16 +82,29 @@ const events = (await getEvents()).filter((e) => e.exhibition === d.slug).revers
         </ul>
       </section>
     )}
+
+    {funders.length > 0 && (
+      <section class="section">
+        <div class="section-head"><h2>{t(lang, 'funders')}</h2></div>
+        <div class="logos">
+          {funders.map((f) => (
+            <a href={f.link || undefined} title={f.name}>{f.logo ? <img src={f.logo} alt={f.name} loading="lazy" /> : f.name}</a>
+          ))}
+        </div>
+      </section>
+    )}
   </article>
 </Layout>
 
 <style>
   h1 { margin: 12px 0; }
   .subtitle { font-size: clamp(20px, 2.5vw, 28px); margin: 0 0 8px; }
-  .artists { margin: 0 0 8px; }
+  .artists { margin: 0 0 8px; white-space: pre-line; }
   .hero-image { margin: 32px 0; width: 100%; max-height: 80vh; object-fit: cover; }
-  .prose { margin-top: 32px; }
-  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 48px; }
-  figure { margin: 0; }
-  figcaption { margin-top: 6px; text-transform: none; }
+  .columns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 48px; margin-top: 32px; }
+  aside { display: flex; flex-direction: column; gap: 24px; }
+  aside h3 { font-size: 15px; margin-bottom: 8px; }
+  .small { font-size: 15px; }
+  .credits { text-transform: none; }
+  @media (max-width: 760px) { .columns { grid-template-columns: 1fr; } }
 </style>

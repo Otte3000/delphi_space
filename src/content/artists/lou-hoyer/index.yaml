@@ -1,0 +1,8 @@
+name: "Lou Hoyer"
+sortName: "Hoyer"
+cities: "Berlin, Potsdam"
+categories: []
+link: "http://www.louhoyer.de"
+gallery:
+  - image: "/images/artists/lou-hoyer/gallery-001-louhoyer.jpg"
+hidden: false

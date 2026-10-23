@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getPress } from '../../lib/content';
+import { langParams, toLang, t, formatDate } from '../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const press = await getPress();
+---
+
+<Layout lang={lang} title={t(lang, 'press')}>
+  <section class="section">
+    <div class="section-head"><h1>{t(lang, 'press')}</h1></div>
+    <ul class="list press">
+      {press.map((p) => (
+        <li>
+          <a href={p.link || p.file || undefined}>
+            <span class="meta">{p.date && formatDate(p.date, lang)}</span>
+            <span>
+              <h3>{p.title}</h3>
+              {p.publisher && <span class="publisher">{p.publisher}</span>}
+            </span>
+            <span class="meta">{p.link ? t(lang, 'readArticle') : p.file ? t(lang, 'pdf') : ''}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .publisher { display: block; color: var(--muted); margin-top: 4px; }
+</style>

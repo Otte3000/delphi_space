@@ -1,0 +1,8 @@
+name: "Paul Ahl"
+sortName: "Ahl"
+cities: "Freiburg"
+categories: []
+link: "https://www.paulahl.de"
+gallery:
+  - image: "/images/artists/ahl/gallery-001-paulahl.jpg"
+hidden: false

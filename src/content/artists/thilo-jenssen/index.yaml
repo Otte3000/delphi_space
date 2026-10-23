@@ -1,0 +1,9 @@
+name: "Thilo Jenssen"
+sortName: "Jenssen"
+cities: "Vienna"
+categories: []
+link: "http://www.thilojenssen.de"
+gallery:
+  - image: "/images/artists/thilo-jenssen/gallery-001-thilo-jenssen-04.jpg"
+  - image: "/images/artists/thilo-jenssen/gallery-002-thilo-jenssen3.jpg"
+hidden: false

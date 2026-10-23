@@ -1,0 +1,9 @@
+name: "Urs Moore"
+sortName: "Moore"
+cities: "Amsterdam"
+categories: []
+link: "https://ursmoore.com"
+gallery:
+  - image: "/images/artists/urs-moore/gallery-001-ursmoore1.jpg"
+  - image: "/images/artists/urs-moore/gallery-002-ursmoore.jpg"
+hidden: false

@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { getEvents, getExhibitions, renderContent, locationNames } from '../../../lib/content';
-import { langParams, toLang, href, pick, t, eventType, formatDate, formatWeekday } from '../../../lib/i18n';
+import Gallery from '../../../components/Gallery.astro';
+import { getEvents, getExhibitions, getSeries, getArtists, renderContent, locationNames } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, eventType, formatDate, formatWeekday, formatRange } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
   const events = await getEvents();
@@ -11,29 +12,44 @@ export async function getStaticPaths() {
 const { entry: d } = Astro.props;
 const lang = toLang(Astro.params.lang);
 const title = pick(d.title, lang);
+const subtitle = pick(d.subtitle, lang);
 const content = renderContent(d, lang);
 const exhibition = d.exhibition ? (await getExhibitions()).find((e) => e.slug === d.exhibition) : undefined;
+const series = d.series ? (await getSeries()).find((s) => s.slug === d.series) : undefined;
+const artists = (await getArtists()).filter((a) => d.artists.includes(a.slug));
 ---
 
 <Layout lang={lang} title={title}>
   <article class="section">
-    <p class="meta">{formatWeekday(d.date, lang)}, {formatDate(d.date, lang)}{d.time && ` · ${d.time}`}</p>
+    <p class="meta">
+      {d.endDate ? formatRange(d.date, d.endDate, lang) : `${formatWeekday(d.date, lang)}, ${formatDate(d.date, lang)}`}{d.time && ` · ${d.time}`}
+    </p>
     <h1>{title}</h1>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
     <p><span class="tag">{eventType(d.type, lang)}</span></p>
     {exhibition && (
       <p>{t(lang, 'partOf')} <a href={href(lang, `/exhibitions/${exhibition.slug}`)}>{pick(exhibition.title, lang)}</a></p>
     )}
+    {series && <p>{t(lang, 'partOf')} {series.title}</p>}
     {locationNames[d.location] && <p class="meta">{locationNames[d.location]}</p>}
     {d.image && <img class="event-image" src={d.image} alt={title} />}
     <div class="prose">
       {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
       <Fragment set:html={content.html} />
     </div>
+    {artists.length > 0 && (
+      <p>{t(lang, 'artists')}: {artists.map((a, i) => <>{i > 0 && ', '}<a href={href(lang, `/artists/${a.slug}`)}>{a.name}</a></>)}</p>
+    )}
+    {d.link && <p><a href={d.link}>{t(lang, 'website')}</a></p>}
+    {d.credits && <p class="meta credits">{d.credits}</p>}
+    <Gallery items={d.gallery} />
   </article>
 </Layout>
 
 <style>
   h1 { margin: 12px 0 16px; font-size: clamp(32px, 5vw, 64px); }
+  .subtitle { font-size: 20px; margin: 0 0 12px; }
   .event-image { margin: 32px 0; max-height: 70vh; }
   .prose { margin-top: 32px; }
+  .credits { text-transform: none; margin-top: 24px; }
 </style>

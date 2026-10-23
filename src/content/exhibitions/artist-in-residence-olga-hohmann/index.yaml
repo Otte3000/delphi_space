@@ -1,10 +1,19 @@
-title: 'Artist in Residence: Olga Hohmann'
+title: "Artist in Residence: Olga Hohmann"
+titleI18n: {}
 subtitle:
-  de: 'Epilog: Ich bin doch nur aus Sandstein gemacht'
-artists: Olga Hohmann & Lukas Kesler
+  de: "Epilog: Ich bin doch nur aus Sandstein gemacht"
+kind: "exhibition"
+artistsText: "Olga Hohmann & Lukas Kesler\nmit Amelie Amei, Cajus Kesler und Accidental Interest Books"
+artists: []
 startDate: 2026-09-30
 endDate: 2026-10-31
-openingHours:
-  de: Sa 17:00–22:00
-location: bromberghof
+openingHours: {}
+location: "bromberghof"
+heroImage: "/images/exhibitions/artist-in-residence-olga-hohmann/preview-freinburg-3-tif.jpg"
+poster: "/images/exhibitions/artist-in-residence-olga-hohmann/poster-delphi-residence-oh-korr.jpg"
 gallery: []
+funders:
+  - "guzzoni-federer-stiftung"
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"

@@ -1,0 +1,32 @@
+title: "Anti-Aging"
+titleI18n: {}
+subtitle: {}
+kind: "exhibition"
+artistsText: "Exhibition by Jakob Forster"
+artists:
+  - "jakob-forster"
+startDate: 2023-10-07
+endDate: 2023-10-28
+openingHours:
+  de: "Fr, 18:00–20:00\nSa u. So, 16:00–18:00"
+location: "emmendinger"
+heroImage: "/images/exhibitions/anti-aging/preview-gro-anti-aging.jpg"
+poster: "/images/exhibitions/anti-aging/poster-anti-aging-poster.jpg"
+gallery:
+  - image: "/images/exhibitions/anti-aging/gallery-001-fig-2.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-002-fig-3.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-003-fig-4-untitled-coffee-to-go-series-2020-23-oil-on-jute-85-x-.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-004-fig-5.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-005-fig-6.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-006-fig-7.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-007-fig-8-untitled-i-2023-bronze-variable-dimensions.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-008-fig-9.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-009-fig-10.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-010-fig-12-untitled-ii-2023-bronze-variable-dimensions.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-011-fig-13.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-012-fig-15.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-013-fig-16.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-014-fig-11-untitled-anti-aging-series.jpg"
+  - image: "/images/exhibitions/anti-aging/gallery-015-fig-14-untitled-anti-aging-series.jpg"
+credits: "Artwork: Max Schropp · Kuratiert von: Marie Himmerich"
+funders: []

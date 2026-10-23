@@ -1,0 +1,45 @@
+title: "Regionale 24"
+titleI18n: {}
+subtitle:
+  de: "Außenstelle An-geschlossen"
+kind: "group-exhibition"
+artistsText: "Group exhibition with Sarah Albrecht, Cornelius Erschig, Rafael Jörger & HanGyol Kim"
+artists:
+  - "cornelius-erschig"
+  - "hangyol-kim"
+  - "sarah-albrecht"
+  - "rafael-jorger"
+startDate: 2023-11-25
+endDate: 2024-01-07
+openingHours: {}
+location: "bromberghof"
+heroImage: "/images/exhibitions/regionale-24/preview-delphi-regionale-preview.jpg"
+poster: "/images/exhibitions/regionale-24/poster-r24-poster.jpg"
+gallery:
+  - image: "/images/exhibitions/regionale-24/gallery-001-delphi-regionale-2023-photos-rmj-01.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-002-delphi-regionale-2023-photos-rmj-04.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-003-delphi-regionale-2023-photos-rmj-07.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-004-delphi-regionale-2023-photos-rmj-12.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-005-delphi-regionale-2023-photos-rmj-13.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-006-delphi-regionale-2023-photos-rmj-16.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-007-delphi-regionale-2023-photos-rmj-19.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-008-delphi-regionale-2023-photos-rmj-31.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-009-delphi-regionale-2023-photos-rmj-40.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-010-delphi-regionale-2023-photos-rmj-41.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-011-delphi-regionale-2023-photos-rmj-44.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-012-delphi-regionale-2023-photos-rmj-50.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-013-delphi-regionale-2023-photos-rmj-52.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-014-delphi-regionale-2023-photos-rmj-53.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-015-delphi-regionale-2023-photos-rmj-56.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-016-delphi-regionale-2023-photos-rmj-59.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-017-delphi-regionale-2023-photos-rmj-60.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-018-delphi-regionale-2023-photos-rmj-62.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-019-delphi-regionale-2023-photos-rmj-64.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-020-delphi-regionale-2023-photos-rmj-66.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-021-delphi-regionale-2023-photos-rmj-67.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-022-delphi-regionale-2023-photos-rmj-68.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-023-delphi-regionale-2023-photos-rmj-70.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-024-delphi-regionale-2023-photos-rmj-71.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-025-delphi-regionale-2023-photos-rmj-79.jpg"
+  - image: "/images/exhibitions/regionale-24/gallery-026-delphi-regionale-2023-photos-rmj-80.jpg"
+funders: []

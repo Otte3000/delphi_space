@@ -1,0 +1,74 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Gallery from '../../../components/Gallery.astro';
+import { getArtists, getExhibitions, getEvents, renderContent } from '../../../lib/content';
+import { langParams, toLang, href, pick, t, artistCategory, eventType, formatRange, formatDate } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const artists = await getArtists();
+  return langParams.flatMap((params) => artists.map((entry) => ({ params: { ...params, slug: entry.slug }, props: { entry } })));
+}
+
+const { entry: a } = Astro.props;
+const lang = toLang(Astro.params.lang);
+const content = renderContent(a, lang);
+const exhibitions = (await getExhibitions()).filter((e) => e.artists.includes(a.slug));
+const events = (await getEvents()).filter((e) => e.artists.includes(a.slug));
+---
+
+<Layout lang={lang} title={a.name}>
+  <article class="section">
+    {a.categories.length > 0 && <p class="meta">{a.categories.map((c) => artistCategory(c, lang)).join(' · ')}</p>}
+    <h1>{a.name}</h1>
+    {a.cities && <p class="subtitle">{a.cities}</p>}
+    {a.link && <p><a href={a.link}>{t(lang, 'website')}</a></p>}
+    {a.portrait && <img class="portrait" src={a.portrait} alt={a.name} />}
+    <div class="prose">
+      {content.fallback && <p class="fallback-note">{t(lang, 'notTranslated')}</p>}
+      <Fragment set:html={content.html} />
+    </div>
+
+    {exhibitions.length > 0 && (
+      <section class="section">
+        <div class="section-head"><h2>{t(lang, 'exhibitions')}</h2></div>
+        <ul class="list">
+          {exhibitions.map((e) => (
+            <li>
+              <a href={href(lang, `/exhibitions/${e.slug}`)}>
+                <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
+                <h3>{pick(e.title, lang)}</h3>
+                <span />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {events.length > 0 && (
+      <section class="section">
+        <div class="section-head"><h2>{t(lang, 'events')}</h2></div>
+        <ul class="list">
+          {events.map((e) => (
+            <li>
+              <a href={href(lang, `/events/${e.slug}`)}>
+                <span class="meta">{formatDate(e.date, lang)}</span>
+                <h3>{pick(e.title, lang)}</h3>
+                <span class="tag">{eventType(e.type, lang)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <Gallery items={a.gallery} />
+  </article>
+</Layout>
+
+<style>
+  h1 { margin: 12px 0; }
+  .subtitle { font-size: 20px; margin: 0 0 8px; color: var(--muted); }
+  .portrait { margin: 32px 0; max-height: 70vh; }
+  .prose { margin-top: 32px; }
+</style>

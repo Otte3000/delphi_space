@@ -5,7 +5,52 @@ const orte = [
   { label: 'DELPHI_space/emmendinger – Emmendinger Str. 21', value: 'emmendinger' },
   { label: 'DELPHI_space/gvbk – Bismarckallee 18–20', value: 'gvbk' },
   { label: 'DELPHI_space/außenstelle – Unterlinden 10', value: 'aussenstelle' },
+  { label: 'DELPHI_space (frühere Räume)', value: 'delphi' },
+  { label: 'Öffentlicher Raum', value: 'public' },
+  { label: 'Basel', value: 'basel' },
   { label: 'Anderer Ort', value: 'andere' },
+] as const;
+
+// Event-Arten wie in der alten Webflow-Seite. Übersetzungen für die Webseite: src/lib/i18n.ts
+const eventTypes = [
+  { label: 'Opening / Vernissage', value: 'opening' },
+  { label: 'Finissage', value: 'finissage' },
+  { label: 'Midissage', value: 'midisage' },
+  { label: 'Artist Talk', value: 'artist-talk' },
+  { label: 'Talk', value: 'talk' },
+  { label: 'Guided Tour', value: 'guided-tour' },
+  { label: 'Workshop', value: 'workshop' },
+  { label: 'Performance', value: 'performance' },
+  { label: 'Dance Performance', value: 'dance-performance' },
+  { label: 'Concert', value: 'concert' },
+  { label: 'Rave', value: 'rave' },
+  { label: 'Reading', value: 'reading' },
+  { label: 'Film Screening', value: 'film-screening' },
+  { label: 'Livestream', value: 'livestream' },
+  { label: 'Curated Dinner', value: 'curated-dinner' },
+  { label: 'Charity Event', value: 'charity-event' },
+  { label: 'Exhibition', value: 'exhibition' },
+  { label: 'Group Exhibition', value: 'group-exhibition' },
+  { label: 'Public Space Exhibition', value: 'public-space-exhibition' },
+  { label: 'Auktion', value: 'auction' },
+  { label: 'Sonstiges', value: 'other' },
+] as const;
+
+// Sparten wie in der alten Webflow-Seite. Übersetzungen für die Webseite: src/lib/i18n.ts
+const artistCategories = [
+  { label: 'Bildende Künstler*innen', value: 'visual-artists' },
+  { label: 'Performance-Künstler*innen', value: 'performance-artists' },
+  { label: 'Tanzperformer*innen', value: 'dance-performers' },
+  { label: 'Musiker*innen', value: 'musicians' },
+  { label: 'DJs', value: 'djs' },
+  { label: 'Filmschaffende', value: 'filmmakers' },
+  { label: 'Fotograf*innen', value: 'photographers' },
+  { label: 'Autor*innen', value: 'writers' },
+  { label: 'Architekt*innen', value: 'architects' },
+  { label: 'Kurator*innen', value: 'curators' },
+  { label: 'Redner*innen', value: 'speakers' },
+  { label: 'Kollektive', value: 'collectives' },
+  { label: 'Food & Wine', value: 'food-wine' },
 ] as const;
 
 // ── Mehrsprachigkeit ──────────────────────────────────────────
@@ -42,6 +87,18 @@ const translatedContent = (imageDir?: string) => {
   };
 };
 
+const image = (label: string, dir: string) =>
+  fields.image({ label, directory: `public/images/${dir}`, publicPath: `/images/${dir}/` });
+
+const gallery = (dir: string) =>
+  fields.array(
+    fields.object({
+      image: image('Bild', dir),
+      caption: fields.text({ label: 'Bildunterschrift' }),
+    }),
+    { label: 'Galerie', itemLabel: (p) => p.fields.caption.value || 'Bild' }
+  );
+
 // Einfache Textseite unter /<name>, z. B. /about oder /impressum.
 const textPage = (label: string, name: string) =>
   singleton({
@@ -66,8 +123,9 @@ export default config({
     brand: { name: 'DELPHI_space' },
     navigation: {
       Programm: ['exhibitions', 'events', 'series'],
-      Seiten: ['homepage', 'about', 'impressum', 'datenschutz'],
-      Einstellungen: ['settings'],
+      Menschen: ['artists', 'team', 'partners', 'funders'],
+      Seiten: ['homepage', 'about', 'membership', 'impressum', 'datenschutz'],
+      Weiteres: ['press', 'memberships', 'settings'],
     },
   },
 
@@ -82,27 +140,29 @@ export default config({
         title: fields.slug({ name: { label: 'Titel (Deutsch)' } }),
         titleI18n: titleTranslations(),
         subtitle: translatedText('Untertitel'),
-        artists: fields.text({ label: 'Künstler*innen', description: 'z. B. „Olga Hohmann & Lukas Kesler“' }),
+        kind: fields.select({
+          label: 'Art',
+          options: [
+            { label: 'Ausstellung', value: 'exhibition' },
+            { label: 'Gruppenausstellung', value: 'group-exhibition' },
+            { label: 'Sammlung', value: 'collection' },
+          ],
+          defaultValue: 'exhibition',
+        }),
+        artistsText: fields.text({ label: 'Künstler*innen (Text)', description: 'Freitext, z. B. „Olga Hohmann & Lukas Kesler mit …“', multiline: true }),
+        artists: fields.multiRelationship({ label: 'Künstler*innen (verknüpft)', collection: 'artists' }),
         startDate: fields.date({ label: 'Beginn', validation: { isRequired: true } }),
         endDate: fields.date({ label: 'Ende' }),
         openingHours: translatedText('Öffnungszeiten', { description: 'z. B. „Sa 17:00–22:00“' }),
         location: fields.select({ label: 'Ort', options: [...orte], defaultValue: 'bromberghof' }),
-        heroImage: fields.image({
-          label: 'Titelbild',
-          directory: 'public/images/exhibitions',
-          publicPath: '/images/exhibitions/',
-        }),
-        gallery: fields.array(
-          fields.object({
-            image: fields.image({
-              label: 'Bild',
-              directory: 'public/images/exhibitions',
-              publicPath: '/images/exhibitions/',
-            }),
-            caption: fields.text({ label: 'Bildunterschrift' }),
-          }),
-          { label: 'Galerie', itemLabel: (p) => p.fields.caption.value || 'Bild' }
-        ),
+        heroImage: image('Vorschaubild', 'exhibitions'),
+        poster: image('Poster', 'exhibitions'),
+        gallery: gallery('exhibitions'),
+        video: fields.url({ label: 'Video-Link' }),
+        link: fields.url({ label: 'Externer Link' }),
+        credits: fields.text({ label: 'Credits', description: 'z. B. „Fotos: … · Artwork: …“' }),
+        funders: fields.multiRelationship({ label: 'Förderer', collection: 'funders' }),
+        openingInfo: fields.markdoc({ label: 'Eröffnung / Opening-Info' }),
         ...translatedContent('exhibitions'),
       },
     }),
@@ -116,32 +176,19 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Titel (Deutsch)' } }),
         titleI18n: titleTranslations(),
-        type: fields.select({
-          label: 'Art',
-          options: [
-            { label: 'Vernissage', value: 'vernissage' },
-            { label: 'Artist Talk', value: 'talk' },
-            { label: 'Workshop', value: 'workshop' },
-            { label: 'Performance', value: 'performance' },
-            { label: 'Konzert', value: 'concert' },
-            { label: 'Lesung', value: 'reading' },
-            { label: 'Auktion', value: 'auction' },
-            { label: 'Sonstiges', value: 'other' },
-          ],
-          defaultValue: 'vernissage',
-        }),
+        subtitle: translatedText('Zusatzinfo'),
+        type: fields.select({ label: 'Art', options: [...eventTypes], defaultValue: 'opening' }),
         date: fields.date({ label: 'Datum', validation: { isRequired: true } }),
+        endDate: fields.date({ label: 'Ende (bei mehrtägigen Events)' }),
         time: fields.text({ label: 'Uhrzeit', description: 'z. B. „19:00–22:00“' }),
         location: fields.select({ label: 'Ort', options: [...orte], defaultValue: 'bromberghof' }),
-        exhibition: fields.relationship({
-          label: 'Gehört zur Ausstellung',
-          collection: 'exhibitions',
-        }),
-        image: fields.image({
-          label: 'Bild',
-          directory: 'public/images/events',
-          publicPath: '/images/events/',
-        }),
+        exhibition: fields.relationship({ label: 'Gehört zur Ausstellung', collection: 'exhibitions' }),
+        series: fields.relationship({ label: 'Gehört zur Reihe', collection: 'series' }),
+        artists: fields.multiRelationship({ label: 'Künstler*innen', collection: 'artists' }),
+        image: image('Bild', 'events'),
+        gallery: gallery('events'),
+        link: fields.url({ label: 'Link' }),
+        credits: fields.text({ label: 'Credits' }),
         ...translatedContent('events'),
       },
     }),
@@ -149,20 +196,132 @@ export default config({
     series: collection({
       label: 'Veranstaltungsreihen',
       slugField: 'title',
-      path: 'src/content/series/*',
+      path: 'src/content/series/*/',
       format: { data: 'yaml' },
       columns: ['title'],
       schema: {
         title: fields.slug({ name: { label: 'Name' } }),
         schedule: translatedText('Wann', { description: 'z. B. „Jeden Mittwoch ab 19 Uhr“' }),
-        description: translatedText('Beschreibung', { multiline: true }),
+        description: translatedText('Kurzbeschreibung', { multiline: true }),
         link: fields.url({ label: 'Link (optional)' }),
-        image: fields.image({
-          label: 'Bild',
-          directory: 'public/images/series',
-          publicPath: '/images/series/',
-        }),
+        contact: fields.text({ label: 'Ansprechpartner*in' }),
+        image: image('Bild', 'series'),
+        gallery: gallery('series'),
+        showOnHomepage: fields.checkbox({ label: 'Auf der Startseite zeigen', defaultValue: true }),
         order: fields.integer({ label: 'Reihenfolge', defaultValue: 0 }),
+        ...translatedContent('series'),
+      },
+    }),
+
+    artists: collection({
+      label: 'Künstler*innen',
+      slugField: 'name',
+      path: 'src/content/artists/*/',
+      format: { data: 'yaml' },
+      columns: ['name'],
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        sortName: fields.text({ label: 'Nachname (für die Sortierung)' }),
+        cities: fields.text({ label: 'Orte', description: 'z. B. „Berlin, Freiburg“' }),
+        categories: fields.multiselect({ label: 'Sparten', options: [...artistCategories] }),
+        link: fields.url({ label: 'Website' }),
+        portrait: image('Bild', 'artists'),
+        gallery: gallery('artists'),
+        hidden: fields.checkbox({ label: 'Nicht in der Künstler*innen-Liste zeigen' }),
+        ...translatedContent('artists'),
+      },
+    }),
+
+    team: collection({
+      label: 'Team',
+      slugField: 'name',
+      path: 'src/content/team/*',
+      format: { data: 'yaml' },
+      columns: ['name'],
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        role: translatedText('Rolle / Funktion'),
+        bio: translatedText('Kurzbio', { multiline: true }),
+        category: fields.select({
+          label: 'Kategorie',
+          options: [
+            { label: 'Team', value: 'team' },
+            { label: 'Fotograf*in', value: 'photographer' },
+            { label: 'Designer*in', value: 'designer' },
+            { label: 'Kurator*in', value: 'curator' },
+          ],
+          defaultValue: 'team',
+        }),
+        active: fields.checkbox({ label: 'Aktives Mitglied (auf „Über uns“ zeigen)', defaultValue: true }),
+        photo: image('Foto', 'team'),
+        email: fields.text({ label: 'E-Mail' }),
+        phone: fields.text({ label: 'Telefon' }),
+        link: fields.url({ label: 'Website' }),
+        order: fields.integer({ label: 'Reihenfolge', defaultValue: 0 }),
+      },
+    }),
+
+    partners: collection({
+      label: 'Kooperationen',
+      slugField: 'name',
+      path: 'src/content/partners/*',
+      format: { data: 'yaml' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        area: fields.text({ label: 'Bereich' }),
+        link: fields.url({ label: 'Website' }),
+      },
+    }),
+
+    funders: collection({
+      label: 'Förderer',
+      slugField: 'name',
+      path: 'src/content/funders/*/',
+      format: { data: 'yaml' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        category: fields.select({
+          label: 'Kategorie',
+          options: [
+            { label: 'Öffentliche Förderung', value: 'public' },
+            { label: 'Privat', value: 'private' },
+            { label: 'Kollektive', value: 'collective' },
+          ],
+          defaultValue: 'public',
+        }),
+        logo: image('Logo', 'funders'),
+        link: fields.url({ label: 'Website' }),
+        showInFooter: fields.checkbox({ label: 'Im Footer zeigen' }),
+        showOnAbout: fields.checkbox({ label: 'Auf „Über uns“ zeigen' }),
+      },
+    }),
+
+    press: collection({
+      label: 'Presse',
+      slugField: 'title',
+      path: 'src/content/press/*/',
+      format: { data: 'yaml' },
+      columns: ['title', 'date'],
+      schema: {
+        title: fields.slug({ name: { label: 'Titel des Artikels' } }),
+        publisher: fields.text({ label: 'Autor*in | Medium' }),
+        date: fields.date({ label: 'Datum' }),
+        link: fields.url({ label: 'Link' }),
+        file: fields.file({ label: 'PDF (optional)', directory: 'public/press', publicPath: '/press/' }),
+      },
+    }),
+
+    memberships: collection({
+      label: 'Mitgliedschaften',
+      slugField: 'name',
+      path: 'src/content/memberships/*/',
+      format: { data: 'yaml' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        nameI18n: titleTranslations(),
+        link: fields.url({ label: 'Link zum Beitritt (z. B. Twingle)' }),
+        order: fields.integer({ label: 'Reihenfolge', defaultValue: 0 }),
+        ...translatedContent(),
       },
     }),
   },
@@ -174,18 +333,12 @@ export default config({
       format: { data: 'yaml' },
       schema: {
         intro: translatedText('Intro', { multiline: true }),
-        heroImages: fields.array(
-          fields.image({
-            label: 'Bild',
-            directory: 'public/images/home',
-            publicPath: '/images/home/',
-          }),
-          { label: 'Bilder oben (Slider)' }
-        ),
+        heroImages: fields.array(image('Bild', 'home'), { label: 'Bilder oben (Slider)' }),
       },
     }),
 
     about: textPage('Über uns', 'about'),
+    membership: textPage('Mitgliedschaft', 'membership'),
     impressum: textPage('Impressum', 'impressum'),
     datenschutz: textPage('Datenschutz', 'datenschutz'),
 
@@ -198,18 +351,6 @@ export default config({
         email: fields.text({ label: 'E-Mail' }),
         instagram: fields.url({ label: 'Instagram-Link' }),
         newsletter: fields.url({ label: 'Newsletter-Link' }),
-        sponsors: fields.array(
-          fields.object({
-            name: fields.text({ label: 'Name' }),
-            logo: fields.image({
-              label: 'Logo',
-              directory: 'public/images/sponsors',
-              publicPath: '/images/sponsors/',
-            }),
-            url: fields.url({ label: 'Website' }),
-          }),
-          { label: 'Förderer', itemLabel: (p) => p.fields.name.value || 'Förderer' }
-        ),
       },
     }),
   },

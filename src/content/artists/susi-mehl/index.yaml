@@ -1,0 +1,9 @@
+name: "Susi Mehl"
+sortName: "Mehl"
+cities: "Berlin"
+categories: []
+link: "http://www.susimehl.com"
+gallery:
+  - image: "/images/artists/susi-mehl/gallery-001-susimehl-louhoyer.jpg"
+  - image: "/images/artists/susi-mehl/gallery-002-susimehl.jpg"
+hidden: false

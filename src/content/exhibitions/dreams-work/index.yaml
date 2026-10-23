@@ -1,0 +1,45 @@
+title: "DREAMS:WORK"
+titleI18n: {}
+subtitle:
+  de: "Regionale 26"
+kind: "group-exhibition"
+artistsText: "Group Exhibition with Lizzy Ellbrück, Sara Gassmann, Cyril Tyrone Hübscher, Rafael Jörger, Rose Le Goff, Natascha Moschini, Camillo Paravicini, Alexandre-Takuya Kato and Noémie Vidonne"
+artists:
+  - "lizzy-ellbruck"
+  - "sara-gassmann"
+  - "cyril-tyrone-hubscher"
+  - "rafael-jorger"
+  - "rose-le-goff"
+  - "camillo-paravicini"
+  - "alexandre-takuya-kato"
+  - "noemie-vidonne"
+  - "natascha-moschini"
+startDate: 2025-11-28
+endDate: 2026-01-04
+openingHours:
+  de: "Fr: 17:00-20:00 Uhr; Sa & So: 15:00-18:00 Uhr"
+location: "bromberghof"
+heroImage: "/images/exhibitions/dreams-work/preview-251203-ausstellungsansichten-regionale26-0003-web.jpg"
+poster: "/images/exhibitions/dreams-work/poster-delphi-dreamswork-ig2.jpg"
+gallery:
+  - image: "/images/exhibitions/dreams-work/gallery-001-251203-ausstellungsansichten-regionale26-0003-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-002-251203-ausstellungsansichten-regionale26-0004-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-003-251203-ausstellungsansichten-regionale26-0005-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-004-251203-ausstellungsansichten-regionale26-0006-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-005-251203-ausstellungsansichten-regionale26-0012-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-006-251203-ausstellungsansichten-regionale26-0017-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-007-251203-ausstellungsansichten-regionale26-0007-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-008-251203-ausstellungsansichten-regionale26-0016-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-009-251203-ausstellungsansichten-regionale26-0010-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-010-251203-ausstellungsansichten-regionale26-0019-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-011-251203-ausstellungsansichten-regionale26-0020-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-012-251203-ausstellungsansichten-regionale26-0021-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-013-251203-ausstellungsansichten-regionale26-0018-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-014-251203-ausstellungsansichten-regionale26-0011-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-015-251203-ausstellungsansichten-regionale26-0013-web.jpg"
+  - image: "/images/exhibitions/dreams-work/gallery-016-251203-ausstellungsansichten-regionale26-0015-web.jpg"
+funders:
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"
+  - "guzzoni-federer-stiftung"

@@ -1,0 +1,46 @@
+title: "AUS:LOTEN"
+titleI18n: {}
+subtitle:
+  de: "Groupexhibition with Göksu Baysal, Alice Hauck und Amelie Plümpe, Thilo Jenssen, Konrad Wallmeier, Boris Weingart"
+kind: "group-exhibition"
+artistsText: "Group Exhibition with Göksu Baysal, Alice Hauck und Amelie Plümpe, Thilo Jenssen, Konrad Wallmeier, Boris Weingart"
+artists:
+  - "thilo-jenssen"
+  - "nikola-breme"
+  - "konrad-wallmeier"
+  - "johann-otten"
+  - "goksu-baysal"
+  - "alice-hauck-und-amelie-plumpe"
+startDate: 2020-10-29
+endDate: 2020-11-05
+openingHours: {}
+location: "emmendinger"
+heroImage: "/images/exhibitions/aus-loten/preview-gro-ausloten.jpg"
+poster: "/images/exhibitions/aus-loten/poster-photo-2021-06-09-2023-28-57.jpg"
+gallery:
+  - image: "/images/exhibitions/aus-loten/gallery-001-hauck-26plu-cc-88mpe1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-002-aus-loten-15.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-003-aus-loten-39.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-004-go-cc-88ksu-baysal1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-005-go-cc-88ksu-baysal2.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-006-konrad-wallmeier1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-007-konrad-wallmeier2.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-008-thilo-jenssen-04.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-009-thilo-jenssen3.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-010-hauck-plumpe1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-011-aus-loten-15.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-012-aus-loten-39.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-013-goksu-baysal1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-014-goksu-baysal2.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-015-konrad-wallmeier1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-016-konrad-wallmeier2.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-017-thilo-jenssen-04.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-018-thilo-jenssen3.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-019-hauck-26plu-cc-88mpe1.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-020-aus-loten-39.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-021-thilo-jenssen-04.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-022-thilo-jenssen3.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-023-aus-loten-15.jpg"
+  - image: "/images/exhibitions/aus-loten/gallery-024-konrad-wallmeier2.jpg"
+credits: "Fotos: Valentin Fischer · Artwork: Max Schropp · Kuratiert von: Daniel Vollmer"
+funders: []

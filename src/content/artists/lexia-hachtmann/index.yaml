@@ -1,0 +1,10 @@
+name: "Lexia Hachtmann"
+sortName: "Hachtmann"
+cities: "Berlin"
+categories: []
+link: "http://lexia-hachtmann.com"
+gallery:
+  - image: "/images/artists/lexia-hachtmann/gallery-001-neu-denken-22.jpg"
+  - image: "/images/artists/lexia-hachtmann/gallery-002-neu-denken-23.jpg"
+  - image: "/images/artists/lexia-hachtmann/gallery-003-neu-denken-19.jpg"
+hidden: false

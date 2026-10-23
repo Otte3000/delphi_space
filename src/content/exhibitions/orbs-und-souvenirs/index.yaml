@@ -1,0 +1,20 @@
+title: "Orbs und Souvenirs"
+titleI18n: {}
+subtitle:
+  de: "Prolog mit Julia Rublow und Melitta"
+kind: "exhibition"
+artistsText: "Prolog mit Julia Rublow und Melitta"
+artists: []
+startDate: 2022-08-04
+endDate: 2022-09-17
+openingHours: {}
+location: "emmendinger"
+poster: "/images/exhibitions/orbs-und-souvenirs/poster-orbs-souvenirs-mockup.jpg"
+gallery:
+  - image: "/images/exhibitions/orbs-und-souvenirs/gallery-001-111-st-tisch-glasplatte-88-80-68-small.jpg"
+  - image: "/images/exhibitions/orbs-und-souvenirs/gallery-002-dsc-2898-copy.jpg"
+  - image: "/images/exhibitions/orbs-und-souvenirs/gallery-003-111-st-tisch-glasplatte-88-80-68-small.jpg"
+  - image: "/images/exhibitions/orbs-und-souvenirs/gallery-004-dsc-2898-copy.jpg"
+link: "http://www.blackforestinstituteofart.de"
+credits: "Fotos: Valentin Fischer · Artwork: Max Schropp"
+funders: []

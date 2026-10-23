@@ -1,0 +1,9 @@
+name: "Konrad Wallmeier"
+sortName: "Wallmeier"
+cities: "Freiburg"
+categories: []
+link: "https://www.dieleuchten.info"
+gallery:
+  - image: "/images/artists/konrad-wallmeier/gallery-001-konrad-wallmeier1.jpg"
+  - image: "/images/artists/konrad-wallmeier/gallery-002-konrad-wallmeier2.jpg"
+hidden: false

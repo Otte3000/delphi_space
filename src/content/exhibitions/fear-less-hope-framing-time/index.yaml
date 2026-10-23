@@ -1,8 +1,35 @@
-title: 'FEAR-LESS-HOPE: Framing Time'
-subtitle:
-  de: German-Armenian exchange project and travelling exhibition
-artists: Vahram Aghasyan, Greta Harutyunyan, Anas Kahal, Johannes Weilandt
+title: "FEAR-LESS-HOPE: Framing Time"
+titleI18n: {}
+subtitle: {}
+kind: "group-exhibition"
+artistsText: "Group Exhibition with Vahram Aghasyan, Greta Harutyunyan, Anas Kahal and Johannes Weilandt"
+artists: []
 startDate: 2025-10-10
-endDate: 2025-10-12
-location: bromberghof
-gallery: []
+endDate: 2025-11-09
+openingHours:
+  de: "Fr: 17:00 - 20:00 Uhr;\nSa & So: 15:00 - 18:00 Uhr"
+location: "bromberghof"
+heroImage: "/images/exhibitions/fear-less-hope-framing-time/preview-delphi-fearlesshopedoradzillo-15215web.jpg"
+poster: "/images/exhibitions/fear-less-hope-framing-time/poster-ferslesshope-delphi-mockup.jpg"
+gallery:
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-001-delphi-fearlesshopedoradzillo-14969web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-002-delphi-fearlesshopedoradzillo-15377web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-003-delphi-fearlesshopedoradzillo-15071web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-004-delphi-fearlesshopedoradzillo-15235web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-005-delphi-fearlesshopedoradzillo-15448web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-006-delphi-fearlesshopedoradzillo-15028web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-007-delphi-fearlesshopedoradzillo-15113web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-008-delphi-fearlesshopedoradzillo-15386web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-009-delphi-fearlesshopedoradzillo-15408web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-010-delphi-fearlesshopedoradzillo-15190web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-011-delphi-fearlesshopedoradzillo-15152web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-012-delphi-fearlesshopedoradzillo-15492web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-013-delphi-fearlesshopedoradzillo-15539web.jpg"
+  - image: "/images/exhibitions/fear-less-hope-framing-time/gallery-014-delphi-fearlesshopedoradzillo-15545web.jpg"
+credits: "Fotos: Marc Doradzillo"
+funders:
+  - "auswertiges-amt"
+  - "civil-society-cooperation"
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"

@@ -1,0 +1,33 @@
+title: "Biennale für Freiburg 3"
+titleI18n: {}
+subtitle:
+  de: "HAPPY PLACE"
+kind: "group-exhibition"
+artists:
+  - "eve-tagny"
+  - "monika-emmanuelle-kazi"
+  - "jasmin-werner"
+  - "ghita-skali"
+startDate: 2025-06-05
+endDate: 2025-07-27
+openingHours:
+  de: "Fr, 16:00–20:00\nSa, 14:00–20:00\nSo, 12:00–18:00"
+location: "bromberghof"
+heroImage: "/images/exhibitions/biennale-fur-freiburg-3/preview-web.jpg"
+poster: "/images/exhibitions/biennale-fur-freiburg-3/poster-bildschirmfoto-2025-09-25-um-15-32-37.png"
+gallery:
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-001-biennalefr3-kv-doradzillo-0267web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-002-biennalefr3-kv-doradzillo-0282web-1.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-003-biennalefr3-kv-doradzillo-0412web-1.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-004-biennalefr3-installationview-delphi-space-photo-marcdoradzil.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-005-biennalefr3-kv-doradzillo-0435web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-006-biennalefr3-kv-doradzillo-0544web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-007-biennalefr3-kv-doradzillo-0256web-1.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-008-biennalefr3-kv-doradzillo-0252web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-009-biennalefr3-kv-doradzillo-0246web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg-3/gallery-010-biennalefr3-kv-doradzillo-0227web-1.jpg"
+link: "https://2025.biennalefuerfreiburg.de/"
+funders:
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"

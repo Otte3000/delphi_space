@@ -1,0 +1,40 @@
+title: "Biennale für Freiburg"
+titleI18n: {}
+subtitle:
+  de: "Exhibition by Rahima Gambo - Nest-Works and Wander-Lines"
+kind: "exhibition"
+artistsText: "Exhibition by Rahima Gambo - Nest-Works and Wander-Lines"
+artists:
+  - "rahima-gambo"
+startDate: 2021-09-09
+endDate: 2021-10-03
+openingHours: {}
+location: "emmendinger"
+heroImage: "/images/exhibitions/biennale-fur-freiburg/preview-biennale-preview.jpg"
+poster: "/images/exhibitions/biennale-fur-freiburg/poster-photo-2021-09-30-2021-43-28.jpg"
+gallery:
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-001-dsc1031preview.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-002-bff1-delphi-1051web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-003-bff1-delphi-1073web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-004-bff1-delphi-1085web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-005-bff1-delphi-1097web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-006-bff1-delphi-1113web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-007-bff1-delphi-1126web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-008-bff1-delphi-1133web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-009-bff1-delphi-1134web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-010-bff1-delphi-1142web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-011-dsc1031preview.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-012-bff1-delphi-1051web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-013-bff1-delphi-1073web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-014-bff1-delphi-1085web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-015-bff1-delphi-1097web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-016-bff1-delphi-1113web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-017-bff1-delphi-1126web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-018-bff1-delphi-1133web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-019-bff1-delphi-1134web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-020-bff1-delphi-1142web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-021-dsc1031preview.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-022-bff1-delphi-1126web.jpg"
+  - image: "/images/exhibitions/biennale-fur-freiburg/gallery-023-bff1-delphi-1142web.jpg"
+credits: "Fotos: Karolina Sobel · Artwork: Max Schropp"
+funders: []

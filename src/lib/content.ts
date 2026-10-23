@@ -15,15 +15,23 @@ const titleOf = (title: string, i18n: { en?: string | null; fr?: string | null }
 
 const isEmpty = (node: Node) => node.children.length === 0;
 
+/** Beim Bauen jede Sammlung nur einmal lesen; im Dev-Server immer frisch, damit CMS-Änderungen sofort sichtbar sind. */
+const cached = <T>(load: () => Promise<T>) => {
+  let promise: Promise<T> | undefined;
+  return () => (import.meta.env.PROD ? (promise ??= load()) : load());
+};
+
+export const renderMarkdoc = (node: Node) => (isEmpty(node) ? '' : Markdoc.renderers.html(Markdoc.transform(node)));
+
 /** Fließtext als HTML in der gewünschten Sprache; `fallback` ist true, wenn Deutsch einspringt. */
 export const renderContent = (entry: Contents, lang: Lang) => {
   const byLang = { de: entry.content.node, en: entry.contentEn.node, fr: entry.contentFr.node };
   const fallback = lang !== 'de' && isEmpty(byLang[lang]);
   const node = fallback ? byLang.de : byLang[lang];
-  return { html: Markdoc.renderers.html(Markdoc.transform(node)), fallback: fallback && !isEmpty(byLang.de) };
+  return { html: renderMarkdoc(node), fallback: fallback && !isEmpty(byLang.de) };
 };
 
-export const getExhibitions = async () => {
+export const getExhibitions = cached(async () => {
   const all = await reader.collections.exhibitions.all({ resolveLinkedFiles: true });
   return all
     .map(({ slug, entry }) => ({
@@ -34,9 +42,9 @@ export const getExhibitions = async () => {
       endDate: toDate(entry.endDate),
     }))
     .sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
-};
+});
 
-export const getEvents = async () => {
+export const getEvents = cached(async () => {
   const all = await reader.collections.events.all({ resolveLinkedFiles: true });
   return all
     .map(({ slug, entry }) => ({
@@ -44,29 +52,69 @@ export const getEvents = async () => {
       slug,
       title: titleOf(entry.title, entry.titleI18n),
       date: toDate(entry.date)!,
+      endDate: toDate(entry.endDate),
     }))
     .sort((a, b) => b.date.getTime() - a.date.getTime());
-};
+});
 
-export const getSeries = async () => {
-  const all = await reader.collections.series.all();
+export const getSeries = cached(async () => {
+  const all = await reader.collections.series.all({ resolveLinkedFiles: true });
   return all.map(({ slug, entry }) => ({ ...entry, slug })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-};
+});
 
-export const textPages = ['about', 'impressum', 'datenschutz'] as const;
+export const getArtists = cached(async () => {
+  const all = await reader.collections.artists.all({ resolveLinkedFiles: true });
+  const key = (a: { name: string; sortName: string }) => (a.sortName || a.name.split(' ').at(-1) || a.name).toLocaleLowerCase('de');
+  return all.map(({ slug, entry }) => ({ ...entry, slug })).sort((a, b) => key(a).localeCompare(key(b), 'de'));
+});
+
+export const getTeam = cached(async () => {
+  const all = await reader.collections.team.all();
+  return all.map(({ slug, entry }) => ({ ...entry, slug })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+});
+
+export const getPartners = cached(async () => {
+  const all = await reader.collections.partners.all();
+  return all.map(({ slug, entry }) => ({ ...entry, slug })).sort((a, b) => a.name.localeCompare(b.name, 'de'));
+});
+
+export const getFunders = cached(async () => {
+  const all = await reader.collections.funders.all();
+  return all.map(({ slug, entry }) => ({ ...entry, slug })).sort((a, b) => a.name.localeCompare(b.name, 'de'));
+});
+
+export const getPress = cached(async () => {
+  const all = await reader.collections.press.all();
+  return all
+    .map(({ slug, entry }) => ({ ...entry, slug, date: toDate(entry.date) }))
+    .sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
+});
+
+export const getMemberships = cached(async () => {
+  const all = await reader.collections.memberships.all({ resolveLinkedFiles: true });
+  return all
+    .map(({ slug, entry }) => ({ ...entry, slug, name: titleOf(entry.name, entry.nameI18n) }))
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+});
+
+export const textPages = ['about', 'membership', 'impressum', 'datenschutz'] as const;
 export type TextPage = (typeof textPages)[number];
 
 export const getTextPage = (name: TextPage) => reader.singletons[name].readOrThrow({ resolveLinkedFiles: true });
 
 export const getHomepage = async () => (await reader.singletons.homepage.read()) ?? { intro: {}, heroImages: [] };
-export const getSettings = async () =>
-  (await reader.singletons.settings.read()) ?? { address: '', email: '', instagram: null, newsletter: null, sponsors: [] };
+export const getSettings = cached(
+  async () => (await reader.singletons.settings.read()) ?? { address: '', email: '', instagram: null, newsletter: null }
+);
 
 export const locationNames: Record<string, string> = {
   bromberghof: '@DELPHI_space · Brombergstraße 17c',
   emmendinger: '@DELPHI_space/emmendinger · Emmendinger Str. 21',
   gvbk: '@DELPHI_space/gvbk · Bismarckallee 18–20',
   aussenstelle: '@DELPHI_space/außenstelle · Unterlinden 10',
+  delphi: '@DELPHI_space',
+  public: '',
+  basel: 'Basel',
   andere: '',
 };
 
@@ -77,3 +125,7 @@ const today = () => {
 
 /** Läuft noch oder kommt noch (Enddatum bzw. Startdatum heute oder später). */
 export const isCurrentOrUpcoming = (start: Date, end?: Date | null) => (end ?? start).getTime() >= today();
+
+/** Bilder einer Galerie ohne leere Einträge. */
+export const galleryImages = (gallery: readonly { image: string | null; caption: string }[]) =>
+  gallery.filter((g): g is { image: string; caption: string } => Boolean(g.image));

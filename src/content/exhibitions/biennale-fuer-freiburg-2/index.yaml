@@ -1,0 +1,28 @@
+title: "Biennale für Freiburg 2"
+titleI18n: {}
+subtitle:
+  de: "Das Lied der Straße"
+kind: "group-exhibition"
+artistsText: "Exhibition with Hemansingh Lutchmun, Medienwerkstatt Freiburg & Maria Toumazou"
+artists:
+  - "hemansingh-lutchmun"
+  - "medienwerkstatt-freiburg"
+  - "maria-toumazou"
+startDate: 2023-06-16
+endDate: 2023-07-30
+openingHours:
+  de: "Do – So: 14:00–20:00"
+location: "aussenstelle"
+heroImage: "/images/exhibitions/biennale-fuer-freiburg-2/preview-wenn-das-der-herrgott-wusste-1984-foto-gina-folly-biennale-f.jpg"
+poster: "/images/exhibitions/biennale-fuer-freiburg-2/poster-biennale-poster.jpg"
+gallery:
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-001-1-hemansingh-lutchmun-bird-of-prey-2023-foto-gina-folly-bien.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-002-2-hemansingh-lutchmun-bird-of-prey-2023-foto-gina-folly-bien.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-003-3-hemansingh-lutchmun-bird-of-prey-2023-foto-gina-folly-bien.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-004-4-hemansingh-lutchmun-bird-of-prey-2023-foto-gina-folly-bien.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-005-6-maria-toumazou-future-exposure-2023-foto-gina-folly-bienna.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-006-7-maria-toumazou-future-exposure-2023-foto-gina-folly-bienna.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-007-8-maria-toumazou-future-exposure-2023-foto-gina-folly-bienna.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-008-9-maria-toumazou-future-exposure-2023-foto-gina-folly-bienna.jpg"
+  - image: "/images/exhibitions/biennale-fuer-freiburg-2/gallery-009-5-medienwerkstatt-freiburg-wenn-das-der-herrgott-wusste.jpg"
+funders: []

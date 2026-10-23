@@ -1,0 +1,9 @@
+name: "Aaron Rahe"
+sortName: "Rahe"
+cities: "Berlin"
+categories: []
+link: "http://www.aaron-rahe.com"
+gallery:
+  - image: "/images/artists/aaron-rahe/gallery-001-aaron-rahe.jpg"
+  - image: "/images/artists/aaron-rahe/gallery-002-neu-denken-06.jpg"
+hidden: false

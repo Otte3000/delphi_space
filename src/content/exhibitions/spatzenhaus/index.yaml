@@ -1,0 +1,19 @@
+title: "Spatzenhaus"
+titleI18n: {}
+subtitle: {}
+kind: "exhibition"
+artistsText: "Residency: David Batigne with friends Gabrielle Alexandre, Jane Bidet,Clémence Bruno, Florian Dautcourt and Noémie Vidonne."
+artists: []
+startDate: 2026-07-11
+endDate: 2026-07-31
+openingHours:
+  de: "Opening Hours:\nFr.: 17:00 – 20:00 Uhr\nSa. & So.: 15:00 – 18:00 Uhr"
+location: "bromberghof"
+heroImage: "/images/exhibitions/spatzenhaus/preview-p4290192.jpg"
+poster: "/images/exhibitions/spatzenhaus/poster-gro-bildschirmfoto-2026-07-06-um-18-07-29.jpg"
+gallery: []
+funders:
+  - "guzzoni-federer-stiftung"
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"

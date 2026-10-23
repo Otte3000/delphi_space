@@ -1,0 +1,12 @@
+name: "Jenny Kasper"
+sortName: "Kasper"
+cities: "Offenbach, Freiburg"
+categories: []
+link: "https://www.instagram.com/jennysofiekasper/"
+gallery:
+  - image: "/images/artists/jenny-kasper/gallery-001-jenny-kasper.jpg"
+  - image: "/images/artists/jenny-kasper/gallery-002-delphi-neudenken-3.jpg"
+  - image: "/images/artists/jenny-kasper/gallery-003-delphi-neudenken-4.jpg"
+  - image: "/images/artists/jenny-kasper/gallery-004-delphi-neudenken-5.jpg"
+  - image: "/images/artists/jenny-kasper/gallery-005-delphi-neudenken-6.jpg"
+hidden: false

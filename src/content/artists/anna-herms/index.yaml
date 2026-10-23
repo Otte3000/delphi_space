@@ -1,0 +1,10 @@
+name: "Anna Herms"
+sortName: "Herms"
+cities: "Berlin"
+categories: []
+link: "http://www.annaherms.com"
+gallery:
+  - image: "/images/artists/anna-herms/gallery-001-annaherms.jpg"
+  - image: "/images/artists/anna-herms/gallery-002-annaherms2.jpg"
+  - image: "/images/artists/anna-herms/gallery-003-annaherms3.jpg"
+hidden: false

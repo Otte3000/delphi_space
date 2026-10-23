@@ -1,0 +1,35 @@
+title: "YOUR WATER OUR WATER"
+titleI18n: {}
+subtitle:
+  de: "Ein trinationales Ausstellungsprojekt"
+kind: "group-exhibition"
+artistsText: "Group exhibition with Om Bori, Lucian Bran, Deep Time Agency, Michael Heindl, Nina Ivanović, Rachel Jutka, Kevin Lüdicke, Tonka Maleković & Sophia Freidhoff, Uroš Pajović, Joseph Tasnádi, Thérèse Verrat & Vincent Toussaint"
+artists: []
+startDate: 2024-04-27
+endDate: 2024-06-07
+openingHours:
+  de: "Opening Hours: Fr-Sa, 17:00-20:00; So, 15:00-18:00"
+location: "bromberghof"
+heroImage: "/images/exhibitions/your-water-our-water/preview-gro-your-water-our-water.jpg"
+poster: "/images/exhibitions/your-water-our-water/poster-yourwater.jpg"
+gallery:
+  - image: "/images/exhibitions/your-water-our-water/gallery-001-gro-md13260-prev.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-002-gro-delphi-ywowaterdoradzillo-2211.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-003-gro-delphi-ywowaterdoradzillo-2257.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-004-gro-delphi-ywowaterdoradzillo-2282.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-005-gro-delphi-ywowaterdoradzillo-2298.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-006-gro-delphi-ywowaterdoradzillo-2304.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-007-gro-delphi-ywowaterdoradzillo-2345.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-008-gro-delphi-ywowaterdoradzillo-2478.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-009-gro-delphi-ywowaterdoradzillo-2562.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-010-gro-delphi-ywowaterdoradzillo-2615.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-011-gro-delphi-ywowaterdoradzillo-2775.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-012-gro-delphi-ywowaterdoradzillo-3631.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-013-gro-delphi-ywowaterdoradzillo-3644.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-014-gro-delphi-ywowaterdoradzillo-3658.jpg"
+  - image: "/images/exhibitions/your-water-our-water/gallery-015-gro-dsc-3426-prev.jpg"
+funders:
+  - "baden-wurttemberg-stiftung"
+  - "kulturamt-der-stadt-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "sparkasse-freiburg"

@@ -1,0 +1,153 @@
+---
+import { galleryImages } from '../lib/content';
+
+interface Props {
+  items: readonly { image: string | null; caption: string }[];
+}
+
+const images = galleryImages(Astro.props.items);
+---
+
+{images.length > 0 && (
+  <>
+  <div class="gallery">
+    {images.map((g) => (
+      <figure>
+        <a href={g.image} data-lightbox data-caption={g.caption}><img src={g.image} alt={g.caption} loading="lazy" /></a>
+        {g.caption && <figcaption class="meta">{g.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+
+  <!-- Lightbox: blättert durch alle Galeriebilder der Seite -->
+  <dialog class="lightbox" aria-label="Bildansicht">
+    <button class="lb-close" type="button" data-label-de="Schließen" data-label-en="Close" data-label-fr="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg></button>
+    <button class="lb-prev" type="button" data-label-de="Vorheriges Bild" data-label-en="Previous image" data-label-fr="Image précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8" /></svg></button>
+    <figure class="lb-figure">
+      <img class="lb-image" alt="" />
+      <figcaption class="lb-caption"></figcaption>
+    </figure>
+    <button class="lb-next" type="button" data-label-de="Nächstes Bild" data-label-en="Next image" data-label-fr="Image suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" /></svg></button>
+    <span class="lb-counter"></span>
+  </dialog>
+  </>
+)}
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('dialog.lightbox');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-lightbox]')];
+
+  if (dialog && links.length > 0) {
+    const img = dialog.querySelector<HTMLImageElement>('.lb-image')!;
+    const caption = dialog.querySelector<HTMLElement>('.lb-caption')!;
+    const counter = dialog.querySelector<HTMLElement>('.lb-counter')!;
+    const prev = dialog.querySelector<HTMLButtonElement>('.lb-prev')!;
+    const next = dialog.querySelector<HTMLButtonElement>('.lb-next')!;
+    const close = dialog.querySelector<HTMLButtonElement>('.lb-close')!;
+    let index = 0;
+
+    // Beschriftungen der Knöpfe in der Seitensprache
+    const lang = document.documentElement.lang || 'de';
+    for (const button of [prev, next, close]) {
+      button.setAttribute('aria-label', button.dataset[`label${lang[0].toUpperCase()}${lang.slice(1)}`] ?? button.dataset.labelDe ?? '');
+    }
+
+    const show = (i: number) => {
+      index = (i + links.length) % links.length;
+      const link = links[index];
+      img.src = link.href;
+      img.alt = link.dataset.caption ?? '';
+      caption.textContent = link.dataset.caption ?? '';
+      counter.textContent = `${index + 1} / ${links.length}`;
+      // Nachbarbilder vorladen, damit das Blättern flüssig ist
+      for (const n of [index - 1, index + 1]) new Image().src = links[(n + links.length) % links.length].href;
+    };
+
+    const single = links.length === 1;
+    prev.hidden = single;
+    next.hidden = single;
+
+    links.forEach((link, i) =>
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        show(i);
+        dialog.showModal();
+      })
+    );
+
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+    close.addEventListener('click', () => dialog.close());
+
+    // Klick auf den dunklen Hintergrund schließt
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+
+    // Wischen auf Touch-Geräten
+    let touchX: number | null = null;
+    dialog.addEventListener('touchstart', (event) => (touchX = event.touches[0].clientX), { passive: true });
+    dialog.addEventListener('touchend', (event) => {
+      if (touchX === null) return;
+      const dx = event.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+
+    dialog.addEventListener('close', () => img.removeAttribute('src'));
+  }
+</script>
+
+<style>
+  .gallery { columns: 3 260px; column-gap: 16px; margin-top: 48px; }
+  figure { margin: 0 0 16px; break-inside: avoid; }
+  figure a { cursor: zoom-in; display: block; }
+  figcaption { margin-top: 6px; text-transform: none; }
+
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #0b0b0b;
+    color: #f4f2ee;
+    overflow: hidden;
+  }
+  .lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; }
+  .lightbox::backdrop { background: transparent; }
+
+  .lb-figure { margin: 0; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 56px 0; min-width: 0; }
+  .lb-image { max-width: 100%; max-height: calc(100dvh - 140px); object-fit: contain; }
+  .lb-caption { font-family: var(--mono); font-size: 13px; text-align: center; min-height: 1em; }
+
+  .lightbox svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .lightbox button {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.8;
+  }
+  .lightbox button:hover,
+  .lightbox button:focus-visible { opacity: 1; color: var(--accent); }
+  .lb-prev,
+  .lb-next { height: 100%; width: 64px; padding: 0 12px; }
+  .lb-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 8px; z-index: 1; }
+  .lb-counter { position: absolute; top: 24px; left: 24px; font-family: var(--mono); font-size: 13px; opacity: 0.8; }
+
+  @media (max-width: 640px) {
+    .lightbox[open] { grid-template-columns: 40px 1fr 40px; }
+    .lb-prev,
+    .lb-next { width: 40px; padding: 0 6px; }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getArtists } from '../../../lib/content';
+import { langParams, toLang, href, t } from '../../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const artists = (await getArtists()).filter((a) => !a.hidden);
+
+// Nach Anfangsbuchstabe des Nachnamens gruppieren (Umlaute zum Grundbuchstaben)
+const letterOf = (a: (typeof artists)[number]) =>
+  (a.sortName || a.name.split(' ').at(-1) || a.name).normalize('NFD').charAt(0).toUpperCase();
+const groups = new Map<string, typeof artists>();
+for (const a of artists) {
+  const letter = /[A-Z]/.test(letterOf(a)) ? letterOf(a) : '#';
+  groups.set(letter, [...(groups.get(letter) ?? []), a]);
+}
+---
+
+<Layout lang={lang} title={t(lang, 'artists')}>
+  <section class="section">
+    <div class="section-head"><h1>{t(lang, 'artists')}</h1><span class="meta">{artists.length}</span></div>
+    <nav class="letters">
+      {[...groups.keys()].map((letter) => <a href={`#${letter}`}>{letter}</a>)}
+    </nav>
+    {[...groups].map(([letter, items]) => (
+      <section class="letter" id={letter}>
+        <h2>{letter}</h2>
+        <ul class="plain names">
+          {items.map((a) => (
+            <li><a href={href(lang, `/artists/${a.slug}`)}>{a.name}</a>{a.cities && <span class="meta"> {a.cities}</span>}</li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .letters { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--mono); margin-bottom: 32px; }
+  .letter { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .names { columns: 2 280px; column-gap: 32px; }
+  .names li { break-inside: avoid; padding: 2px 0; }
+  .names a { text-decoration: none; }
+  .names a:hover { color: var(--accent); }
+  .names .meta { text-transform: none; }
+  @media (max-width: 640px) { .letter { grid-template-columns: 1fr; gap: 4px; } }
+</style>

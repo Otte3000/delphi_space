@@ -41,6 +41,18 @@ const dict = {
   past: { de: 'Vergangen', en: 'Past', fr: 'Passés' },
   series: { de: 'Reihen', en: 'Series', fr: 'Séries' },
   partOf: { de: 'Teil von', en: 'Part of', fr: 'Fait partie de' },
+  artists: { de: 'Künstler*innen', en: 'Artists', fr: 'Artistes' },
+  team: { de: 'Team', en: 'Team', fr: 'Équipe' },
+  partners: { de: 'Kooperationen', en: 'Partners', fr: 'Partenaires' },
+  funders: { de: 'Gefördert von', en: 'Supported by', fr: 'Avec le soutien de' },
+  press: { de: 'Presse', en: 'Press', fr: 'Presse' },
+  membership: { de: 'Mitgliedschaft', en: 'Membership', fr: 'Adhésion' },
+  join: { de: 'Mitglied werden →', en: 'Become a member →', fr: 'Devenir membre →' },
+  openingInfo: { de: 'Eröffnung', en: 'Opening', fr: 'Vernissage' },
+  watchVideo: { de: 'Video ansehen →', en: 'Watch video →', fr: 'Voir la vidéo →' },
+  website: { de: 'Website →', en: 'Website →', fr: 'Site web →' },
+  readArticle: { de: 'Artikel lesen →', en: 'Read article →', fr: 'Lire l’article →' },
+  pdf: { de: 'PDF', en: 'PDF', fr: 'PDF' },
   imprint: { de: 'Impressum', en: 'Imprint', fr: 'Mentions légales' },
   privacy: { de: 'Datenschutz', en: 'Privacy', fr: 'Confidentialité' },
   notTranslated: {
@@ -53,17 +65,56 @@ const dict = {
 export const t = (lang: Lang, key: keyof typeof dict) => dict[key][lang];
 
 const eventTypes: Record<string, Record<Lang, string>> = {
-  vernissage: { de: 'Vernissage', en: 'Opening', fr: 'Vernissage' },
-  talk: { de: 'Artist Talk', en: 'Artist Talk', fr: 'Rencontre' },
+  opening: { de: 'Vernissage', en: 'Opening', fr: 'Vernissage' },
+  finissage: { de: 'Finissage', en: 'Closing', fr: 'Finissage' },
+  midisage: { de: 'Midissage', en: 'Midissage', fr: 'Midissage' },
+  'artist-talk': { de: 'Artist Talk', en: 'Artist Talk', fr: 'Rencontre avec l’artiste' },
+  talk: { de: 'Gespräch', en: 'Talk', fr: 'Conférence' },
+  'guided-tour': { de: 'Führung', en: 'Guided Tour', fr: 'Visite guidée' },
   workshop: { de: 'Workshop', en: 'Workshop', fr: 'Atelier' },
   performance: { de: 'Performance', en: 'Performance', fr: 'Performance' },
+  'dance-performance': { de: 'Tanzperformance', en: 'Dance Performance', fr: 'Danse' },
   concert: { de: 'Konzert', en: 'Concert', fr: 'Concert' },
+  rave: { de: 'Rave', en: 'Rave', fr: 'Rave' },
   reading: { de: 'Lesung', en: 'Reading', fr: 'Lecture' },
+  'film-screening': { de: 'Filmvorführung', en: 'Film Screening', fr: 'Projection' },
+  livestream: { de: 'Livestream', en: 'Livestream', fr: 'Livestream' },
+  'curated-dinner': { de: 'Curated Dinner', en: 'Curated Dinner', fr: 'Dîner' },
+  'charity-event': { de: 'Benefiz', en: 'Charity Event', fr: 'Événement caritatif' },
+  exhibition: { de: 'Ausstellung', en: 'Exhibition', fr: 'Exposition' },
+  'group-exhibition': { de: 'Gruppenausstellung', en: 'Group Exhibition', fr: 'Exposition collective' },
+  'public-space-exhibition': { de: 'Ausstellung im öffentlichen Raum', en: 'Public Space Exhibition', fr: 'Exposition dans l’espace public' },
   auction: { de: 'Auktion', en: 'Auction', fr: 'Vente aux enchères' },
   other: { de: 'Sonstiges', en: 'Other', fr: 'Autre' },
 };
 
 export const eventType = (type: string, lang: Lang) => eventTypes[type]?.[lang] ?? type;
+
+const exhibitionKinds: Record<string, Record<Lang, string>> = {
+  exhibition: { de: 'Ausstellung', en: 'Exhibition', fr: 'Exposition' },
+  'group-exhibition': { de: 'Gruppenausstellung', en: 'Group Exhibition', fr: 'Exposition collective' },
+  collection: { de: 'Sammlung', en: 'Collection', fr: 'Collection' },
+};
+
+export const exhibitionKind = (kind: string, lang: Lang) => exhibitionKinds[kind]?.[lang] ?? kind;
+
+const artistCategories: Record<string, Record<Lang, string>> = {
+  'visual-artists': { de: 'Bildende Kunst', en: 'Visual Arts', fr: 'Arts visuels' },
+  'performance-artists': { de: 'Performance', en: 'Performance', fr: 'Performance' },
+  'dance-performers': { de: 'Tanz', en: 'Dance', fr: 'Danse' },
+  musicians: { de: 'Musik', en: 'Music', fr: 'Musique' },
+  djs: { de: 'DJ', en: 'DJ', fr: 'DJ' },
+  filmmakers: { de: 'Film', en: 'Film', fr: 'Cinéma' },
+  photographers: { de: 'Fotografie', en: 'Photography', fr: 'Photographie' },
+  writers: { de: 'Literatur', en: 'Literature', fr: 'Littérature' },
+  architects: { de: 'Architektur', en: 'Architecture', fr: 'Architecture' },
+  curators: { de: 'Kuratorisch', en: 'Curating', fr: 'Commissariat' },
+  speakers: { de: 'Vortrag', en: 'Speaker', fr: 'Conférence' },
+  collectives: { de: 'Kollektiv', en: 'Collective', fr: 'Collectif' },
+  'food-wine': { de: 'Food & Wine', en: 'Food & Wine', fr: 'Gastronomie' },
+};
+
+export const artistCategory = (category: string, lang: Lang) => artistCategories[category]?.[lang] ?? category;
 
 const intlLocale: Record<Lang, string> = { de: 'de-DE', en: 'en-GB', fr: 'fr-FR' };
 

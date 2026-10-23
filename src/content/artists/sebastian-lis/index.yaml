@@ -1,0 +1,10 @@
+name: "Sebastian Lis"
+sortName: "Lis"
+cities: "Berlin"
+categories: []
+link: "http://www.zuckerbusch.com/works/"
+gallery:
+  - image: "/images/artists/sebastian-lis/gallery-001-sebastian-lis.jpg"
+  - image: "/images/artists/sebastian-lis/gallery-002-neu-denken-14.jpg"
+  - image: "/images/artists/sebastian-lis/gallery-003-neu-denken-15.jpg"
+hidden: false

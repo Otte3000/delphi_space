@@ -1,0 +1,9 @@
+name: "Jonas Johannes"
+sortName: "Johannes"
+cities: "Karlsruhe, Berlin"
+categories: []
+link: "https://www.instagram.com/some.things.there/"
+gallery:
+  - image: "/images/artists/jonas-johannes/gallery-001-neu-denken-17.jpg"
+  - image: "/images/artists/jonas-johannes/gallery-002-neu-denken-12.jpg"
+hidden: false

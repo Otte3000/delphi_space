@@ -15,12 +15,16 @@ const exhibitions = await getExhibitions();
     <div class="grid">
       {exhibitions.map((e) => (
         <a class="card" href={href(lang, `/exhibitions/${e.slug}`)}>
-          <div class="thumb">{e.heroImage ? <img src={e.heroImage} alt="" loading="lazy" /> : 'DELPHI_space'}</div>
+          <div class="thumb">{e.heroImage || e.poster ? <img src={e.heroImage || e.poster} alt="" loading="lazy" /> : 'DELPHI_space'}</div>
           <span class="meta">{formatRange(e.startDate, e.endDate, lang)}</span>
           <h3>{pick(e.title, lang)}</h3>
-          {e.artists && <p>{e.artists}</p>}
+          {e.artistsText && <p class="artists-line">{e.artistsText}</p>}
         </a>
       ))}
     </div>
   </section>
 </Layout>
+
+<style>
+  .artists-line { margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>

@@ -1,0 +1,39 @@
+title: "DROP:OUT"
+titleI18n: {}
+subtitle:
+  de: "Exhibition with Nathan Egel und Julian Herrstatt"
+kind: "exhibition"
+artistsText: "Exhibition by Nathan Egel and Julian Herrstatt"
+artists:
+  - "julian-herstatt"
+  - "nathan-egel-2"
+startDate: 2021-06-11
+endDate: 2021-06-25
+openingHours: {}
+location: "emmendinger"
+heroImage: "/images/exhibitions/drop-out/preview-gro-drop-out.jpg"
+poster: "/images/exhibitions/drop-out/poster-photo-2021-09-30-2021-43-54.jpg"
+gallery:
+  - image: "/images/exhibitions/drop-out/gallery-001-wsf6454.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-002-wsf6461.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-003-wsf6469.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-004-wsf6474.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-005-wsf6480.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-006-wsf6496.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-007-wsf6500.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-008-wsf6503.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-009-wsf6454.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-010-wsf6461.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-011-wsf6469.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-012-wsf6474.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-013-wsf6480.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-014-wsf6496.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-015-wsf6500.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-016-wsf6503.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-017-wsf6461.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-018-wsf6480.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-019-wsf6496.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-020-wsf6454.jpg"
+  - image: "/images/exhibitions/drop-out/gallery-021-wsf6474.jpg"
+credits: "Fotos: Wolfgang Selbach · Artwork: Max Schropp · Kuratiert von: Daniel Vollmer"
+funders: []

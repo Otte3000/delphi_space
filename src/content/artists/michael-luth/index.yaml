@@ -1,0 +1,9 @@
+name: "Michael Lüth"
+sortName: "Lüth"
+cities: "Freiburg"
+categories: []
+link: "http://www.milueth.de"
+gallery:
+  - image: "/images/artists/michael-luth/gallery-001-michaellu-cc-88th1.jpg"
+  - image: "/images/artists/michael-luth/gallery-002-michaellu-cc-88th2.jpg"
+hidden: false

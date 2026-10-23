@@ -1,0 +1,19 @@
+title: "IN SCHICHTEN"
+titleI18n: {}
+subtitle: {}
+kind: "group-exhibition"
+artistsText: "Group exhibition with Patricia L. Boyd, Philipp Farra, Franciis Frings, Mania Godarzani Bakhtiari, Graham Hamilton, Marietta Mavrokordatou and Rafał Skoczek"
+artists: []
+startDate: 2026-03-27
+endDate: 2026-05-17
+openingHours:
+  de: "Opening Hours:\nFr., 17:00 – 20:00 Uhr;\nSa. & So., 15:00 – 18:00 Uhr"
+location: "bromberghof"
+heroImage: "/images/exhibitions/in-schichten/preview-gro-delphi-inschichten-ansicht-rz.jpg"
+poster: "/images/exhibitions/in-schichten/poster-gro-bildschirmfoto-2026-03-10-um-21-10-18.jpg"
+gallery: []
+funders:
+  - "kulturamt-der-stadt-freiburg"
+  - "sparkasse-freiburg"
+  - "regierungsprasidium-freiburg"
+  - "guzzoni-federer-stiftung"

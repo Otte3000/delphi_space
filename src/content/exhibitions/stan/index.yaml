@@ -1,0 +1,18 @@
+title: "STAN – Von Familien für Familien"
+titleI18n: {}
+subtitle:
+  de: "Benefiz Kunstausstellung und Versteigerung"
+kind: "exhibition"
+artistsText: "Benefiz Kunstausstellung und Versteigerung"
+artists: []
+startDate: 2023-08-01
+endDate: 2023-08-05
+openingHours: {}
+location: "gvbk"
+poster: "/images/exhibitions/stan/poster-stan-poster-mockup.jpg"
+gallery:
+  - image: "/images/exhibitions/stan/gallery-001-img-1359.jpg"
+  - image: "/images/exhibitions/stan/gallery-002-img-1360.jpg"
+  - image: "/images/exhibitions/stan/gallery-003-img-1361.jpg"
+credits: "Artwork: Max Schropp"
+funders: []

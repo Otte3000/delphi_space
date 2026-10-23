@@ -1,0 +1,8 @@
+name: "David Polzin"
+sortName: "Polzin"
+cities: "Berlin"
+categories: []
+link: "http://davidpolzin.de"
+gallery:
+  - image: "/images/artists/david-polzin/gallery-001-davidpolzin.jpg"
+hidden: false
