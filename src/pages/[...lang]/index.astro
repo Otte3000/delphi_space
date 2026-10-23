@@ -300,8 +300,8 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
   .ticker-window {
     display: block;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, transparent 8%, rgba(0, 0, 0, 0.3) 22%, #000 38%, #000 62%, rgba(0, 0, 0, 0.3) 78%, transparent 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, transparent 8%, rgba(0, 0, 0, 0.3) 22%, #000 38%, #000 62%, rgba(0, 0, 0, 0.3) 78%, transparent 92%, transparent 100%);
   }
   .ticker-track { display: inline-flex; animation: ticker 48s linear infinite; }
   .ticker-group { display: inline-flex; }
