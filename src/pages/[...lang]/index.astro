@@ -36,9 +36,12 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
 <Layout lang={lang}>
   <section class="hero" data-images={JSON.stringify(heroImages)}>
     {heroImages[0] && <img class="hero-bg" src={heroImages[0]} alt="" fetchpriority="high" />}
-    <div class="hero-text">
-      <p>{pick(home.intro, lang)}</p>
-      <a href={href(lang, '/about')}>{t(lang, 'about')} →</a>
+    <div class="hero-copy">
+      <div class="hero-panel" aria-hidden="true"></div>
+      <div class="hero-text">
+        <p>{pick(home.intro, lang)}</p>
+        <a href={href(lang, '/about')}>{t(lang, 'about')} →</a>
+      </div>
     </div>
   </section>
 
@@ -202,13 +205,22 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     object-fit: cover;
   }
   /* Weiß mit „difference“: der Text kehrt die Farben des Bildes um (wie die Navigation bei David Büchner) */
+  .hero-copy { position: relative; max-width: min(62%, 900px); }
+  /* Milchglas hinter dem Text: eigenes Element, damit der Difference-Effekt des Textes erhalten bleibt */
+  .hero-panel {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
   .hero-text {
     position: relative;
+    padding: 28px 32px 32px;
     color: #fff;
     mix-blend-mode: difference;
-    max-width: min(62%, 980px);
   }
-  .hero-text p { margin: 0; font-size: clamp(26px, 3.4vw, 52px); line-height: 1.12; letter-spacing: -0.025em; font-weight: 700; }
+  .hero-text p { margin: 0; font-size: clamp(20px, 2.4vw, 36px); line-height: 1.2; letter-spacing: -0.015em; font-weight: 400; }
   .hero-text a { display: inline-block; margin-top: 20px; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 
   /* ── Auftakt: Bild links, Text rechts ──────────────── */
@@ -314,12 +326,13 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     .feature, .row, .member { grid-template-columns: 1fr; }
     .feature-text, .row-label { position: static; }
     .row { gap: 16px; margin-top: 72px; }
-    .hero-text { max-width: 80%; }
+    .hero-copy { max-width: 80%; }
   }
   @media (max-width: 640px) {
     .hero { min-height: 88svh; padding-bottom: 24px; }
     .hero-bg { top: 24px; width: 85vw; height: 58%; }
-    .hero-text { max-width: none; }
+    .hero-copy { max-width: none; }
+    .hero-text { padding: 20px; }
     .feature { padding-top: 40px; gap: 20px; }
     .agenda a { grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; }
     .agenda-day { font-size: 48px; grid-row: span 2; }
