@@ -39,7 +39,6 @@ main { padding: 0 var(--gutter) 96px; }
   flex-wrap: wrap;
   padding: 18px var(--gutter) 16px;
   background: var(--bg);
-  border-bottom: 1px solid var(--fg);
 }
 .logo { display: flex; flex-direction: column; gap: 4px; text-decoration: none; }
 .logo strong { font-size: 26px; line-height: 1; letter-spacing: -0.03em; }
