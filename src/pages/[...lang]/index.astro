@@ -25,9 +25,23 @@ const agenda = upcomingEvents.length ? upcomingEvents : events.slice(0, 4);
 
 const series = (await getSeries()).filter((s) => s.showOnHomepage);
 const cover = featured && (featured.heroImage || featured.poster);
+
+// Hero-Bilder: die im CMS gewählten, sonst zufällig aus allen Ausstellungsbildern (Poster ausgenommen, die tragen eigenen Text)
+const chosen = home.heroImages.filter((src): src is string => Boolean(src));
+const allPhotos = [...new Set(exhibitions.flatMap((e) => [e.heroImage, ...e.gallery.map((g) => g.image)]).filter((src): src is string => Boolean(src)))];
+const shuffle = <T,>(list: T[]) => list.map((v) => [Math.random(), v] as const).sort((a, b) => a[0] - b[0]).map(([, v]) => v);
+const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0, 60);
 ---
 
 <Layout lang={lang}>
+  <section class="hero" data-images={JSON.stringify(heroImages)}>
+    {heroImages[0] && <img class="hero-bg" src={heroImages[0]} alt="" fetchpriority="high" />}
+    <div class="hero-text">
+      <p>{pick(home.intro, lang)}</p>
+      <a href={href(lang, '/about')}>{t(lang, 'about')} →</a>
+    </div>
+  </section>
+
   {featured && (
     <section class="feature">
       <a class="feature-image" href={href(lang, `/exhibitions/${featured.slug}`)}>
@@ -83,12 +97,6 @@ const cover = featured && (featured.heroImage || featured.poster);
     </div>
   </section>
 
-  {pick(home.intro, lang) && (
-    <section class="statement">
-      <p>{pick(home.intro, lang)}</p>
-      <a class="more" href={href(lang, '/about')}>{t(lang, 'about')} →</a>
-    </section>
-  )}
 
   {series.length > 0 && (
     <section class="row">
@@ -127,11 +135,6 @@ const cover = featured && (featured.heroImage || featured.poster);
     </section>
   )}
 
-  {home.heroImages.filter(Boolean).length > 0 && (
-    <section class="impressions">
-      {home.heroImages.filter(Boolean).map((src) => <img src={src} alt="" loading="lazy" />)}
-    </section>
-  )}
 
   <section class="member">
     <h2>{pick(home.memberTitle, lang) || t(lang, 'membership')}</h2>
@@ -142,6 +145,36 @@ const cover = featured && (featured.heroImage || featured.poster);
   </section>
 </Layout>
 
+<script>
+  // Alle 4 Sekunden ein zufälliges anderes Bild, harter Schnitt ohne Überblendung.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const bg = hero?.querySelector<HTMLImageElement>('.hero-bg');
+  const images: string[] = hero ? JSON.parse(hero.dataset.images ?? '[]') : [];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (bg && images.length > 1 && !reduceMotion) {
+    let current = 0;
+    const pickNext = () => {
+      let next = current;
+      while (next === current) next = Math.floor(Math.random() * images.length);
+      return next;
+    };
+    // nächstes Bild schon vorladen, damit der Wechsel ohne Lücke passiert
+    let next = pickNext();
+    let preload = new Image();
+    preload.src = images[next];
+
+    setInterval(() => {
+      if (document.hidden || !preload.complete) return;
+      bg.src = images[next];
+      current = next;
+      next = pickNext();
+      preload = new Image();
+      preload.src = images[next];
+    }, 4000);
+  }
+</script>
+
 <style>
   /* ── Gemeinsames ───────────────────────────────────── */
   .eyebrow { margin: 0 0 12px; color: var(--accent); font-weight: 700; font-size: 17px; }
@@ -151,12 +184,34 @@ const cover = featured && (featured.heroImage || featured.poster);
   .more:hover { color: var(--accent); }
   h2 span { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
 
+  /* ── Hero: Text über wechselnden Bildern ───────────── */
+  .hero {
+    position: relative;
+    margin: 0 calc(var(--gutter) * -1);
+    min-height: calc(100svh - 92px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: #111;
+  }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* Weiß mit „difference“: der Text kehrt die Farben des Bildes um (wie die Navigation bei David Büchner) */
+  .hero-text {
+    position: relative;
+    padding: 48px var(--gutter);
+    color: #fff;
+    mix-blend-mode: difference;
+    max-width: 1200px;
+  }
+  .hero-text p { margin: 0; font-size: clamp(26px, 3.4vw, 52px); line-height: 1.12; letter-spacing: -0.025em; font-weight: 700; }
+  .hero-text a { display: inline-block; margin-top: 20px; font-size: 17px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
   /* ── Auftakt: Bild links, Text rechts ──────────────── */
   .feature {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
     gap: 32px;
-    padding-top: 32px;
+    padding-top: 64px;
     align-items: start;
   }
   .feature-image { display: block; background: var(--soft); aspect-ratio: 4 / 3; overflow: hidden; }
@@ -198,9 +253,6 @@ const cover = featured && (featured.heroImage || featured.poster);
   .agenda-title { font-size: clamp(20px, 2vw, 28px); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
   .agenda-sub { font-size: 14px; color: var(--muted); }
 
-  /* Statement mit viel Weißraum */
-  .statement { margin: 120px auto 0; max-width: 1100px; text-align: left; }
-  .statement p { margin: 0; font-size: clamp(24px, 3vw, 42px); line-height: 1.2; letter-spacing: -0.02em; font-weight: 500; }
 
   /* Reihen */
   .series { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px 24px; }
@@ -237,8 +289,6 @@ const cover = featured && (featured.heroImage || featured.poster);
   .archive-caption strong { font-size: 20px; line-height: 1.1; }
   .archive-kind { font-size: 13px; }
 
-  .impressions { display: flex; gap: 8px; overflow-x: auto; margin: 96px calc(var(--gutter) * -1) 0; padding: 0 var(--gutter); }
-  .impressions img { height: min(50vh, 420px); width: auto; }
 
   /* Mitgliedschaft: großer roter Aufruf */
   .member {
@@ -261,11 +311,12 @@ const cover = featured && (featured.heroImage || featured.poster);
     .row { gap: 16px; margin-top: 72px; }
   }
   @media (max-width: 640px) {
-    .feature { padding-top: 16px; gap: 20px; }
+    .hero { min-height: 80svh; }
+    .hero-text { padding: 32px var(--gutter); }
+    .feature { padding-top: 40px; gap: 20px; }
     .agenda a { grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; }
     .agenda-day { font-size: 48px; grid-row: span 2; }
     .agenda-when { font-size: 13px; }
-    .statement { margin-top: 80px; }
     .archive-strip { grid-auto-columns: 72%; }
     .member { margin-top: 80px; padding: 32px 0; }
   }

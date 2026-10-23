@@ -335,7 +335,10 @@ export default config({
         intro: translatedText('Intro', { multiline: true }),
         memberTitle: translatedText('Mitglieds-Block: Überschrift', { description: 'Großer roter Aufruf unten auf der Startseite' }),
         memberText: translatedText('Mitglieds-Block: Text', { multiline: true }),
-        heroImages: fields.array(image('Bild', 'home'), { label: 'Impressionen (Bildleiste)' }),
+        heroImages: fields.array(image('Bild', 'home'), {
+          label: 'Hero-Bilder',
+          description: 'Wechseln alle 4 Sekunden hinter dem Intro-Text. Leer lassen = zufällig aus allen Ausstellungsbildern.',
+        }),
       },
     }),
 
