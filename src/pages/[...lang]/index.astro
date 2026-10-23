@@ -279,7 +279,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
   .hero-stack { position: relative; width: min(62%, 900px); }
   .hero-copy { position: relative; }
 
-  /* Laufband mit der aktuellen Ausstellung, versal und fett */
+  /* Laufband mit der aktuellen Ausstellung, versal */
   /* Leiste im selben Milchglas wie der Textblock */
   .ticker {
     display: block;
@@ -301,11 +301,11 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     -webkit-mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
     mask-image: linear-gradient(to right, transparent, #000 25%, #000 75%, transparent);
   }
-  .ticker-track { display: inline-flex; animation: ticker 28s linear infinite; }
+  .ticker-track { display: inline-flex; animation: ticker 48s linear infinite; }
   .ticker:hover .ticker-track { animation-play-state: paused; }
   .ticker-group { display: inline-flex; }
-  .ticker-item { padding-right: 0.6em; font-size: clamp(15px, 1.4vw, 20px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
-  .ticker-item b { font-weight: 700; padding: 0 0.3em; }
+  .ticker-item { padding-right: 0.6em; font-size: clamp(15px, 1.4vw, 20px); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
+  .ticker-item b { font-weight: 400; padding: 0 0.3em; }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
   /* Milchglas hinter dem Text */
