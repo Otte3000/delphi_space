@@ -41,7 +41,7 @@ main { padding: 0 var(--gutter) 96px; }
   background: transparent;
 }
 .logo { display: flex; text-decoration: none; }
-.logo img { height: 46px; width: auto; }
+.logo img { height: 38px; width: auto; }
 .site-header nav {
   display: flex;
   flex-wrap: wrap;
