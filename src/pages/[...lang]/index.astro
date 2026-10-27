@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import heroPool from '../../data/hero-pool.json';
 import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming, locationNames } from '../../lib/content';
 import { langParams, toLang, href, pick, t, eventType, exhibitionKind, formatRange, dateParts } from '../../lib/i18n';
 
@@ -26,11 +27,16 @@ const agenda = upcomingEvents.length ? upcomingEvents : events.slice(0, 4);
 const series = (await getSeries()).filter((s) => s.showOnHomepage);
 const cover = featured && (featured.heroImage || featured.poster);
 
-// Hero-Bilder: die im CMS gewählten, sonst zufällig aus allen Ausstellungsbildern (Poster ausgenommen, die tragen eigenen Text)
+// Hero-Bilder: die im CMS gewählten, sonst Fotos mit Menschen und dazwischen einzelne Kunstwerke
+// (Auswahl per Bilderkennung, siehe scripts/build-hero-pool.py)
 const chosen = home.heroImages.filter((src): src is string => Boolean(src));
-const allPhotos = [...new Set(exhibitions.flatMap((e) => [e.heroImage, ...e.gallery.map((g) => g.image)]).filter((src): src is string => Boolean(src)))];
 const shuffle = <T,>(list: T[]) => list.map((v) => [Math.random(), v] as const).sort((a, b) => a[0] - b[0]).map(([, v]) => v);
-const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0, 60);
+const mixPool = () => {
+  const artworks = shuffle(heroPool.artworks);
+  // nach jedem sechsten Menschen-Bild ein Kunstwerk
+  return shuffle(heroPool.people).flatMap((src, i) => ((i + 1) % 6 === 0 && artworks.length ? [src, artworks.pop()!] : [src]));
+};
+const heroImages = chosen.length ? shuffle(chosen) : mixPool();
 ---
 
 <Layout lang={lang}>
