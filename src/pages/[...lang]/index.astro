@@ -108,7 +108,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
   )}
 
   <section class="row">
-    <h2 class="row-label"><span>{t(lang, upcomingEvents.length ? 'nextDates' : 'latestDates')}</span></h2>
+    <h2 class="row-label"><span>{t(lang, 'dates')}</span></h2>
     <div class="row-body">
       <ol class="agenda">
         {agenda.map((e) => {
@@ -373,7 +373,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     padding-top: 20px;
     border-top: 1px solid var(--fg);
   }
-  .row-label { font-size: clamp(26px, 2.6vw, 36px); align-self: start; position: sticky; top: 120px; }
+  .row-label { font-family: var(--mono); font-style: italic; font-weight: 400; font-size: clamp(30px, 3vw, 42px); align-self: start; position: sticky; top: 120px; }
 
   /* Agenda mit großen Tageszahlen */
   .agenda { list-style: none; margin: 0; padding: 0; }
