@@ -41,7 +41,7 @@ main { padding: 0 var(--gutter) 96px; }
   background: transparent;
 }
 .logo { display: flex; text-decoration: none; }
-.logo img { height: 88px; width: auto; }
+.logo img { height: 46px; width: auto; }
 .site-header nav {
   display: flex;
   flex-wrap: wrap;
@@ -61,7 +61,7 @@ main { padding: 0 var(--gutter) 96px; }
 .lang-switch { display: flex; gap: 8px; font-size: 13px; font-weight: 400; }
 @media (max-width: 640px) {
   .site-header { position: static; padding-top: 12px; padding-bottom: 12px; }
-  .logo img { height: 60px; }
+  .logo img { height: 30px; }
   .site-header nav { gap: 4px 16px; font-size: 15px; padding: 8px 12px; }
 }
 .lang-switch a { color: var(--muted); }
