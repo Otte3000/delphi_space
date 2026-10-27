@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PlusButton from '../../components/PlusButton.astro';
 import heroPool from '../../data/hero-pool.json';
 import { isLandscape, isPortrait } from '../../lib/image-size';
 import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming, locationNames } from '../../lib/content';
@@ -72,13 +73,7 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
         <div class="hero-panel" aria-hidden="true"></div>
         <div class="hero-text">
           <p>{pick(home.intro, lang)}</p>
-          <a class="arrow-button" href={href(lang, '/about')} aria-label={t(lang, 'about')} title={t(lang, 'about')}>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <g class="arm arm-top"><line x1="0" y1="0" x2="0" y2="-7" /></g>
-              <g class="arm arm-bottom"><line x1="0" y1="0" x2="0" y2="7" /></g>
-            </svg>
-          </a>
+          <PlusButton href={href(lang, '/about')} label={t(lang, 'about')} />
         </div>
       </div>
     </div>
@@ -101,7 +96,7 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
         <p class="feature-dates">{formatRange(featured.startDate, featured.endDate, lang)}</p>
         {pick(featured.openingHours, lang) && <p class="small">{pick(featured.openingHours, lang)}</p>}
         {locationNames[featured.location] && <p class="small">{locationNames[featured.location]}</p>}
-        <a class="more" href={href(lang, `/exhibitions/${featured.slug}`)}>{t(lang, 'more')} →</a>
+        <PlusButton href={href(lang, `/exhibitions/${featured.slug}`)} label={`${t(lang, 'more')}: ${pick(featured.title, lang)}`} />
 
         {alsoOn.length > 0 && (
           <div class="also">
@@ -341,28 +336,6 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
     color: var(--fg);
   }
   .hero-text p { margin: 0; font-size: clamp(18px, 1.8vw, 28px); line-height: 1.2; letter-spacing: -0.015em; font-weight: 400; }
-  /* Runder Knopf mit Plus; beim Darüberfahren klappen die senkrechten Arme zur Pfeilspitze um */
-  .arrow-button {
-    display: inline-grid;
-    place-items: center;
-    width: 52px;
-    height: 52px;
-    margin-top: 24px;
-    border: 1.5px solid currentColor;
-    border-radius: 50%;
-    color: var(--fg);
-    transition: color 0.25s ease;
-  }
-  .arrow-button svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; overflow: visible; }
-  .arrow-button .arm { transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .arrow-button .arm-top,
-  .arrow-button .arm-bottom { transform: translate(12px, 12px); }
-  .arrow-button:hover,
-  .arrow-button:focus-visible { color: var(--hover); }
-  .arrow-button:hover .arm-top,
-  .arrow-button:focus-visible .arm-top { transform: translate(19px, 12px) rotate(-45deg); }
-  .arrow-button:hover .arm-bottom,
-  .arrow-button:focus-visible .arm-bottom { transform: translate(19px, 12px) rotate(45deg); }
 
   /* ── Ausstellungsteaser: Plakat hoch links, Foto quer rechts, gleich hoch ── */
   .feature {

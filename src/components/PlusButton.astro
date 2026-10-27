@@ -1,0 +1,41 @@
+---
+// Runder Knopf mit Plus; beim Darüberfahren klappen die senkrechten Arme zur Pfeilspitze um und alles wird grün.
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<a class="plus-button" href={href} aria-label={label} title={label}>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <g class="arm arm-top"><line x1="0" y1="0" x2="0" y2="-7" /></g>
+    <g class="arm arm-bottom"><line x1="0" y1="0" x2="0" y2="7" /></g>
+  </svg>
+</a>
+
+<style>
+  .plus-button {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-top: 24px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    color: var(--fg);
+    transition: color 0.25s ease;
+  }
+  svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; overflow: visible; }
+  .arm { transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .arm-top,
+  .arm-bottom { transform: translate(12px, 12px); }
+  .plus-button:hover,
+  .plus-button:focus-visible { color: var(--hover); }
+  .plus-button:hover .arm-top,
+  .plus-button:focus-visible .arm-top { transform: translate(19px, 12px) rotate(-45deg); }
+  .plus-button:hover .arm-bottom,
+  .plus-button:focus-visible .arm-bottom { transform: translate(19px, 12px) rotate(45deg); }
+</style>
