@@ -38,10 +38,12 @@ const ADOBE_FONTS_KIT = '';
     <title>{title ? `${title} – DELPHI_space` : 'DELPHI_space'}</title>
   </head>
   <body>
+    <!-- Logo liegt außerhalb der Kopfzeile, damit sein Difference-Effekt mit der ganzen Seite mischt -->
+    <a href={href(lang)} class="logo">
+      <img src="/delphi-logo.svg" alt="DELPHI_space" width="184" height="38" />
+    </a>
     <header class="site-header">
-      <a href={href(lang)} class="logo">
-        <img src="/delphi-logo.svg" alt="DELPHI_space" width="184" height="38" />
-      </a>
+      <span class="logo-spacer" aria-hidden="true"></span>
       <nav>
         {nav.map((item) => (
           <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>

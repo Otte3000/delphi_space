@@ -43,8 +43,19 @@ main { padding: 0 var(--gutter) 96px; }
   padding: 20px var(--gutter) 16px;
   background: transparent;
 }
-.logo { display: flex; margin-top: 16px; text-decoration: none; }
-.logo img { height: 38px; width: auto; }
+/* Logo wie die Navigation bei David Büchner: weiß mit „difference“ – es kehrt die Farben darunter um
+   (auf Weiß schwarz, auf Bildern invertiert). Steht fest an der Stelle des Platzhalters in der Kopfzeile. */
+.logo {
+  position: fixed;
+  top: 36px;
+  left: var(--gutter);
+  z-index: 20;
+  display: flex;
+  mix-blend-mode: difference;
+  text-decoration: none;
+}
+.logo img { height: 38px; width: auto; filter: invert(1); }
+.logo-spacer { display: block; width: 184px; height: 54px; }
 .site-header nav {
   display: flex;
   flex-wrap: wrap;
@@ -68,7 +79,9 @@ main { padding: 0 var(--gutter) 96px; }
 .lang-switch { display: flex; gap: 8px; font-size: 13px; font-weight: 400; }
 @media (max-width: 640px) {
   .site-header { position: static; padding-top: 12px; padding-bottom: 12px; }
+  .logo { position: absolute; top: 12px; }
   .logo img { height: 30px; }
+  .logo-spacer { width: 146px; height: 30px; }
   .site-header nav { gap: 4px 16px; font-size: 15px; padding: 8px 12px; }
 }
 .lang-switch a { color: var(--muted); }
