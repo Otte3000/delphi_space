@@ -3,12 +3,13 @@
 interface Props {
   href: string;
   label: string;
+  size?: 'default' | 'small';
 }
 
-const { href, label } = Astro.props;
+const { href, label, size = 'default' } = Astro.props;
 ---
 
-<a class="plus-button" href={href} aria-label={label} title={label}>
+<a class:list={['plus-button', { small: size === 'small' }]} href={href} aria-label={label} title={label}>
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <line x1="5" y1="12" x2="19" y2="12" />
     <g class="arm arm-top"><line x1="0" y1="0" x2="0" y2="-7" /></g>
@@ -28,6 +29,8 @@ const { href, label } = Astro.props;
     color: var(--fg);
     transition: color 0.25s ease;
   }
+  .small { width: 40px; height: 40px; margin-top: 20px; }
+  .small svg { width: 20px; height: 20px; }
   svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; overflow: visible; }
   .arm { transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
   .arm-top,

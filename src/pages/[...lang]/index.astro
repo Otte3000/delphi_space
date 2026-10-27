@@ -96,7 +96,7 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
         <p class="feature-dates">{formatRange(featured.startDate, featured.endDate, lang)}</p>
         {pick(featured.openingHours, lang) && <p class="small">{pick(featured.openingHours, lang)}</p>}
         {locationNames[featured.location] && <p class="small">{locationNames[featured.location]}</p>}
-        <PlusButton href={href(lang, `/exhibitions/${featured.slug}`)} label={`${t(lang, 'more')}: ${pick(featured.title, lang)}`} />
+        <PlusButton href={href(lang, `/exhibitions/${featured.slug}`)} label={`${t(lang, 'more')}: ${pick(featured.title, lang)}`} size="small" />
 
         {alsoOn.length > 0 && (
           <div class="also">
