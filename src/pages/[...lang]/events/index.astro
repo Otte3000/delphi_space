@@ -123,7 +123,9 @@ const monthsByYear = Object.fromEntries(
   .filter-row[hidden] { display: none; }
   .filter button {
     font: inherit;
-    font-size: 15px;
+    font-family: var(--mono);
+    font-style: italic;
+    font-size: 17px;
     padding: 6px 14px;
     border: 1px solid var(--fg);
     border-radius: 99px;
@@ -135,6 +137,5 @@ const monthsByYear = Object.fromEntries(
   .filter button[aria-pressed='true'] { background: var(--fg); color: var(--bg); }
   .filter button[aria-pressed='true']:hover { color: var(--hover); border-color: var(--fg); }
   .filter button:disabled { opacity: 0.3; cursor: default; }
-  .months button { font-family: var(--mono); font-style: italic; font-size: 16px; }
   .empty { margin-top: 48px; }
 </style>
