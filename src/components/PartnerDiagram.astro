@@ -2,27 +2,28 @@
 // Schaubild „Kooperationspartner von DELPHI_space“ (Dossier 2025, S. 24) als animierte Grafik:
 // Beim Hineinscrollen zeichnet sich der Kreis, die Logos erscheinen nacheinander und schweben danach leicht.
 // Positionen (Mittelpunkt in % des Kreises) und Breiten wurden aus dem PDF ausgemessen; CRAC Alsace kam später dazu.
-const partners = [
-  { file: 'kunstverein', name: 'Kunstverein Freiburg', x: 48.7, y: 13.6, w: 22.1 },
-  { file: 'eth-zuerich', name: 'ETH Zürich', x: 73.9, y: 18.7, w: 21.9 },
-  { file: 'tanznetz', name: 'Tanznetz Freiburg', x: 25.2, y: 19.1, w: 11.5 },
-  { file: 'biennale-freiburg', name: 'Biennale für Freiburg', x: 18.7, y: 32.3, w: 19.8 },
-  { file: 'biennale-photographie', name: 'Biennale de la Photographie de Mulhouse', x: 48.7, y: 30.1, w: 16.1 },
-  { file: 'zwetajewa-zentrum', name: 'Zwetajewa-Zentrum Freiburg', x: 81.2, y: 34.1, w: 19.2 },
-  { file: 'universitaet-freiburg', name: 'Universität Freiburg', x: 52.5, y: 42.8, w: 27.2 },
-  { file: 'regionale', name: 'Regionale', x: 10.7, y: 48.1, w: 11.9 },
-  { file: 'aka-filmclub', name: 'aka-Filmclub', x: 26.4, y: 52.1, w: 11.3 },
+// Logos mit `url` verlinken auf die Website der Institution (ohne url: Institution noch nicht eindeutig zugeordnet).
+const partners: { file: string; name: string; url?: string; x: number; y: number; w: number }[] = [
+  { file: 'kunstverein', name: 'Kunstverein Freiburg', url: 'https://www.kunstvereinfreiburg.de/', x: 48.7, y: 13.6, w: 22.1 },
+  { file: 'eth-zuerich', name: 'ETH Zürich', url: 'https://ethz.ch/', x: 73.9, y: 18.7, w: 21.9 },
+  { file: 'tanznetz', name: 'Tanznetz Freiburg', url: 'https://tanznetz-freiburg.de/', x: 25.2, y: 19.1, w: 11.5 },
+  { file: 'biennale-freiburg', name: 'Biennale für Freiburg', url: 'https://www.biennalefuerfreiburg.de/', x: 18.7, y: 32.3, w: 19.8 },
+  { file: 'biennale-photographie', name: 'Biennale de la Photographie de Mulhouse', url: 'https://www.biennale-photo-mulhouse.com/', x: 48.7, y: 30.1, w: 16.1 },
+  { file: 'zwetajewa-zentrum', name: 'Zwetajewa-Zentrum Freiburg', url: 'https://www.zwetajewa-zentrum.de/', x: 81.2, y: 34.1, w: 19.2 },
+  { file: 'universitaet-freiburg', name: 'Universität Freiburg', url: 'https://uni-freiburg.de/', x: 52.5, y: 42.8, w: 27.2 },
+  { file: 'regionale', name: 'Regionale', url: 'https://regionale.org/', x: 10.7, y: 48.1, w: 11.9 },
+  { file: 'aka-filmclub', name: 'aka-Filmclub', url: 'https://www.aka-filmclub.de/', x: 26.4, y: 52.1, w: 11.3 },
   { file: 'ab', name: 'a+b', x: 85.7, y: 47.8, w: 19.1 },
-  { file: 'atelier-mondial', name: 'Atelier Mondial', x: 50.8, y: 55.0, w: 18.8 },
+  { file: 'atelier-mondial', name: 'Atelier Mondial', url: 'https://ateliermondial.com/', x: 50.8, y: 55.0, w: 18.8 },
   { file: 'u10', name: 'U10', x: 85.6, y: 62.2, w: 14.3 },
   { file: 'samt-und-sonders', name: 'samt & sonders', x: 11.5, y: 63.6, w: 10.8 },
-  { file: 'theater-freiburg', name: 'Theater Freiburg', x: 50.2, y: 66.5, w: 24.6 },
-  { file: 'crac-alsace', name: 'CRAC Alsace', x: 73.9, y: 25.6, w: 20 }, // nachträglich ergänzt, nicht im Dossier
-  { file: 'literaturhaus', name: 'Literaturhaus Freiburg', x: 21.7, y: 76.7, w: 12.0 },
-  { file: 'illu', name: 'illu Freiburg e.V.', x: 56.5, y: 79.6, w: 16.5 },
+  { file: 'theater-freiburg', name: 'Theater Freiburg', url: 'https://theater.freiburg.de/', x: 50.2, y: 66.5, w: 24.6 },
+  { file: 'crac-alsace', name: 'CRAC Alsace', url: 'https://www.cracalsace.com/', x: 73.9, y: 25.6, w: 20 }, // nachträglich ergänzt, nicht im Dossier
+  { file: 'literaturhaus', name: 'Literaturhaus Freiburg', url: 'https://www.literaturhaus-freiburg.de/', x: 21.7, y: 76.7, w: 12.0 },
+  { file: 'illu', name: 'illu Freiburg e.V.', url: 'https://illu-freiburg.de/', x: 56.5, y: 79.6, w: 16.5 },
   { file: 'impuls', name: 'Impuls', x: 77.6, y: 79.0, w: 14.7 },
-  { file: 'kommunales-kino', name: 'Kommunales Kino im alten Wiehrebahnhof', x: 36.4, y: 88.0, w: 12.7 },
-  { file: 'e-werk', name: 'E-Werk Freiburg', x: 58.2, y: 90.8, w: 16.9 },
+  { file: 'kommunales-kino', name: 'Kommunales Kino im alten Wiehrebahnhof', url: 'https://www.koki-freiburg.de/', x: 36.4, y: 88.0, w: 12.7 },
+  { file: 'e-werk', name: 'E-Werk Freiburg', url: 'https://ewerk-freiburg.de/', x: 58.2, y: 90.8, w: 16.9 },
 ];
 
 interface Props {
@@ -38,15 +39,15 @@ const { caption } = Astro.props;
     <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
       <path d="M 77 8.5 A 49.5 49.5 0 1 1 23 8.5" pathLength="1" />
     </svg>
-    {partners.map((p, i) => (
-      <img
-        class="partner"
-        src={`/images/kooperationen/${p.file}.jpg`}
-        alt={p.name}
-        loading="lazy"
-        style={`left:${p.x}%;top:${p.y}%;width:${p.w}%;--i:${i};--float:${3.2 + (i % 5) * 0.6}s`}
-      />
-    ))}
+    {partners.map((p, i) => {
+      const style = `left:${p.x}%;top:${p.y}%;width:${p.w}%;--i:${i};--float:${3.2 + (i % 5) * 0.6}s`;
+      const img = <img src={`/images/kooperationen/${p.file}.jpg`} alt={p.name} loading="lazy" />;
+      return p.url ? (
+        <a class="partner" href={p.url} target="_blank" rel="noopener" title={p.name} style={style}>{img}</a>
+      ) : (
+        <span class="partner" style={style}>{img}</span>
+      );
+    })}
   </div>
   <figcaption>{caption}</figcaption>
 </figure>
@@ -95,13 +96,17 @@ const { caption } = Astro.props;
 
   .partner {
     position: absolute;
-    height: auto;
+    display: block;
     mix-blend-mode: multiply;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.85);
     transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
     transition-delay: calc(0.6s + var(--i) * 0.08s);
   }
+
+  .partner img { display: block; width: 100%; height: auto; transition: transform 0.3s ease; }
+  a.partner:hover img,
+  a.partner:focus-visible img { transform: scale(1.08); }
 
   .is-visible .delphi { opacity: 1; }
   .is-visible .ring path { stroke-dashoffset: 0; }
