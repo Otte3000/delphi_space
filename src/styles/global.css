@@ -147,6 +147,7 @@ h3 { font-size: 22px; font-weight: 700; }
 .list a:hover h3 { color: var(--hover); }
 @media (max-width: 640px) {
   .list a { grid-template-columns: 1fr; gap: 4px; }
+  .list .tag { justify-self: start; }
 }
 
 .funders-band { padding: 40px var(--gutter); border-top: 1px solid var(--fg); }

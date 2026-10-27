@@ -11,18 +11,40 @@ const groups = [
   { title: t(lang, 'upcoming'), items: events.filter((e) => isCurrentOrUpcoming(e.date)).reverse() },
   { title: t(lang, 'past'), items: events.filter((e) => !isCurrentOrUpcoming(e.date)) },
 ].filter((g) => g.items.length > 0);
+
+// Filter: Jahre mit Events (neueste zuerst) und Monatsnamen in der Seitensprache
+const years = [...new Set(events.map((e) => e.date.getUTCFullYear()))].sort((a, b) => b - a);
+const monthNames = Array.from({ length: 12 }, (_, m) =>
+  new Intl.DateTimeFormat({ de: 'de-DE', en: 'en-GB', fr: 'fr-FR' }[lang], { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, m, 1)))
+);
+// welche Monate pro Jahr belegt sind – leere Monate werden im Filter ausgegraut
+const monthsByYear = Object.fromEntries(
+  years.map((y) => [y, [...new Set(events.filter((e) => e.date.getUTCFullYear() === y).map((e) => e.date.getUTCMonth() + 1))]])
+);
 ---
 
 <Layout lang={lang} title={t(lang, 'events')}>
   <section class="section">
     <div class="section-head"><h1>{t(lang, 'events')}</h1></div>
+
+    <div class="filter" data-months-by-year={JSON.stringify(monthsByYear)}>
+      <div class="filter-row" role="group" aria-label={t(lang, 'filterYear')}>
+        <button type="button" data-year="" aria-pressed="true">{t(lang, 'allYears')}</button>
+        {years.map((y) => <button type="button" data-year={y} aria-pressed="false">{y}</button>)}
+      </div>
+      <div class="filter-row months" role="group" aria-label={t(lang, 'filterMonth')} hidden>
+        <button type="button" data-month="" aria-pressed="true">{t(lang, 'wholeYear')}</button>
+        {monthNames.map((name, i) => <button type="button" data-month={i + 1} aria-pressed="false">{name}</button>)}
+      </div>
+    </div>
   </section>
+
   {groups.map((g) => (
-    <section class="section">
+    <section class="section event-group">
       <div class="section-head"><h2>{g.title}</h2></div>
       <ul class="list">
         {g.items.map((e) => (
-          <li>
+          <li data-year={e.date.getUTCFullYear()} data-month={e.date.getUTCMonth() + 1}>
             <a href={href(lang, `/events/${e.slug}`)}>
               <span class="meta">{formatWeekday(e.date, lang)}, {formatDate(e.date, lang)}</span>
               <h3>{pick(e.title, lang)}</h3>
@@ -33,4 +55,85 @@ const groups = [
       </ul>
     </section>
   ))}
+
+  <p class="empty meta" hidden>{t(lang, 'noEvents')}</p>
 </Layout>
+
+<script>
+  // Filtert die Event-Liste nach Jahr und Monat; die Auswahl steht in der Adresse (?year=2025&month=10).
+  const filter = document.querySelector<HTMLElement>('.filter');
+
+  if (filter) {
+    const monthsByYear: Record<string, number[]> = JSON.parse(filter.dataset.monthsByYear ?? '{}');
+    const yearButtons = [...filter.querySelectorAll<HTMLButtonElement>('[data-year]')];
+    const monthRow = filter.querySelector<HTMLElement>('.months')!;
+    const monthButtons = [...monthRow.querySelectorAll<HTMLButtonElement>('[data-month]')];
+    const items = [...document.querySelectorAll<HTMLElement>('li[data-year]')];
+    const groups = [...document.querySelectorAll<HTMLElement>('.event-group')];
+    const empty = document.querySelector<HTMLElement>('.empty')!;
+
+    const params = new URLSearchParams(location.search);
+    let year = params.get('year') ?? '';
+    let month = params.get('month') ?? '';
+    if (!monthsByYear[year]) year = '';
+    if (!year || !monthsByYear[year].includes(Number(month))) month = '';
+
+    const apply = () => {
+      yearButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.year === year)));
+      monthRow.hidden = !year;
+      monthButtons.forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.month === month));
+        b.disabled = Boolean(b.dataset.month) && !(monthsByYear[year] ?? []).includes(Number(b.dataset.month));
+      });
+
+      for (const li of items) {
+        li.hidden = Boolean((year && li.dataset.year !== year) || (month && li.dataset.month !== month));
+      }
+      for (const g of groups) g.hidden = !g.querySelector('li:not([hidden])');
+      empty.hidden = items.some((li) => !li.hidden);
+
+      const query = new URLSearchParams();
+      if (year) query.set('year', year);
+      if (month) query.set('month', month);
+      history.replaceState(null, '', query.size ? `?${query}` : location.pathname);
+    };
+
+    yearButtons.forEach((b) =>
+      b.addEventListener('click', () => {
+        year = b.dataset.year ?? '';
+        month = '';
+        apply();
+      })
+    );
+    monthButtons.forEach((b) =>
+      b.addEventListener('click', () => {
+        month = b.dataset.month ?? '';
+        apply();
+      })
+    );
+
+    apply();
+  }
+</script>
+
+<style>
+  .filter { display: flex; flex-direction: column; gap: 10px; }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-row[hidden] { display: none; }
+  .filter button {
+    font: inherit;
+    font-size: 15px;
+    padding: 6px 14px;
+    border: 1px solid var(--fg);
+    border-radius: 99px;
+    background: none;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .filter button:hover:not(:disabled) { color: var(--hover); border-color: var(--hover); }
+  .filter button[aria-pressed='true'] { background: var(--fg); color: var(--bg); }
+  .filter button[aria-pressed='true']:hover { color: var(--hover); border-color: var(--fg); }
+  .filter button:disabled { opacity: 0.3; cursor: default; }
+  .months button { font-family: var(--mono); font-style: italic; font-size: 16px; }
+  .empty { margin-top: 48px; }
+</style>
