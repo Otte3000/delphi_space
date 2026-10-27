@@ -153,7 +153,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     <section class="archive">
       <div class="archive-head">
         <h2><span>{t(lang, 'archive')}</span></h2>
-        <a class="more" href={href(lang, '/exhibitions')}>{t(lang, 'allExhibitions')} →</a>
+        <PlusButton href={href(lang, '/exhibitions')} label={t(lang, 'allExhibitions')} size="small" />
       </div>
       <div class="archive-strip">
         {archive.map((e) => (
@@ -393,9 +393,9 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
 
   /* Archiv als Bildleiste */
   .archive { margin-top: 96px; padding-top: 20px; border-top: 1px solid var(--fg); }
-  .archive-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 24px; }
-  .archive-head h2 { font-size: clamp(26px, 2.6vw, 36px); }
-  .archive-head .more { margin-top: 0; }
+  .archive-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .archive-head h2 { font-family: var(--mono); font-style: italic; font-weight: 400; font-size: clamp(30px, 3vw, 42px); }
+  .archive-head :global(.plus-button) { margin-top: 0; }
   .archive-strip {
     display: grid;
     grid-auto-flow: column;
