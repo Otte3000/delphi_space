@@ -348,7 +348,8 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
   }
   .feature-poster,
   .feature-photo { display: block; background: var(--soft); overflow: hidden; }
-  .feature-poster { aspect-ratio: 1 / 1.4142; }
+  /* graue Haarlinie, damit weiße Plakatränder nicht im Weiß der Seite verschwinden */
+  .feature-poster { aspect-ratio: 1 / 1.4142; outline: 1px solid var(--line); outline-offset: -1px; }
   .feature-photo { aspect-ratio: 3 / 2; }
   .feature-poster img,
   .feature-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
