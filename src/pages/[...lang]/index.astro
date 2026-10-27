@@ -128,7 +128,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
           );
         })}
       </ol>
-      <a class="more" href={href(lang, '/events')}>{t(lang, 'allEvents')} →</a>
+      <PlusButton href={href(lang, '/events')} label={t(lang, 'allEvents')} size="small" />
     </div>
   </section>
 
