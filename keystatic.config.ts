@@ -337,7 +337,7 @@ export default config({
         memberText: translatedText('Mitglieds-Block: Text', { multiline: true }),
         heroImages: fields.array(image('Bild', 'home'), {
           label: 'Hero-Bilder',
-          description: 'Wechseln alle 4 Sekunden hinter dem Intro-Text. Leer lassen = automatische Auswahl: Fotos mit Menschen und einzelne Kunstwerke.',
+          description: 'Wechseln alle 4 Sekunden hinter dem Intro-Text. Leer lassen = zufällig aus allen Ausstellungsbildern.',
         }),
       },
     }),
