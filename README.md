@@ -32,3 +32,9 @@ Meta-Zeilen (Daten, Orte, Bildunterschriften) sind in **Minion Pro Italic** gese
 Adobe-Schrift und kommt über Adobe Fonts: in fonts.adobe.com ein Web-Projekt mit „Minion Pro Italic“
 anlegen und dessen Projekt-ID in `src/layouts/Layout.astro` bei `ADOBE_FONTS_KIT` eintragen.
 Solange dort nichts steht, wird die freie, Minion-ähnliche **Crimson Pro Italic** vom eigenen Server genutzt.
+
+## Passwortschutz
+
+`netlify/edge-functions/password.ts` schützt die ganze Seite mit einem Passwort, sobald in Netlify die
+Umgebungsvariable `SITE_PASSWORD` gesetzt ist (Project configuration → Environment variables, danach neu
+deployen). Ohne die Variable ist die Seite offen. Der Zugang gilt 30 Tage pro Browser.
