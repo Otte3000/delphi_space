@@ -12,8 +12,9 @@ const groups = [
   { title: t(lang, 'past'), items: events.filter((e) => !isCurrentOrUpcoming(e.date)) },
 ].filter((g) => g.items.length > 0);
 
-// Filter: Jahre mit Events (neueste zuerst) und Monatsnamen in der Seitensprache
-const years = [...new Set(events.map((e) => e.date.getUTCFullYear()))].sort((a, b) => b - a);
+// Filter: Jahre mit Events plus immer das laufende und das nächste Jahr (für kommende Einträge), neueste zuerst
+const thisYear = new Date().getUTCFullYear();
+const years = [...new Set([...events.map((e) => e.date.getUTCFullYear()), thisYear, thisYear + 1])].sort((a, b) => b - a);
 const monthNames = Array.from({ length: 12 }, (_, m) =>
   new Intl.DateTimeFormat({ de: 'de-DE', en: 'en-GB', fr: 'fr-FR' }[lang], { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, m, 1)))
 );
