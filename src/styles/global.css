@@ -37,7 +37,7 @@ main { padding: 0 var(--gutter) 96px; }
   align-items: flex-start;
   gap: 16px 32px;
   flex-wrap: wrap;
-  padding: 18px var(--gutter) 16px;
+  padding: 20px var(--gutter) 16px;
   background: transparent;
 }
 .logo { display: flex; text-decoration: none; }
