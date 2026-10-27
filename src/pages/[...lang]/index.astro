@@ -426,8 +426,13 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     border-top: 1px solid var(--fg);
     border-bottom: 1px solid var(--fg);
   }
-  .member h2 { color: var(--accent); font-size: clamp(44px, 7vw, 104px); line-height: 0.95; letter-spacing: -0.04em; }
+  /* Giftgrün mit Strobo: harter Wechsel Grün/Schwarz, höchstens 2,5-mal pro Sekunde
+     (unter der WCAG-Grenze von 3 Blitzen/s); bei „Bewegung reduzieren“ steht es still in Grün */
+  .member h2 { color: var(--hover); animation: strobe 0.4s steps(1, end) infinite; font-size: clamp(44px, 7vw, 104px); line-height: 0.95; letter-spacing: -0.04em; }
   .member p { margin: 0; font-size: 17px; max-width: 46ch; }
+
+  @keyframes strobe { 0% { color: var(--hover); } 50% { color: var(--fg); } }
+  @media (prefers-reduced-motion: reduce) { .member h2 { animation: none; } }
 
   /* ── Mobil ─────────────────────────────────────────── */
   @media (max-width: 900px) {
