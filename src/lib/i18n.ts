@@ -60,6 +60,7 @@ const dict = {
   artists: { de: 'Künstler*innen', en: 'Artists', fr: 'Artistes' },
   team: { de: 'Team', en: 'Team', fr: 'Équipe' },
   partners: { de: 'Kooperationen', en: 'Partners', fr: 'Partenaires' },
+  partnersCaption: { de: 'Kooperationspartner von DELPHI_space', en: 'Partners of DELPHI_space', fr: 'Partenaires de DELPHI_space' },
   funders: { de: 'Gefördert von', en: 'Supported by', fr: 'Avec le soutien de' },
   press: { de: 'Presse', en: 'Press', fr: 'Presse' },
   membership: { de: 'Mitgliedschaft', en: 'Membership', fr: 'Adhésion' },

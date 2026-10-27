@@ -1,6 +1,7 @@
 ---
 // Textseiten aus dem CMS: /about, /membership, /impressum, /datenschutz (und /en/…, /fr/…)
 import Layout from '../../layouts/Layout.astro';
+import PartnerDiagram from '../../components/PartnerDiagram.astro';
 import {
   getTextPage, renderContent, textPages, type TextPage,
   getTeam, getPartners, getFunders, getMemberships,
@@ -66,6 +67,7 @@ const membershipTexts = memberships.map((m) => ({ ...m, html: renderContent(m, l
         <ul class="plain partners">
           {partners.map((p) => <li>{p.link ? <a href={p.link}>{p.name}</a> : p.name}</li>)}
         </ul>
+        <PartnerDiagram caption={t(lang, 'partnersCaption')} />
       </section>
     )}
 

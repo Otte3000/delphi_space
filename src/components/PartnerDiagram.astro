@@ -1,0 +1,126 @@
+---
+// Schaubild „Kooperationspartner von DELPHI_space“ (Dossier 2025, S. 24) als animierte Grafik:
+// Beim Hineinscrollen zeichnet sich der Kreis, die Logos erscheinen nacheinander und schweben danach leicht.
+// Positionen (Mittelpunkt in % des Kreises) und Breiten wurden aus dem PDF ausgemessen.
+const partners = [
+  { file: 'kunstverein', name: 'Kunstverein Freiburg', x: 48.7, y: 13.6, w: 22.1 },
+  { file: 'eth-zuerich', name: 'ETH Zürich', x: 73.9, y: 18.7, w: 21.9 },
+  { file: 'tanznetz', name: 'Tanznetz Freiburg', x: 25.2, y: 19.1, w: 11.5 },
+  { file: 'biennale-freiburg', name: 'Biennale für Freiburg', x: 18.7, y: 32.3, w: 19.8 },
+  { file: 'biennale-photographie', name: 'Biennale de la Photographie de Mulhouse', x: 48.7, y: 30.1, w: 16.1 },
+  { file: 'zwetajewa-zentrum', name: 'Zwetajewa-Zentrum Freiburg', x: 81.2, y: 34.1, w: 19.2 },
+  { file: 'universitaet-freiburg', name: 'Universität Freiburg', x: 52.5, y: 42.8, w: 27.2 },
+  { file: 'regionale', name: 'Regionale', x: 10.7, y: 48.1, w: 11.9 },
+  { file: 'aka-filmclub', name: 'aka-Filmclub', x: 26.4, y: 52.1, w: 11.3 },
+  { file: 'ab', name: 'a+b', x: 85.7, y: 47.8, w: 19.1 },
+  { file: 'atelier-mondial', name: 'Atelier Mondial', x: 50.8, y: 55.0, w: 18.8 },
+  { file: 'u10', name: 'U10', x: 85.6, y: 62.2, w: 14.3 },
+  { file: 'samt-und-sonders', name: 'samt & sonders', x: 11.5, y: 63.6, w: 10.8 },
+  { file: 'theater-freiburg', name: 'Theater Freiburg', x: 50.2, y: 66.5, w: 24.6 },
+  { file: 'literaturhaus', name: 'Literaturhaus Freiburg', x: 21.7, y: 76.7, w: 12.0 },
+  { file: 'illu', name: 'illu Freiburg e.V.', x: 56.5, y: 79.6, w: 16.5 },
+  { file: 'impuls', name: 'Impuls', x: 77.6, y: 79.0, w: 14.7 },
+  { file: 'kommunales-kino', name: 'Kommunales Kino im alten Wiehrebahnhof', x: 36.4, y: 88.0, w: 12.7 },
+  { file: 'e-werk', name: 'E-Werk Freiburg', x: 58.2, y: 90.8, w: 16.9 },
+];
+
+interface Props {
+  caption: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class="partner-diagram">
+  <div class="stage">
+    <img class="delphi" src="/delphi-linie.svg" alt="DELPHI" width="233" height="135" />
+    <!-- Kreis mit Lücke oben für das Logo (±33° von oben, wie im Dossier) -->
+    <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M 77 8.5 A 49.5 49.5 0 1 1 23 8.5" pathLength="1" />
+    </svg>
+    {partners.map((p, i) => (
+      <img
+        class="partner"
+        src={`/images/kooperationen/${p.file}.jpg`}
+        alt={p.name}
+        loading="lazy"
+        style={`left:${p.x}%;top:${p.y}%;width:${p.w}%;--i:${i};--float:${3.2 + (i % 5) * 0.6}s`}
+      />
+    ))}
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<script>
+  // Animation erst starten, wenn die Grafik ins Bild scrollt
+  for (const el of document.querySelectorAll<HTMLElement>('.partner-diagram')) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          el.classList.add('is-visible');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+  }
+</script>
+
+<style>
+  .partner-diagram { margin: 64px auto 0; max-width: 760px; }
+  /* oben Platz für das Logo, das über den Kreisrand ragt */
+  .stage { position: relative; aspect-ratio: 1; margin-top: 20%; }
+
+  .delphi {
+    position: absolute;
+    left: 50%;
+    top: -20%;
+    width: 48%;
+    height: auto;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ring path {
+    fill: none;
+    stroke: #dcdcd8;
+    stroke-width: 0.7;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+  .partner {
+    position: absolute;
+    height: auto;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(0.6s + var(--i) * 0.08s);
+  }
+
+  .is-visible .delphi { opacity: 1; }
+  .is-visible .ring path { stroke-dashoffset: 0; }
+  .is-visible .partner {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    /* danach leichtes Schweben, jedes Logo in eigenem Takt */
+    animation: float var(--float) ease-in-out calc(2.4s + var(--i) * 0.08s) infinite alternate;
+  }
+  @keyframes float {
+    from { transform: translate(-50%, -50%) scale(1); }
+    to { transform: translate(-50%, calc(-50% - 6px)) scale(1.02); }
+  }
+
+  figcaption { margin-top: 24px; text-align: center; font-family: var(--mono); font-style: italic; font-size: 17px; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .delphi, .partner { opacity: 1; transition: none; transform: translate(-50%, -50%); }
+    .delphi { transform: translateX(-50%); }
+    .ring path { stroke-dashoffset: 0; transition: none; }
+    .is-visible .partner { animation: none; }
+  }
+</style>
