@@ -19,7 +19,10 @@ const upcoming = exhibitions.filter((e) => e.startDate.getTime() > now).reverse(
 const featured = running[0] ?? upcoming[0] ?? exhibitions[0];
 const featuredLabel = running[0] ? 'currentExhibition' : upcoming[0] ? 'upcomingExhibition' : 'lastExhibition';
 const alsoOn = [...running, ...upcoming].filter((e) => e !== featured).slice(0, 3);
-const archive = exhibitions.filter((e) => e !== featured && !alsoOn.includes(e) && !isCurrentOrUpcoming(e.startDate, e.endDate)).slice(0, 12);
+// Archiv: vergangene Ausstellungen, gezeigt wird nur das Plakat (Ausstellungen ohne Plakat fallen hier raus)
+const archive = exhibitions
+  .filter((e) => e !== featured && !alsoOn.includes(e) && !isCurrentOrUpcoming(e.startDate, e.endDate) && e.poster)
+  .slice(0, 12);
 
 // Agenda: kommende Termine, sonst die letzten
 const events = await getEvents();
@@ -155,7 +158,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
       <div class="archive-strip">
         {archive.map((e) => (
           <a class="archive-card" href={href(lang, `/exhibitions/${e.slug}`)}>
-            {(e.heroImage || e.poster) ? <img src={e.heroImage || e.poster} alt="" loading="lazy" /> : <span class="archive-empty" />}
+            <img src={e.poster!} alt={`${pick(e.title, lang)} – Plakat`} loading="lazy" />
             <span class="archive-caption">
               <span class="archive-kind">{exhibitionKind(e.kind, lang)} · {e.startDate.getUTCFullYear()}</span>
               <strong>{pick(e.title, lang)}</strong>
@@ -404,8 +407,9 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     padding: 0 var(--gutter) 12px;
     scrollbar-width: thin;
   }
-  .archive-card { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; color: #fff; text-decoration: none; background: #222; }
-  .archive-card img, .archive-empty { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+  /* Plakate im DIN-A-Format, mit grauer Haarlinie wie im Ausstellungsteaser */
+  .archive-card { position: relative; display: block; aspect-ratio: 1 / 1.4142; overflow: hidden; scroll-snap-align: start; color: #fff; text-decoration: none; background: var(--soft); outline: 1px solid var(--line); outline-offset: -1px; }
+  .archive-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
   .archive-card:hover img { transform: scale(1.04); }
   .archive-caption {
     position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; gap: 4px;
