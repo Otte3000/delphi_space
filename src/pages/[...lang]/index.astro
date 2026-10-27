@@ -63,7 +63,11 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
         <div class="hero-text">
           <p>{pick(home.intro, lang)}</p>
           <a class="arrow-button" href={href(lang, '/about')} aria-label={t(lang, 'about')} title={t(lang, 'about')}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <g class="arm arm-top"><line x1="0" y1="0" x2="0" y2="-7" /></g>
+              <g class="arm arm-bottom"><line x1="0" y1="0" x2="0" y2="7" /></g>
+            </svg>
           </a>
         </div>
       </div>
@@ -323,30 +327,28 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     color: var(--fg);
   }
   .hero-text p { margin: 0; font-size: clamp(18px, 1.8vw, 28px); line-height: 1.2; letter-spacing: -0.015em; font-weight: 400; }
-  /* Quadratischer Pfeil: zeigt schräg nach oben, beim Darüberfahren dreht er nach rechts und wird rot */
+  /* Runder Knopf mit Plus; beim Darüberfahren klappen die senkrechten Arme zur Pfeilspitze um */
   .arrow-button {
     display: inline-grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     margin-top: 24px;
     border: 1.5px solid currentColor;
+    border-radius: 50%;
     color: var(--fg);
     transition: color 0.25s ease;
   }
-  .arrow-button svg {
-    width: 26px;
-    height: 26px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.6;
-    transform: rotate(-45deg);
-    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
+  .arrow-button svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; overflow: visible; }
+  .arrow-button .arm { transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .arrow-button .arm-top,
+  .arrow-button .arm-bottom { transform: translate(12px, 12px); }
   .arrow-button:hover,
   .arrow-button:focus-visible { color: var(--accent); }
-  .arrow-button:hover svg,
-  .arrow-button:focus-visible svg { transform: rotate(0deg); }
+  .arrow-button:hover .arm-top,
+  .arrow-button:focus-visible .arm-top { transform: translate(19px, 12px) rotate(-45deg); }
+  .arrow-button:hover .arm-bottom,
+  .arrow-button:focus-visible .arm-bottom { transform: translate(19px, 12px) rotate(45deg); }
 
   /* ── Auftakt: Bild links, Text rechts ──────────────── */
   .feature {
