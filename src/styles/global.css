@@ -6,7 +6,9 @@
   --accent: #e5402b;
   --soft: #f2f2f0;
   --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Auszeichnungsschrift für Meta-Zeilen: Minion Pro Italic (über Adobe Fonts, siehe Layout.astro),
+     bis dahin die freie, Minion-ähnliche Crimson Pro Italic vom eigenen Server */
+  --mono: 'minion-pro', 'Minion Pro', 'Crimson Pro', Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
 }
 
@@ -73,7 +75,7 @@ main { padding: 0 var(--gutter) 96px; }
 .logos { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
 .logos img { max-height: 56px; max-width: 180px; width: auto; }
 
-.fallback-note { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 0 0 16px; }
+.fallback-note { font-family: var(--mono); font-style: italic; font-size: 15px; color: var(--muted); margin: 0 0 16px; }
 
 h1, h2, h3 { line-height: 1.1; letter-spacing: -0.02em; margin: 0; }
 h1 { font-size: clamp(36px, 7vw, 84px); font-weight: 700; }
@@ -92,8 +94,8 @@ h3 { font-size: 22px; font-weight: 700; }
 }
 .section-head a { font-size: 15px; }
 
-.meta { font-family: var(--mono); font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.tag { display: inline-block; font-family: var(--mono); font-size: 12px; padding: 2px 8px; border: 1px solid currentColor; border-radius: 99px; }
+.meta { font-family: var(--mono); font-style: italic; font-size: 16px; color: var(--muted); }
+.tag { display: inline-block; font-family: var(--mono); font-style: italic; font-size: 14px; padding: 2px 8px; border: 1px solid currentColor; border-radius: 99px; }
 
 .prose { max-width: 68ch; }
 .prose p { margin: 0 0 1em; }
@@ -107,7 +109,7 @@ h3 { font-size: 22px; font-weight: 700; }
   overflow: hidden;
   display: grid;
   place-items: center;
-  font-family: var(--mono);
+  font-family: var(--mono); font-style: italic;
   color: var(--muted);
 }
 .card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }

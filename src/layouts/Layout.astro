@@ -1,4 +1,5 @@
 ---
+import '@fontsource/crimson-pro/latin-400-italic.css';
 import '../styles/global.css';
 import { getFunders, getSettings } from '../lib/content';
 import { href, locales, languageNames, switchLang, t, type Lang } from '../lib/i18n';
@@ -19,6 +20,10 @@ const nav = [
   { href: href(lang, '/about'), label: t(lang, 'about') },
 ];
 const path = Astro.url.pathname;
+
+// Adobe-Fonts-Projekt mit „Minion Pro Italic“ (Projekt-ID aus fonts.adobe.com, z. B. „abc1def“).
+// Leer = Ersatzschrift Crimson Pro.
+const ADOBE_FONTS_KIT = '';
 ---
 
 <!doctype html>
@@ -28,6 +33,7 @@ const path = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {ADOBE_FONTS_KIT && <link rel="stylesheet" href={`https://use.typekit.net/${ADOBE_FONTS_KIT}.css`} />}
     {locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(switchLang(path, l), Astro.site)} />)}
     <title>{title ? `${title} – DELPHI_space` : 'DELPHI_space'}</title>
   </head>

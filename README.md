@@ -25,3 +25,10 @@ Im CMS hat jeder Text Felder für alle drei Sprachen. Leere EN/FR-Felder zeigen 
 - `src/lib/i18n.ts` – Sprachen (DE, EN, FR), Übersetzungen der Oberflächentexte
 - `src/pages/[...lang]/` – die Seiten der Webseite, für jede Sprache (`/`, `/en/`, `/fr/`)
 - `public/images/` – Bilder, die über das CMS hochgeladen werden
+
+## Schriften
+
+Meta-Zeilen (Daten, Orte, Bildunterschriften) sind in **Minion Pro Italic** gesetzt. Minion Pro ist eine
+Adobe-Schrift und kommt über Adobe Fonts: in fonts.adobe.com ein Web-Projekt mit „Minion Pro Italic“
+anlegen und dessen Projekt-ID in `src/layouts/Layout.astro` bei `ADOBE_FONTS_KIT` eintragen.
+Solange dort nichts steht, wird die freie, Minion-ähnliche **Crimson Pro Italic** vom eigenen Server genutzt.
