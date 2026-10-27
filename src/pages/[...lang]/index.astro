@@ -325,7 +325,7 @@ const heroImages = chosen.length ? shuffle(chosen) : mixPool();
   }
   .ticker-track { display: inline-flex; animation: ticker 48s linear infinite; }
   .ticker-group { display: inline-flex; }
-  .ticker-item { padding-right: 0.6em; font-size: clamp(15px, 1.4vw, 20px); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
+  .ticker-item { padding-right: 0.6em; font-family: var(--mono); font-style: italic; font-size: clamp(17px, 1.6vw, 23px); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; }
   .ticker-item b { font-weight: 400; padding: 0 0.3em; }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
