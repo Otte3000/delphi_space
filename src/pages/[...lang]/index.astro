@@ -171,7 +171,7 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
     <h2>{pick(home.memberTitle, lang) || t(lang, 'membership')}</h2>
     <div>
       {pick(home.memberText, lang) && <p>{pick(home.memberText, lang)}</p>}
-      <a class="more" href={href(lang, '/membership')}>{t(lang, 'join')}</a>
+      <PlusButton href={href(lang, '/membership')} label={t(lang, 'join').replace(' →', '')} />
     </div>
   </section>
 </Layout>
