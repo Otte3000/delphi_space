@@ -40,6 +40,7 @@ const dict = {
   upcoming: { de: 'Demnächst', en: 'Upcoming', fr: 'À venir' },
   past: { de: 'Vergangen', en: 'Past', fr: 'Passés' },
   series: { de: 'Reihen', en: 'Series', fr: 'Séries' },
+  allSeries: { de: 'Alle Reihen', en: 'All series', fr: 'Toutes les séries' },
   partOf: { de: 'Teil von', en: 'Part of', fr: 'Fait partie de' },
   visit: { de: 'Programm', en: 'Programme', fr: 'Programme' },
   follow: { de: 'Mehr', en: 'More', fr: 'Plus' },

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PlusButton from '../../components/PlusButton.astro';
+import SeriesCard from '../../components/SeriesCard.astro';
 import { isLandscape, isPortrait } from '../../lib/image-size';
 import { getHomepage, getExhibitions, getEvents, getSeries, isCurrentOrUpcoming, locationNames } from '../../lib/content';
 import { langParams, toLang, href, pick, t, eventType, exhibitionKind, formatRange, dateParts } from '../../lib/i18n';
@@ -136,16 +137,11 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
   {series.length > 0 && (
     <section class="row">
       <h2 class="row-label"><span>{t(lang, 'programme')}</span></h2>
-      <div class="row-body series">
-        {series.map((s) => (
-          <article>
-            <div class="series-image">{s.image ? <img src={s.image} alt="" loading="lazy" /> : <span>{s.title}</span>}</div>
-            <h3>{s.title}</h3>
-            {pick(s.schedule, lang) && <p class="small strong">{pick(s.schedule, lang)}</p>}
-            {pick(s.description, lang) && <p class="small">{pick(s.description, lang)}</p>}
-            {s.link && <a class="more" href={s.link}>{new URL(s.link).hostname.replace(/^www\./, '')} →</a>}
-          </article>
-        ))}
+      <div class="row-body">
+        <div class="series">
+          {series.slice(0, 3).map((s) => <SeriesCard lang={lang} series={s} />)}
+        </div>
+        <PlusButton href={href(lang, '/series')} label={t(lang, 'allSeries')} size="small" />
       </div>
     </section>
   )}
@@ -391,12 +387,6 @@ const heroImages = chosen.length ? shuffle(chosen) : shuffle(allPhotos).slice(0,
 
   /* Reihen */
   .series { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px 24px; }
-  .series article { display: flex; flex-direction: column; gap: 6px; }
-  .series-image { aspect-ratio: 4 / 3; margin-bottom: 8px; background: var(--soft); overflow: hidden; display: grid; place-items: center; }
-  .series-image img { width: 100%; height: 100%; object-fit: cover; }
-  .series-image span { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
-  .series h3 { font-size: 22px; }
-  .series .more { margin-top: 4px; }
 
   /* Archiv als Bildleiste */
   .archive { margin-top: 96px; padding-top: 20px; border-top: 1px solid var(--fg); }

@@ -1,0 +1,37 @@
+---
+// Karte einer Veranstaltungsreihe (Startseite und Übersicht /series)
+import { pick, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  series: {
+    slug: string;
+    title: string;
+    image: string | null;
+    link: string | null;
+    schedule: { de?: string | null; en?: string | null; fr?: string | null };
+    description: { de?: string | null; en?: string | null; fr?: string | null };
+  };
+}
+
+const { lang, series: s } = Astro.props;
+---
+
+<article class="series-card" id={s.slug}>
+  <div class="series-image">{s.image ? <img src={s.image} alt="" loading="lazy" /> : <span>{s.title}</span>}</div>
+  <h3>{s.title}</h3>
+  {pick(s.schedule, lang) && <p class="schedule">{pick(s.schedule, lang)}</p>}
+  {pick(s.description, lang) && <p class="description">{pick(s.description, lang)}</p>}
+  {s.link && <a class="more" href={s.link}>{new URL(s.link).hostname.replace(/^www\./, '')} →</a>}
+</article>
+
+<style>
+  .series-card { display: flex; flex-direction: column; gap: 6px; }
+  .series-image { aspect-ratio: 4 / 3; margin-bottom: 8px; background: var(--soft); overflow: hidden; display: grid; place-items: center; }
+  .series-image img { width: 100%; height: 100%; object-fit: cover; }
+  .series-image span { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  h3 { font-size: 22px; }
+  p { margin: 0 0 4px; font-size: 15px; }
+  .schedule { font-weight: 700; }
+  .more { display: inline-block; margin-top: 4px; font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+</style>

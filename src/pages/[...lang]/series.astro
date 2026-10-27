@@ -1,0 +1,25 @@
+---
+// Übersicht aller Veranstaltungsreihen (/series, /en/series, /fr/series)
+import Layout from '../../layouts/Layout.astro';
+import SeriesCard from '../../components/SeriesCard.astro';
+import { getSeries } from '../../lib/content';
+import { langParams, toLang, t } from '../../lib/i18n';
+
+export const getStaticPaths = () => langParams.map((params) => ({ params }));
+
+const lang = toLang(Astro.params.lang);
+const series = await getSeries();
+---
+
+<Layout lang={lang} title={t(lang, 'series')}>
+  <section class="section">
+    <div class="section-head"><h1>{t(lang, 'series')}</h1><span class="meta">{series.length}</span></div>
+    <div class="series">
+      {series.map((s) => <SeriesCard lang={lang} series={s} />)}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .series { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 48px 32px; }
+</style>
